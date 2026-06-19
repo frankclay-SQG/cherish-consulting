@@ -189,7 +189,7 @@ export default function App() {
 
       {/* VETERAN BAND */}
       <section className="relative overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?w=1400&h=600&fit=crop&auto=format" alt="American flag waving, honoring those who served" className="absolute inset-0 w-full h-full object-cover" />
+        <img src="https://images.pexels.com/photos/133360/pexels-photo-133360.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="Bald eagle — symbol of American freedom and service" className="absolute inset-0 w-full h-full object-cover" style={{ filter: "brightness(0.5) saturate(0.6)" }} />
         <div className="absolute inset-0 bg-[#1C2B4A]/80" />
         <div className="absolute top-0 left-0 right-0 flex h-1"><div className="flex-1 bg-[#1C2B4A]" /><div className="w-px bg-white/30" /><div className="flex-1 bg-[#8B2020]" /></div>
         <div className="relative z-10 py-20 px-6">
