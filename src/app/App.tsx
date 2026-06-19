@@ -142,11 +142,28 @@ const publications = [
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+  const [formSent, setFormSent] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const ids = ["about", "services", "publications", "contact"];
+    const observers = ids.map((id) => {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
+        { rootMargin: "-30% 0px -55% 0px" }
+      );
+      obs.observe(el);
+      return obs;
+    });
+    return () => observers.forEach((obs) => obs?.disconnect());
   }, []);
 
   return (
@@ -155,8 +172,10 @@ export default function App() {
       style={{ fontFamily: "'DM Sans', sans-serif" }}
     >
       <CookieBanner />
+      <a href="#about" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:text-xs focus:tracking-widest focus:uppercase">Skip to content</a>
       {/* ── NAV ── */}
       <nav
+        aria-label="Main navigation"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
             ? "bg-background/95 backdrop-blur-md border-b border-border shadow-sm"
@@ -184,7 +203,7 @@ export default function App() {
               <a
                 key={link}
                 href={`#${link.toLowerCase()}`}
-                className="text-sm text-foreground/60 hover:text-foreground transition-colors tracking-wide"
+                className={`text-sm tracking-wide transition-colors ${activeSection === link.toLowerCase() ? "text-foreground border-b border-primary pb-0.5" : "text-foreground/55 hover:text-foreground"}`}
               >
                 {link}
               </a>
@@ -299,24 +318,25 @@ export default function App() {
           <img
             src="https://images.unsplash.com/photo-1486520299386-6d106b22014b?w=1000&h=1200&fit=crop&auto=format"
             alt="Blue Ridge Mountains panoramic view at dusk"
+            loading="eager"
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-background/30" />
           <div className="absolute inset-0 bg-primary/10" />
 
-          <div className="absolute bottom-8 left-8 right-8 md:right-auto md:max-w-xs bg-background/92 backdrop-blur-sm overflow-hidden">
+          <div className="absolute bottom-8 left-8 right-8 md:right-auto md:max-w-sm bg-background/92 backdrop-blur-sm overflow-hidden">
             {/* Tricolor stripe */}
             <div className="flex h-1">
               <div className="flex-1 bg-[#1C2B4A]" />
               <div className="flex-1 bg-background/60" />
               <div className="flex-1 bg-[#8B2020]" />
             </div>
-            <div className="p-5 border-l-2 border-primary">
-              <p className="text-[0.8rem] text-foreground/70 italic leading-relaxed">
+            <div className="p-7 border-l-2 border-primary">
+              <p className="text-[1rem] text-foreground/70 italic leading-relaxed">
                 "Stress is the disease of the twenty-first century — but it doesn't have to define
                 your life."
               </p>
-              <p className="text-[10px] text-primary mt-3 font-semibold tracking-wide uppercase">
+              <p className="text-[11px] text-primary mt-4 font-semibold tracking-wide uppercase">
                 — Dr. Carol J. Cherich
               </p>
             </div>
@@ -332,6 +352,7 @@ export default function App() {
               <img
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=800&fit=crop&auto=format"
                 alt="Dr. Carol J. Cherich, PhD, licensed mental health clinician"
+                loading="lazy"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -414,6 +435,7 @@ export default function App() {
         <img
           src="https://images.unsplash.com/photo-1777058984349-0e176b203d7e?w=1400&h=600&fit=crop&auto=format"
           alt="Military honor guard carefully folding the American flag"
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-[#1C2B4A]/72" />
@@ -524,7 +546,8 @@ export default function App() {
                   />
                 </div>
                 <h3 className="text-sm font-semibold text-foreground mb-2 leading-snug">{title}</h3>
-                <p className="text-xs text-foreground/50 leading-relaxed">{desc}</p>
+                <p className="text-xs text-foreground/50 leading-relaxed mb-4">{desc}</p>
+                <ChevronRight size={12} className="text-primary/0 group-hover:text-primary/60 transition-colors mt-auto" />
               </div>
             ))}
           </div>
@@ -552,6 +575,8 @@ export default function App() {
               <div
                 key={title}
                 className="bg-secondary hover:bg-background transition-colors px-6 py-5 flex items-center justify-between gap-4 group cursor-pointer border border-border/0 hover:border-border"
+                role="button"
+                tabIndex={0}
               >
                 <div className="flex items-center gap-6 min-w-0">
                   <span
@@ -648,7 +673,19 @@ export default function App() {
             </div>
           </div>
 
-          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+          {formSent ? (
+            <div className="flex flex-col items-center justify-center h-full min-h-[320px] text-center gap-4">
+              <div className="w-12 h-12 border border-primary flex items-center justify-center">
+                <span className="text-primary text-lg">✓</span>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground mb-1">Message Sent</p>
+                <p className="text-xs text-foreground/50">Thank you for reaching out. Dr. Cherich will be in touch shortly.</p>
+              </div>
+              <button onClick={() => setFormSent(false)} className="text-xs text-primary underline underline-offset-2 hover:opacity-70 mt-2">Send another message</button>
+            </div>
+          ) : (
+          <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setFormSent(true); }}>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="text-[9px] text-muted-foreground tracking-[0.2em] uppercase block mb-1.5">
@@ -679,6 +716,7 @@ export default function App() {
                 type="email"
                 className="w-full border border-border bg-secondary px-3 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors placeholder:text-foreground/30"
                 placeholder="you@example.com"
+                required
               />
             </div>
             <div>
@@ -709,6 +747,7 @@ export default function App() {
               Send Message
             </button>
           </form>
+          )}
         </div>
       </section>
 
