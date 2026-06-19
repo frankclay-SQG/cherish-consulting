@@ -2,8 +2,68 @@ import { useState, useEffect } from "react";
 import {
   Menu, X, Phone, Mail, ChevronRight, BookOpen,
   Heart, Shield, Users, Brain, Activity, ClipboardList,
-  GraduationCap, MapPin,
+  GraduationCap, MapPin, Cookie,
 } from "lucide-react";
+
+const COOKIE_CONSENT_KEY = "cherish_cookie_consent";
+
+type CookieChoice = "all" | "essential" | "declined";
+
+function CookieBanner() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem(COOKIE_CONSENT_KEY);
+    if (!stored) setVisible(true);
+  }, []);
+
+  const choose = (choice: CookieChoice) => {
+    localStorage.setItem(COOKIE_CONSENT_KEY, choice);
+    setVisible(false);
+  };
+
+  if (!visible) return null;
+
+  return (
+    <div className="fixed bottom-6 left-6 z-[100] w-64 bg-background border border-border shadow-lg overflow-hidden">
+      <div className="p-4">
+        <div className="flex items-center gap-2 mb-2">
+          <Cookie size={14} className="text-muted-foreground flex-shrink-0" />
+          <p className="text-sm font-semibold text-foreground">Cookie Preferences</p>
+        </div>
+        <p className="text-xs text-foreground/60 leading-relaxed mb-1">
+          We use cookies to improve your experience. Choose your preference.
+        </p>
+        <button className="text-xs text-primary underline underline-offset-2 mb-3 hover:opacity-80">
+          Learn more
+        </button>
+        <button
+          onClick={() => choose("all")}
+          className="w-full bg-primary text-primary-foreground text-[10px] tracking-widest uppercase py-2 mb-2 hover:opacity-90 transition-opacity"
+        >
+          Accept All
+        </button>
+        <div className="grid grid-cols-2 gap-2 mb-3">
+          <button
+            onClick={() => choose("essential")}
+            className="border border-border text-[10px] tracking-widest uppercase py-1.5 text-foreground/70 hover:bg-secondary transition-colors"
+          >
+            Essential
+          </button>
+          <button
+            onClick={() => choose("declined")}
+            className="border border-border text-[10px] tracking-widest uppercase py-1.5 text-foreground/70 hover:bg-secondary transition-colors"
+          >
+            Decline
+          </button>
+        </div>
+        <button className="text-[10px] text-primary underline underline-offset-2 hover:opacity-80">
+          Privacy Policy
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function StarDivider({ count = 3, className = "" }: { count?: number; className?: string }) {
   return (
@@ -94,6 +154,7 @@ export default function App() {
       className="min-h-screen bg-background text-foreground"
       style={{ fontFamily: "'DM Sans', sans-serif" }}
     >
+      <CookieBanner />
       {/* ── NAV ── */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -351,8 +412,8 @@ export default function App() {
       {/* ── VETERAN BAND ── */}
       <section className="relative overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?w=1400&h=600&fit=crop&auto=format"
-          alt="American flag waving, honoring those who served"
+          src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=1400&h=600&fit=crop&auto=format"
+          alt="World globe representing global service and connection"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-[#1C2B4A]/80" />
