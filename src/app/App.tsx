@@ -249,9 +249,9 @@ export default function App() {
       </nav>
 
       {/* ── HERO ── */}
-      <section className="min-h-screen md:h-screen grid md:grid-cols-2">
+      <section className="min-h-screen grid md:grid-cols-2 items-stretch">
         {/* Text */}
-        <div className="flex flex-col min-w-0 px-8 md:px-14 lg:px-20 pt-28 pb-10 bg-background">
+        <div className="flex flex-col min-w-0 overflow-hidden px-8 md:px-14 lg:px-20 pt-28 pb-12 bg-background">
           <div className="flex items-center gap-3 mb-6">
             <StarDivider count={3} />
             <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">
@@ -260,7 +260,7 @@ export default function App() {
           </div>
 
           <h1
-            className="text-5xl md:text-[3.5rem] lg:text-[4rem] leading-[1.1] text-foreground mb-8"
+            className="text-5xl md:text-[3.25rem] lg:text-[3.75rem] leading-[1.1] text-foreground mb-7"
             style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
           >
             Healing Through
@@ -314,7 +314,7 @@ export default function App() {
         </div>
 
         {/* Image */}
-        <div className="relative min-h-[55vw] md:h-full bg-secondary overflow-hidden">
+        <div className="relative min-h-[55vw] bg-secondary overflow-hidden">
           <img
             src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&h=1200&fit=crop&auto=format"
             alt="Alpine mountain sunset panoramic view"
