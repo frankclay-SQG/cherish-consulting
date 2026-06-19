@@ -22,9 +22,7 @@ function VeteranOwnedBadge() {
   return (
     <div className="flex items-center gap-1.5 border border-accent/30 px-2.5 py-1">
       <span className="text-accent" style={{ fontSize: "0.55rem" }}>★</span>
-      <span className="text-[8px] tracking-[0.2em] uppercase text-accent font-semibold">
-        Veteran-Owned
-      </span>
+      <span className="text-[8px] tracking-[0.2em] uppercase text-accent font-semibold">Veteran-Owned</span>
       <span className="text-accent" style={{ fontSize: "0.55rem" }}>★</span>
     </div>
   );
@@ -107,9 +105,7 @@ export default function App() {
             A veteran-owned counseling and wellness practice serving soldiers, veterans, cancer survivors, and families across Tennessee and Virginia — for over 15 years.
           </p>
           <div className="flex flex-wrap gap-3">
-            <a href="#contact" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity">
-              Get In Touch <ChevronRight size={12} />
-            </a>
+            <a href="#contact" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity">Get In Touch <ChevronRight size={12} /></a>
             <a href="#services" className="inline-flex items-center gap-2 px-6 py-3 border border-foreground/20 text-foreground/60 text-xs tracking-widest uppercase hover:bg-secondary transition-colors">Our Services</a>
           </div>
           <div className="mt-16 pt-8 border-t border-border grid grid-cols-3 gap-4">
@@ -145,7 +141,7 @@ export default function App() {
           <div className="relative">
             <div className="aspect-[3/4] bg-muted overflow-hidden">
               <img
-                src="/carol-cherich.png"
+                src="/carol-cherich.jpg"
                 alt="Dr. Carol J. Cherich, PhD — Founder of Cherish Consulting"
                 className="w-full h-full object-cover object-top"
               />
