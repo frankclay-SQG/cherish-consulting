@@ -249,9 +249,9 @@ export default function App() {
       </nav>
 
       {/* ── HERO ── */}
-      <section className="min-h-screen md:h-screen grid md:grid-cols-[1fr_1fr]">
+      <section className="min-h-screen md:h-screen grid md:grid-cols-2">
         {/* Text */}
-        <div className="flex flex-col px-8 md:px-14 lg:px-20 pt-28 pb-10 bg-background">
+        <div className="flex flex-col min-w-0 px-8 md:px-14 lg:px-20 pt-28 pb-10 bg-background">
           <div className="flex items-center gap-3 mb-6">
             <StarDivider count={3} />
             <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">
@@ -260,7 +260,7 @@ export default function App() {
           </div>
 
           <h1
-            className="text-5xl md:text-[3.75rem] lg:text-[4.25rem] leading-[1.1] text-foreground mb-8"
+            className="text-5xl md:text-[3.5rem] lg:text-[4rem] leading-[1.1] text-foreground mb-8"
             style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
           >
             Healing Through
