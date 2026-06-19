@@ -316,8 +316,8 @@ export default function App() {
         {/* Image */}
         <div className="relative min-h-[55vw] md:h-full bg-secondary overflow-hidden">
           <img
-            src="https://images.unsplash.com/photo-1486520299386-6d106b22014b?w=1000&h=1200&fit=crop&auto=format"
-            alt="Blue Ridge Mountains panoramic view at dusk"
+            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&h=1200&fit=crop&auto=format"
+            alt="Alpine mountain sunset panoramic view"
             loading="eager"
             className="absolute inset-0 w-full h-full object-cover"
           />
