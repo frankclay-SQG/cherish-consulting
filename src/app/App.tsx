@@ -297,8 +297,8 @@ export default function App() {
         {/* Image */}
         <div className="relative min-h-[55vw] md:min-h-screen bg-secondary overflow-hidden">
           <img
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&h=1200&fit=crop&auto=format"
-            alt="Serene mountain landscape in Tennessee"
+            src="https://images.unsplash.com/photo-1486520299386-6d106b22014b?w=1000&h=1200&fit=crop&auto=format"
+            alt="Blue Ridge Mountains panoramic view at dusk"
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-background/30" />
@@ -331,7 +331,7 @@ export default function App() {
             <div className="aspect-[3/4] bg-muted overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=800&fit=crop&auto=format"
-                alt="Professional counselor in a warm, welcoming office setting"
+                alt="Dr. Carol J. Cherich, PhD, licensed mental health clinician"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -412,11 +412,11 @@ export default function App() {
       {/* ── VETERAN BAND ── */}
       <section className="relative overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=1400&h=600&fit=crop&auto=format"
-          alt="World globe representing global service and connection"
+          src="https://images.unsplash.com/photo-1777058984349-0e176b203d7e?w=1400&h=600&fit=crop&auto=format"
+          alt="Military honor guard carefully folding the American flag"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-[#1C2B4A]/80" />
+        <div className="absolute inset-0 bg-[#1C2B4A]/72" />
         <div className="absolute top-0 left-0 right-0 flex h-1">
           <div className="flex-1 bg-[#1C2B4A]" />
           <div className="w-px bg-white/30" />
