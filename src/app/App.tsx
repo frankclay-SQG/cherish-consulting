@@ -251,8 +251,8 @@ export default function App() {
       {/* ── HERO ── */}
       <section className="min-h-screen md:h-screen grid md:grid-cols-[1fr_1fr]">
         {/* Text */}
-        <div className="flex flex-col justify-center px-8 md:px-14 lg:px-20 pt-24 pb-16 bg-background">
-          <div className="flex items-center gap-3 mb-8">
+        <div className="flex flex-col px-8 md:px-14 lg:px-20 pt-28 pb-10 bg-background">
+          <div className="flex items-center gap-3 mb-6">
             <StarDivider count={3} />
             <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">
               Dr. Carol J. Cherich, PhD
@@ -260,7 +260,7 @@ export default function App() {
           </div>
 
           <h1
-            className="text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.12] text-foreground mb-6"
+            className="text-5xl md:text-[3.75rem] lg:text-[4.25rem] leading-[1.1] text-foreground mb-8"
             style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
           >
             Healing Through
@@ -292,7 +292,7 @@ export default function App() {
             </a>
           </div>
 
-          <div className="mt-14 pt-8 border-t border-border grid grid-cols-3 gap-6">
+          <div className="mt-auto pt-8 border-t border-border grid grid-cols-3 gap-6">
             {[
               { val: "15+", label: "Years in Practice" },
               { val: "PhD", label: "Capella University" },
