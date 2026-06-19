@@ -31,46 +31,14 @@ function VeteranOwnedBadge() {
 }
 
 const services = [
-  {
-    icon: Heart,
-    title: "Life Coaching & Wellness",
-    desc: "Holistic health and wellness guidance tailored to your life circumstances and goals.",
-  },
-  {
-    icon: Shield,
-    title: "Veterans & Military Families",
-    desc: "Specialized counseling for soldiers, veterans, and the families who stand beside them.",
-  },
-  {
-    icon: Brain,
-    title: "Mental Health Treatment",
-    desc: "Evidence-based care for anxiety, depression, PTSD, and related conditions.",
-  },
-  {
-    icon: Activity,
-    title: "Stress & Anger Management",
-    desc: "Practical, lasting tools for managing stress — the defining challenge of our era.",
-  },
-  {
-    icon: Users,
-    title: "Substance Abuse Treatment",
-    desc: "Compassionate support for those navigating addiction and early recovery.",
-  },
-  {
-    icon: Heart,
-    title: "Cancer Survivor Support",
-    desc: "Therapeutic presence through diagnosis, treatment, and life beyond cancer.",
-  },
-  {
-    icon: ClipboardList,
-    title: "DOT-SAP & DWI Evaluations",
-    desc: "Certified evaluations for DOT Substance Abuse Program and DWI/DUI requirements.",
-  },
-  {
-    icon: GraduationCap,
-    title: "Clinical Supervision",
-    desc: "Professional supervision and consultation for graduate counseling interns.",
-  },
+  { icon: Heart, title: "Life Coaching & Wellness", desc: "Holistic health and wellness guidance tailored to your life circumstances and goals." },
+  { icon: Shield, title: "Veterans & Military Families", desc: "Specialized counseling for soldiers, veterans, and the families who stand beside them." },
+  { icon: Brain, title: "Mental Health Treatment", desc: "Evidence-based care for anxiety, depression, PTSD, and related conditions." },
+  { icon: Activity, title: "Stress & Anger Management", desc: "Practical, lasting tools for managing stress — the defining challenge of our era." },
+  { icon: Users, title: "Substance Abuse Treatment", desc: "Compassionate support for those navigating addiction and early recovery." },
+  { icon: Heart, title: "Cancer Survivor Support", desc: "Therapeutic presence through diagnosis, treatment, and life beyond cancer." },
+  { icon: ClipboardList, title: "DOT-SAP & DWI Evaluations", desc: "Certified evaluations for DOT Substance Abuse Program and DWI/DUI requirements." },
+  { icon: GraduationCap, title: "Clinical Supervision", desc: "Professional supervision and consultation for graduate counseling interns." },
 ];
 
 const publications = [
@@ -91,127 +59,59 @@ export default function App() {
   }, []);
 
   return (
-    <div
-      className="min-h-screen bg-background text-foreground"
-      style={{ fontFamily: "'DM Sans', sans-serif" }}
-    >
-      {/* ── NAV ── */}
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-background/95 backdrop-blur-md border-b border-border shadow-sm"
-            : "bg-transparent"
-        }`}
-      >
+    <div className="min-h-screen bg-background text-foreground" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      {/* NAV */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${ scrolled ? "bg-background/95 backdrop-blur-md border-b border-border shadow-sm" : "bg-transparent" }`}>
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
           <div className="flex items-center gap-4">
             <a href="#" className="flex flex-col leading-none">
-              <span
-                className="text-base font-semibold tracking-widest uppercase text-primary"
-                style={{ fontFamily: "'Lora', serif" }}
-              >
-                Cherish
-              </span>
-              <span className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground font-medium">
-                Consulting
-              </span>
+              <span className="text-base font-semibold tracking-widest uppercase text-primary" style={{ fontFamily: "'Lora', serif" }}>Cherish</span>
+              <span className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground font-medium">Consulting</span>
             </a>
             <VeteranOwnedBadge />
           </div>
-
           <div className="hidden md:flex items-center gap-8">
             {["About", "Services", "Publications", "Contact"].map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className="text-sm text-foreground/60 hover:text-foreground transition-colors tracking-wide"
-              >
-                {link}
-              </a>
+              <a key={link} href={`#${link.toLowerCase()}`} className="text-sm text-foreground/60 hover:text-foreground transition-colors tracking-wide">{link}</a>
             ))}
-            <a
-              href="#contact"
-              className="px-5 py-2 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
-            >
-              Schedule a Session
-            </a>
+            <a href="#contact" className="px-5 py-2 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity">Schedule a Session</a>
           </div>
-
-          <button
-            className="md:hidden text-foreground p-1"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-          >
+          <button className="md:hidden text-foreground p-1" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
-
         {menuOpen && (
           <div className="md:hidden bg-background border-t border-border px-6 py-5 flex flex-col gap-5">
             {["About", "Services", "Publications", "Contact"].map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className="text-sm text-foreground/70 hover:text-foreground"
-                onClick={() => setMenuOpen(false)}
-              >
-                {link}
-              </a>
+              <a key={link} href={`#${link.toLowerCase()}`} className="text-sm text-foreground/70 hover:text-foreground" onClick={() => setMenuOpen(false)}>{link}</a>
             ))}
-            <a
-              href="#contact"
-              className="px-5 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase text-center"
-              onClick={() => setMenuOpen(false)}
-            >
-              Schedule a Session
-            </a>
+            <a href="#contact" className="px-5 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase text-center" onClick={() => setMenuOpen(false)}>Schedule a Session</a>
           </div>
         )}
       </nav>
 
-      {/* ── HERO ── */}
+      {/* HERO */}
       <section className="min-h-screen grid md:grid-cols-[1fr_1fr]">
         <div className="flex flex-col justify-center px-8 md:px-14 lg:px-20 pt-28 pb-20 bg-background">
           <div className="flex items-center gap-3 mb-8">
             <StarDivider count={3} />
-            <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">
-              Dr. Carol J. Cherich, PhD
-            </span>
+            <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">Dr. Carol J. Cherich, PhD</span>
           </div>
-
-          <h1
-            className="text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.12] text-foreground mb-6"
-            style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
-          >
-            Healing Through
-            <br />
-            <span className="text-primary">Experience,</span>
-            <br />
-            Grounded in
-            <br />
+          <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.12] text-foreground mb-6" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>
+            Healing Through<br />
+            <span className="text-primary">Experience,</span><br />
+            Grounded in<br />
             <em className="not-italic text-accent">Service.</em>
           </h1>
-
           <p className="text-[0.95rem] text-foreground/60 leading-relaxed max-w-sm mb-10">
-            A veteran-owned counseling and wellness practice serving soldiers, veterans, cancer
-            survivors, and families across Tennessee and Virginia — for over 15 years.
+            A veteran-owned counseling and wellness practice serving soldiers, veterans, cancer survivors, and families across Tennessee and Virginia — for over 15 years.
           </p>
-
           <div className="flex flex-wrap gap-3">
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
-            >
+            <a href="#contact" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity">
               Get In Touch <ChevronRight size={12} />
             </a>
-            <a
-              href="#services"
-              className="inline-flex items-center gap-2 px-6 py-3 border border-foreground/20 text-foreground/60 text-xs tracking-widest uppercase hover:bg-secondary transition-colors"
-            >
-              Our Services
-            </a>
+            <a href="#services" className="inline-flex items-center gap-2 px-6 py-3 border border-foreground/20 text-foreground/60 text-xs tracking-widest uppercase hover:bg-secondary transition-colors">Our Services</a>
           </div>
-
           <div className="mt-16 pt-8 border-t border-border grid grid-cols-3 gap-4">
             {[
               { val: "15+", label: "Years in Practice" },
@@ -219,56 +119,35 @@ export default function App() {
               { val: "TN & VA", label: "Licensed" },
             ].map((stat) => (
               <div key={stat.val}>
-                <div
-                  className="text-xl text-primary mb-1"
-                  style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
-                >
-                  {stat.val}
-                </div>
-                <div className="text-[9px] text-muted-foreground tracking-widest uppercase">
-                  {stat.label}
-                </div>
+                <div className="text-xl text-primary mb-1" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>{stat.val}</div>
+                <div className="text-[9px] text-muted-foreground tracking-widest uppercase">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
-
         <div className="relative min-h-[55vw] md:min-h-screen bg-secondary overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&h=1200&fit=crop&auto=format"
-            alt="Serene mountain landscape in Tennessee"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&h=1200&fit=crop&auto=format" alt="Serene mountain landscape in Tennessee" className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-background/30" />
           <div className="absolute inset-0 bg-primary/10" />
           <div className="absolute bottom-8 left-8 right-8 md:right-auto md:max-w-xs bg-background/92 backdrop-blur-sm overflow-hidden">
-            <div className="flex h-1">
-              <div className="flex-1 bg-[#1C2B4A]" />
-              <div className="flex-1 bg-background/60" />
-              <div className="flex-1 bg-[#8B2020]" />
-            </div>
+            <div className="flex h-1"><div className="flex-1 bg-[#1C2B4A]" /><div className="flex-1 bg-background/60" /><div className="flex-1 bg-[#8B2020]" /></div>
             <div className="p-5 border-l-2 border-primary">
-              <p className="text-[0.8rem] text-foreground/70 italic leading-relaxed">
-                “Stress is the disease of the twenty-first century — but it doesn’t have to define
-                your life.”
-              </p>
-              <p className="text-[10px] text-primary mt-3 font-semibold tracking-wide uppercase">
-                — Dr. Carol J. Cherich
-              </p>
+              <p className="text-[0.8rem] text-foreground/70 italic leading-relaxed">“Stress is the disease of the twenty-first century — but it doesn’t have to define your life.”</p>
+              <p className="text-[10px] text-primary mt-3 font-semibold tracking-wide uppercase">— Dr. Carol J. Cherich</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── ABOUT ── */}
+      {/* ABOUT */}
       <section id="about" className="py-24 bg-secondary">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-[2fr_3fr] gap-14 lg:gap-20 items-center">
           <div className="relative">
             <div className="aspect-[3/4] bg-muted overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=800&fit=crop&auto=format"
-                alt="Professional counselor in a warm, welcoming office setting"
-                className="w-full h-full object-cover"
+                src="/carol-cherich.png"
+                alt="Dr. Carol J. Cherich, PhD — Founder of Cherish Consulting"
+                className="w-full h-full object-cover object-top"
               />
             </div>
             <div className="absolute -bottom-5 -right-5 w-28 h-28 bg-primary flex flex-col items-center justify-center text-primary-foreground text-center p-3">
@@ -276,34 +155,20 @@ export default function App() {
               <span className="text-[8px] tracking-[0.15em] uppercase leading-tight mt-1 opacity-80">Years Clinical Practice</span>
             </div>
           </div>
-
           <div>
             <div className="flex items-center gap-3 mb-5">
               <StarDivider count={3} />
               <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">About Dr. Cherich</span>
             </div>
-            <h2 className="text-3xl md:text-4xl leading-tight mb-6 text-foreground" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>
-              A Clinician Shaped by Service and Compassion
-            </h2>
+            <h2 className="text-3xl md:text-4xl leading-tight mb-6 text-foreground" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>A Clinician Shaped by Service and Compassion</h2>
             <p className="text-[0.95rem] text-foreground/60 leading-relaxed mb-5">
-              Dr. Carol J. Cherich holds a PhD from Capella University and brings more than 15 years
-              of experience as a licensed clinician in mental health and addictions. Her background as
-              an active-duty military medic gives her a rare, firsthand understanding of the challenges
-              faced by those who serve — and those who love them.
+              Dr. Carol J. Cherich holds a PhD from Capella University and brings more than 15 years of experience as a licensed clinician in mental health and addictions. Her background as an active-duty military medic gives her a rare, firsthand understanding of the challenges faced by those who serve — and those who love them.
             </p>
             <p className="text-[0.95rem] text-foreground/60 leading-relaxed mb-8">
-              A certified yoga instructor and experienced clinical supervisor, Dr. Cherich integrates
-              body, mind, and spirit into her practice — recognizing that true healing is never simply
-              clinical. She currently serves clients in Tennessee and Virginia through individual
-              sessions, group work, evaluations, and consultation.
+              A certified yoga instructor and experienced clinical supervisor, Dr. Cherich integrates body, mind, and spirit into her practice — recognizing that true healing is never simply clinical. She currently serves clients in Tennessee and Virginia through individual sessions, group work, evaluations, and consultation.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {[
-                "Licensed Mental Health Clinician",
-                "Certified Yoga Instructor",
-                "Former Active-Duty Military Medic",
-                "Clinical Supervisor, Graduate Interns",
-              ].map((credential) => (
+              {["Licensed Mental Health Clinician", "Certified Yoga Instructor", "Former Active-Duty Military Medic", "Clinical Supervisor, Graduate Interns"].map((credential) => (
                 <div key={credential} className="flex items-start gap-2.5">
                   <span className="text-accent flex-shrink-0 mt-0.5 leading-none" style={{ fontSize: "0.55rem" }}>★</span>
                   <span className="text-sm text-foreground/65 leading-snug">{credential}</span>
@@ -314,53 +179,34 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── PHILOSOPHY ── */}
+      {/* PHILOSOPHY */}
       <section className="py-24 bg-primary text-primary-foreground">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <div className="w-px h-14 bg-primary-foreground/25 mx-auto mb-10" />
           <blockquote className="text-2xl md:text-3xl lg:text-4xl leading-relaxed italic" style={{ fontFamily: "'Lora', serif", fontWeight: 400 }}>
-            “Stress is the disease of the twenty-first century. Left unmanaged, it touches every
-            dimension of life — and met with courage, it becomes the gateway to resilience.”
+            “Stress is the disease of the twenty-first century. Left unmanaged, it touches every dimension of life — and met with courage, it becomes the gateway to resilience.”
           </blockquote>
           <div className="w-px h-14 bg-primary-foreground/25 mx-auto mt-10 mb-8" />
-          <p className="text-[10px] tracking-[0.25em] uppercase text-primary-foreground/50 font-medium">
-            Dr. Carol J. Cherich, PhD — Core Philosophy
-          </p>
+          <p className="text-[10px] tracking-[0.25em] uppercase text-primary-foreground/50 font-medium">Dr. Carol J. Cherich, PhD — Core Philosophy</p>
         </div>
       </section>
 
-      {/* ── VETERAN BAND ── */}
+      {/* VETERAN BAND */}
       <section className="relative overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?w=1400&h=600&fit=crop&auto=format"
-          alt="American flag waving, honoring those who served"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        <img src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?w=1400&h=600&fit=crop&auto=format" alt="American flag waving, honoring those who served" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-[#1C2B4A]/80" />
-        <div className="absolute top-0 left-0 right-0 flex h-1">
-          <div className="flex-1 bg-[#1C2B4A]" />
-          <div className="w-px bg-white/30" />
-          <div className="flex-1 bg-[#8B2020]" />
-        </div>
+        <div className="absolute top-0 left-0 right-0 flex h-1"><div className="flex-1 bg-[#1C2B4A]" /><div className="w-px bg-white/30" /><div className="flex-1 bg-[#8B2020]" /></div>
         <div className="relative z-10 py-20 px-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_1px_1fr_1px_1fr] gap-0 items-stretch">
             <div className="text-center px-8 py-4">
               <StarDivider count={5} className="justify-center mb-4" />
               <p className="text-3xl md:text-4xl text-white mb-3" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>For Those Who Served</p>
-              <p className="text-sm text-white/60 leading-relaxed max-w-xs mx-auto">
-                Dr. Cherich’s military background as an active-duty medic grounds her work with
-                veterans in genuine understanding — not just clinical training.
-              </p>
+              <p className="text-sm text-white/60 leading-relaxed max-w-xs mx-auto">Dr. Cherich’s military background as an active-duty medic grounds her work with veterans in genuine understanding — not just clinical training.</p>
             </div>
             <div className="hidden md:block bg-white/10" />
             <div className="text-center px-8 py-4 mt-8 md:mt-0">
               <div className="grid grid-cols-2 gap-6 max-w-xs mx-auto">
-                {[
-                  { val: "PTSD", label: "Treatment" },
-                  { val: "MST", label: "Support" },
-                  { val: "Transition", label: "Counseling" },
-                  { val: "Family", label: "Sessions" },
-                ].map(({ val, label }) => (
+                {[{ val: "PTSD", label: "Treatment" }, { val: "MST", label: "Support" }, { val: "Transition", label: "Counseling" }, { val: "Family", label: "Sessions" }].map(({ val, label }) => (
                   <div key={val} className="text-center">
                     <p className="text-xl text-white" style={{ fontFamily: "'Lora', serif" }}>{val}</p>
                     <p className="text-[9px] tracking-[0.2em] uppercase text-white/45 mt-0.5">{label}</p>
@@ -372,36 +218,22 @@ export default function App() {
             <div className="text-center px-8 py-4 mt-8 md:mt-0 flex flex-col items-center justify-center">
               <div className="border border-white/20 p-5 max-w-xs">
                 <StarDivider count={5} className="justify-center mb-3" />
-                <p className="text-sm text-white/70 italic leading-relaxed">
-                  “I know what it costs to serve. That experience is at the heart of every
-                  session I offer veterans and their families.”
-                </p>
+                <p className="text-sm text-white/70 italic leading-relaxed">“I know what it costs to serve. That experience is at the heart of every session I offer veterans and their families.”</p>
                 <p className="text-[9px] text-white/40 tracking-[0.2em] uppercase mt-3">— Dr. Carol J. Cherich</p>
               </div>
             </div>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 flex h-1">
-          <div className="flex-1 bg-[#1C2B4A]" />
-          <div className="w-px bg-white/30" />
-          <div className="flex-1 bg-[#8B2020]" />
-        </div>
+        <div className="absolute bottom-0 left-0 right-0 flex h-1"><div className="flex-1 bg-[#1C2B4A]" /><div className="w-px bg-white/30" /><div className="flex-1 bg-[#8B2020]" /></div>
       </section>
 
-      {/* ── SERVICES ── */}
+      {/* SERVICES */}
       <section id="services" className="py-24 bg-background">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-center gap-3 mb-4">
-            <StarDivider count={3} />
-            <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">What We Offer</span>
-          </div>
+          <div className="flex items-center gap-3 mb-4"><StarDivider count={3} /><span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">What We Offer</span></div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
-            <h2 className="text-3xl md:text-4xl leading-tight text-foreground max-w-md" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>
-              Services Tailored to Where You Are
-            </h2>
-            <p className="text-sm text-foreground/50 max-w-xs leading-relaxed">
-              Every service is delivered with the same commitment to your long-term wellbeing — clinical and compassionate.
-            </p>
+            <h2 className="text-3xl md:text-4xl leading-tight text-foreground max-w-md" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>Services Tailored to Where You Are</h2>
+            <p className="text-sm text-foreground/50 max-w-xs leading-relaxed">Every service is delivered with the same commitment to your long-term wellbeing — clinical and compassionate.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border">
             {services.map(({ icon: Icon, title, desc }) => (
@@ -415,16 +247,11 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── PUBLICATIONS ── */}
+      {/* PUBLICATIONS */}
       <section id="publications" className="py-24 bg-secondary">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-center gap-3 mb-4">
-            <StarDivider count={3} />
-            <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">Published Works</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl leading-tight text-foreground mb-14 max-w-md" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>
-            Research, Practice, and Insight
-          </h2>
+          <div className="flex items-center gap-3 mb-4"><StarDivider count={3} /><span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">Published Works</span></div>
+          <h2 className="text-3xl md:text-4xl leading-tight text-foreground mb-14 max-w-md" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>Research, Practice, and Insight</h2>
           <div className="space-y-px">
             {publications.map(({ title, type, year }, i) => (
               <div key={title} className="bg-secondary hover:bg-background transition-colors px-6 py-5 flex items-center justify-between gap-4 group cursor-pointer border border-border/0 hover:border-border">
@@ -442,21 +269,13 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── CONTACT ── */}
+      {/* CONTACT */}
       <section id="contact" className="py-24 bg-background">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-[5fr_7fr] gap-14 lg:gap-20">
           <div>
-            <div className="flex items-center gap-3 mb-5">
-              <StarDivider count={3} />
-              <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">Get In Touch</span>
-            </div>
-            <h2 className="text-3xl md:text-4xl leading-tight text-foreground mb-5" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>
-              Begin Your Path to Wellness
-            </h2>
-            <p className="text-[0.95rem] text-foreground/55 leading-relaxed mb-10">
-              Whether you are seeking support for yourself, your family, or your team — we would
-              welcome the opportunity to connect. Reach out directly or send a message.
-            </p>
+            <div className="flex items-center gap-3 mb-5"><StarDivider count={3} /><span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">Get In Touch</span></div>
+            <h2 className="text-3xl md:text-4xl leading-tight text-foreground mb-5" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>Begin Your Path to Wellness</h2>
+            <p className="text-[0.95rem] text-foreground/55 leading-relaxed mb-10">Whether you are seeking support for yourself, your family, or your team — we would welcome the opportunity to connect. Reach out directly or send a message.</p>
             <div className="space-y-5">
               {[
                 { icon: Phone, label: "Phone", value: "301-956-3185", href: "tel:3019563185" },
@@ -509,26 +328,18 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
+      {/* FOOTER */}
       <footer className="bg-foreground text-background">
-        <div className="flex h-0.5">
-          <div className="flex-1 bg-[#1C2B4A]" />
-          <div className="flex-1 bg-background/20" />
-          <div className="flex-1 bg-[#8B2020]" />
-        </div>
+        <div className="flex h-0.5"><div className="flex-1 bg-[#1C2B4A]" /><div className="flex-1 bg-background/20" /><div className="flex-1 bg-[#8B2020]" /></div>
         <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-3">
           <div>
             <div className="flex items-center gap-3 mb-0.5">
               <span className="text-sm tracking-widest uppercase" style={{ fontFamily: "'Lora', serif" }}>Cherish Consulting</span>
               <span className="text-[#8B8060] text-[0.5rem] tracking-widest">★ ★ ★</span>
             </div>
-            <p className="text-[10px] text-background/35 tracking-wide">
-              Veteran-Owned · Mental Health & Wellness · Tennessee & Virginia
-            </p>
+            <p className="text-[10px] text-background/35 tracking-wide">Veteran-Owned · Mental Health & Wellness · Tennessee & Virginia</p>
           </div>
-          <p className="text-[10px] text-background/35 tracking-wide">
-            © 2024 Dr. Carol J. Cherich, PhD · Honoring All Who Serve
-          </p>
+          <p className="text-[10px] text-background/35 tracking-wide">© 2024 Dr. Carol J. Cherich, PhD · Honoring All Who Serve</p>
         </div>
       </footer>
       <CookieBanner />
