@@ -230,9 +230,9 @@ export default function App() {
       </nav>
 
       {/* ── HERO ── */}
-      <section className="min-h-screen grid md:grid-cols-[1fr_1fr]">
+      <section className="min-h-screen md:h-screen grid md:grid-cols-[1fr_1fr]">
         {/* Text */}
-        <div className="flex flex-col justify-center px-8 md:px-14 lg:px-20 pt-28 pb-20 bg-background">
+        <div className="flex flex-col justify-center px-8 md:px-14 lg:px-20 pt-24 pb-16 bg-background">
           <div className="flex items-center gap-3 mb-8">
             <StarDivider count={3} />
             <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">
@@ -253,7 +253,7 @@ export default function App() {
             <em className="not-italic text-accent">Service.</em>
           </h1>
 
-          <p className="text-[0.95rem] text-foreground/60 leading-relaxed max-w-sm mb-10">
+          <p className="text-[0.95rem] text-foreground/60 leading-relaxed max-w-md mb-10">
             A veteran-owned counseling and wellness practice serving soldiers, veterans, cancer
             survivors, and families across Tennessee and Kentucky — for over 15 years.
           </p>
@@ -273,7 +273,7 @@ export default function App() {
             </a>
           </div>
 
-          <div className="mt-16 pt-8 border-t border-border grid grid-cols-3 gap-4">
+          <div className="mt-14 pt-8 border-t border-border grid grid-cols-3 gap-6">
             {[
               { val: "15+", label: "Years in Practice" },
               { val: "PhD", label: "Capella University" },
@@ -281,7 +281,7 @@ export default function App() {
             ].map((stat) => (
               <div key={stat.val}>
                 <div
-                  className="text-xl text-primary mb-1"
+                  className="text-2xl text-primary mb-1"
                   style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
                 >
                   {stat.val}
@@ -295,7 +295,7 @@ export default function App() {
         </div>
 
         {/* Image */}
-        <div className="relative min-h-[55vw] md:min-h-screen bg-secondary overflow-hidden">
+        <div className="relative min-h-[55vw] md:h-full bg-secondary overflow-hidden">
           <img
             src="https://images.unsplash.com/photo-1486520299386-6d106b22014b?w=1000&h=1200&fit=crop&auto=format"
             alt="Blue Ridge Mountains panoramic view at dusk"
