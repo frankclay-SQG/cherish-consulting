@@ -137,7 +137,7 @@ const publications = [
     title: "Moving Beyond Stress",
     type: "E-Book",
     year: "2018",
-    image: "https://cherishconsulting.com/wp-content/uploads/2024/08/moving-beyond-stress-carol-cherich-201x300.jpg",
+    image: "https://images-na.ssl-images-amazon.com/images/P/B091DTLHXN.01._SY300_.jpg",
     buyUrl: "https://www.amazon.com/Moving-Beyond-Stress-Carol-Cherich-ebook/dp/B091DTLHXN/",
     description:
       "A practical learning tool focused on stress reduction — with quizzes, breathing techniques, and strategies for identifying and decreasing stressors. A quick desk reference for navigating life's pressures.",
@@ -146,7 +146,7 @@ const publications = [
     title: "Addicted Parents in Recovery & Treatment",
     type: "E-Book",
     year: "2013",
-    image: "https://cherishconsulting.com/wp-content/uploads/2024/08/addicted-parents-in-treatment-carol-cherich-242x300.jpg",
+    image: "https://images-na.ssl-images-amazon.com/images/P/B0CTHSMV46.01._SY300_.jpg",
     buyUrl: "https://www.amazon.com/Addicted-parents-treatment-recovery-Cherich-ebook/dp/B0CTHSMV46/",
     description:
       "An evidence-based relapse prevention curriculum addressing substance-abusing parents — covering stress management, parenting skills, childcare resources, and money management.",
@@ -155,7 +155,7 @@ const publications = [
     title: "Chair Yoga",
     type: "E-Book",
     year: "2020",
-    image: "https://cherishconsulting.com/wp-content/uploads/2024/08/chair-yoga-carol-cherich-207x300.jpg",
+    image: "https://images-na.ssl-images-amazon.com/images/P/B0D8B9JBDP.01._SY300_.jpg",
     buyUrl: "https://www.amazon.com/Chair-Yoga-Carol-Cherich-ebook/dp/B0D8B9JBDP/",
     description:
       "An accessible yoga guide for all ages from a 200-hour certified instructor and licensed clinician, bringing the benefits of mindful movement to those who prefer seated practice.",
@@ -164,7 +164,7 @@ const publications = [
     title: "Breast Cancer Support Curriculum",
     type: "E-Book",
     year: "2024",
-    image: "https://cherishconsulting.com/wp-content/uploads/2024/08/breast-cancer-support-curriculum-272x300.jpg",
+    image: "https://images-na.ssl-images-amazon.com/images/P/B0D89M759R.01._SY300_.jpg",
     buyUrl: "https://www.amazon.com/Breast-cancer-support-curriculum-Cherich-ebook/dp/B0D89M759R/",
     description:
       "A self-help and facilitation guide for patients, caregivers, nurses, and counselors navigating the breast cancer journey — an inspirational tool built to support and educate.",
@@ -173,7 +173,7 @@ const publications = [
     title: "Psychosocial Stress and Alcohol Abuse Among Hispanic Males",
     type: "Research Paper",
     year: "2014",
-    image: "https://cherishconsulting.com/wp-content/uploads/2024/08/alcoholism-in-hispanic-males-247x300.jpg",
+    image: "https://images-na.ssl-images-amazon.com/images/P/B0D8C2PMJ1.01._SY300_.jpg",
     buyUrl: "https://www.amazon.com/Psychosocial-stress-alcohol-abuse-Hispanic-ebook/dp/B0D8C2PMJ1/",
     description:
       "Research examining psychosocial stressors and alcohol abuse, with evidence-based intervention outcomes developed through work at Providence Hospital, Washington, D.C.",
