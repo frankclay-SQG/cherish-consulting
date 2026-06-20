@@ -95,7 +95,7 @@ export default function BooksPage() {
                   <img
                     src={`https://images-na.ssl-images-amazon.com/images/P/${asin}.01._SY300_.jpg`}
                     alt={title}
-                    className="w-20 object-contain"
+                    className="w-28 object-contain"
                     loading="lazy"
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).style.display = "none";
