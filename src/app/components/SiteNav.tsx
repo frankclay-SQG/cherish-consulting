@@ -21,14 +21,13 @@ function isPageItem(item: NavItem): item is PageItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "About",       href: "/#about" },
-  { label: "Services",    href: "/#services" },
-  { label: "Books",       to:   "/books" },
-  { label: "ESA",         to:   "/esa" },
-  { label: "Labyrinths",  to:   "/labyrinths" },
-  { label: "Contact",     href: "/#contact" },
-  { label: "VA PTSD",     href: "https://www.ptsd.va.gov/appvid/video/index.asp", external: true },
+  { label: "About",            href: "/#about" },
+  { label: "Services",         href: "/#services" },
+  { label: "Publications",     to:   "/books" },
+  { label: "Labyrinths",       to:   "/labyrinths" },
+  { label: "VA PTSD",          href: "https://www.ptsd.va.gov/appvid/video/index.asp", external: true },
   { label: "Veterans Courses", href: "https://learn.psycharmor.org/collections", external: true },
+  { label: "Contact",          href: "/#contact" },
 ];
 
 export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
@@ -88,7 +87,7 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
         ? "bg-background/95 backdrop-blur-md border-b border-border shadow-sm"
         : "bg-transparent"
     }`}>
-      <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
+      <div className="max-w-6xl mx-auto px-6 flex items-center h-16 gap-10">
         {/* Logo */}
         <div className="flex items-center gap-4">
           <Link to="/" className="flex flex-col leading-none">
@@ -103,7 +102,7 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
         </div>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-6 ml-auto">
           {NAV_ITEMS.map(item => renderItem(item))}
           <a
             href="/#contact"
