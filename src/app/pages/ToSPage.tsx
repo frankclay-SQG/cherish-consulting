@@ -47,7 +47,7 @@ export default function ToSPage() {
               <p>
                 By accessing or using the website located at{" "}
                 <a href="https://cherishconsulting.com" className="text-primary hover:opacity-80 underline underline-offset-2">
-                  cherichconsulting.com
+                  cherishconsulting.com
                 </a>{" "}
                 (the "Site"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to all
                 of these Terms, please do not use the Site. These Terms apply to all visitors, users, and others
@@ -173,10 +173,10 @@ export default function ToSPage() {
               <p>
                 If you have questions about these Terms, please contact us at:{" "}
                 <a
-                  href="mailto:drcarol@cherichconsulting.com"
+                  href="mailto:drcarol@cherishconsulting.com"
                   className="text-primary hover:opacity-80 underline underline-offset-2"
                 >
-                  drcarol@cherichconsulting.com
+                  drcarol@cherishconsulting.com
                 </a>
               </p>
             </div>

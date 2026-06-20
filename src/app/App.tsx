@@ -692,8 +692,8 @@ export default function App() {
                 {
                   icon: Mail,
                   label: "Email",
-                  value: "drcarol@cherichconsulting.com",
-                  href: "mailto:drcarol@cherichconsulting.com",
+                  value: "drcarol@cherishconsulting.com",
+                  href: "mailto:drcarol@cherishconsulting.com",
                 },
                 {
                   icon: MapPin,
