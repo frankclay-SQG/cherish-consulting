@@ -239,7 +239,7 @@ export default function App() {
             <VeteranOwnedBadge />
           </div>
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-8 ml-10">
             {["About", "Services", "Publications", "Contact"].map((link) => (
               <a
                 key={link}
