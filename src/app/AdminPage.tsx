@@ -42,46 +42,46 @@ const PAGE_ROUTES: { key: string; label: string; path: string }[] = [
 
 const DEFAULT_SEO: SEOSettings = {
   site: {
-    title: "Cherish Consulting — Dr. Carol J. Cherich, PhD",
+    title: "Cherich Consulting — Dr. Carol J. Cherich, PhD",
     description:
       "Veteran-owned mental health and wellness practice serving Tennessee and Virginia. Life coaching, PTSD support, substance abuse treatment, and more.",
     keywords:
-      "mental health counseling, veterans counseling, life coaching, PTSD, Tennessee therapist, Virginia therapist, Cherish Consulting, Carol Cherich",
+      "mental health counseling, veterans counseling, life coaching, PTSD, Tennessee therapist, Virginia therapist, Cherich Consulting, Carol Cherich",
   },
   pages: {
     home: {
-      title: "Cherish Consulting — Healing Through Experience, Grounded in Service",
+      title: "Cherich Consulting — Healing Through Experience, Grounded in Service",
       description:
         "Dr. Carol J. Cherich, PhD offers compassionate mental health treatment, veterans counseling, life coaching, and wellness services in Tennessee and Virginia.",
       keywords: "mental health, veterans support, life coaching, PTSD treatment, Tennessee, Virginia",
     },
     books: {
-      title: "Books & E-Books — Cherish Consulting",
+      title: "Books & E-Books — Cherich Consulting",
       description:
         "Published works by Dr. Carol J. Cherich spanning stress management, addiction recovery, chair yoga, cancer support, and clinical research. Available on Amazon.",
       keywords: "Carol Cherich books, stress management ebook, addiction recovery, chair yoga, cancer support",
     },
     labyrinths: {
-      title: "Labyrinths — Cherish Consulting",
+      title: "Labyrinths — Cherich Consulting",
       description:
         "Explore the use of labyrinths as a meditative and therapeutic tool. Resources for veterans, mental health clinicians, and individuals seeking mindful movement.",
       keywords: "labyrinth meditation, therapeutic labyrinths, mindfulness, veterans wellness",
     },
     esa: {
-      title: "ESA Letters — Cherish Consulting",
+      title: "ESA Letters — Cherich Consulting",
       description:
         "Emotional Support Animal evaluations and letters from a licensed mental health clinician. Dr. Carol J. Cherich, PhD provides professional ESA documentation.",
       keywords: "ESA letter, emotional support animal, ESA evaluation, licensed therapist",
     },
     tos: {
-      title: "Terms of Service — Cherish Consulting",
-      description: "Terms of Service for Cherish Consulting, a veteran-owned mental health practice.",
+      title: "Terms of Service — Cherich Consulting",
+      description: "Terms of Service for Cherich Consulting, a veteran-owned mental health practice.",
       keywords: "",
     },
     privacy: {
-      title: "Privacy Policy — Cherish Consulting",
+      title: "Privacy Policy — Cherich Consulting",
       description:
-        "Privacy Policy for Cherish Consulting. We do not sell your personal information. All PII and PHI is held in strict confidence.",
+        "Privacy Policy for Cherich Consulting. We do not sell your personal information. All PII and PHI is held in strict confidence.",
       keywords: "",
     },
   },
@@ -139,7 +139,7 @@ function LockScreen({ onUnlock }: { onUnlock: () => void }) {
         </div>
 
         <p className="text-[10px] tracking-[0.3em] uppercase text-white/30 text-center mb-8 font-medium">
-          Cherish Consulting · Admin
+          Cherich Consulting · Admin
         </p>
 
         <form onSubmit={submit} className="space-y-3">
@@ -220,7 +220,7 @@ function AnalyticsTab() {
             Analytics Configuration Report
           </p>
           <h1 style={{ fontFamily: "Lora, Georgia, serif", fontSize: "1.6rem", fontWeight: 500, color: "#1E1A14", margin: "0 0 0.25rem" }}>
-            Cherish Consulting
+            Cherich Consulting
           </h1>
           <p style={{ fontSize: "11px", color: "#6B5E4E", margin: 0, fontFamily: "DM Sans, sans-serif" }}>
             Printed {printedAt}

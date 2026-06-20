@@ -44,7 +44,7 @@ export default function PrivacyPage() {
             <div className="border border-primary/30 bg-primary/5 px-6 py-5">
               <p className="text-sm font-semibold text-foreground mb-1">Our Privacy Commitment</p>
               <p>
-                Cherish Consulting does not sell, rent, or trade your personal information to any third party —
+                Cherich Consulting does not sell, rent, or trade your personal information to any third party —
                 ever. All personally identifiable information (PII) and protected health information (PHI)
                 collected in connection with our services is held in strict confidence and handled in accordance
                 with applicable federal and state laws, including HIPAA where applicable.
@@ -56,7 +56,7 @@ export default function PrivacyPage() {
                 1. Who We Are
               </h2>
               <p>
-                Cherish Consulting is a veteran-owned mental health and wellness practice operated by Dr. Carol J.
+                Cherich Consulting is a veteran-owned mental health and wellness practice operated by Dr. Carol J.
                 Cherich, PhD, serving clients in Tennessee and Virginia. This Privacy Policy describes how we
                 collect, use, and protect information gathered through our website at{" "}
                 <a href="https://cherishconsulting.com" className="text-primary hover:opacity-80 underline underline-offset-2">
@@ -113,7 +113,7 @@ export default function PrivacyPage() {
               </h2>
               <p>
                 <strong>
-                  Cherish Consulting does not sell, lease, rent, or otherwise disclose your personal information
+                  Cherich Consulting does not sell, lease, rent, or otherwise disclose your personal information
                   to third parties for their marketing or commercial purposes.
                 </strong>{" "}
                 Your information is never sold to data brokers, advertisers, or any other external parties.
@@ -208,7 +208,7 @@ export default function PrivacyPage() {
                 contact us at:
               </p>
               <div className="mt-3 space-y-1 text-sm">
-                <p className="font-semibold text-foreground">Cherish Consulting</p>
+                <p className="font-semibold text-foreground">Cherich Consulting</p>
                 <p>Dr. Carol J. Cherich, PhD</p>
                 <p>
                   Email:{" "}

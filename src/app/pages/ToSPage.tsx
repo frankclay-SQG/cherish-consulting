@@ -60,7 +60,7 @@ export default function ToSPage() {
                 2. Services Described
               </h2>
               <p>
-                Cherish Consulting, operated by Dr. Carol J. Cherich, PhD, provides mental health and wellness
+                Cherich Consulting, operated by Dr. Carol J. Cherich, PhD, provides mental health and wellness
                 consulting services, including but not limited to life coaching, veterans and military family
                 counseling, mental health treatment, stress and anger management, substance abuse treatment
                 support, cancer survivor support, DOT-SAP and DWI evaluations, and clinical supervision.
@@ -91,7 +91,7 @@ export default function ToSPage() {
               </h2>
               <p>
                 All content on this Site — including text, graphics, logos, images, and publications authored by
-                Dr. Carol J. Cherich — is the property of Cherish Consulting and is protected by applicable
+                Dr. Carol J. Cherich — is the property of Cherich Consulting and is protected by applicable
                 copyright and intellectual property laws. You may not reproduce, distribute, or create derivative
                 works from any Site content without prior written permission.
               </p>
@@ -117,7 +117,7 @@ export default function ToSPage() {
               </h2>
               <p>
                 This Site may contain links to third-party websites, including the U.S. Department of Veterans
-                Affairs and PsychArmor. These links are provided for your convenience only. Cherish Consulting
+                Affairs and PsychArmor. These links are provided for your convenience only. Cherich Consulting
                 has no control over, and assumes no responsibility for, the content, privacy policies, or
                 practices of any third-party sites.
               </p>
@@ -129,7 +129,7 @@ export default function ToSPage() {
               </h2>
               <p>
                 The Site is provided on an "as is" and "as available" basis without warranties of any kind,
-                express or implied. Cherish Consulting makes no warranty that the Site will be uninterrupted,
+                express or implied. Cherich Consulting makes no warranty that the Site will be uninterrupted,
                 error-free, or free of viruses or other harmful components.
               </p>
             </div>
@@ -139,7 +139,7 @@ export default function ToSPage() {
                 8. Limitation of Liability
               </h2>
               <p>
-                To the fullest extent permitted by law, Cherish Consulting and Dr. Carol J. Cherich shall not be
+                To the fullest extent permitted by law, Cherich Consulting and Dr. Carol J. Cherich shall not be
                 liable for any indirect, incidental, special, or consequential damages arising out of or in
                 connection with your use of the Site or its content.
               </p>

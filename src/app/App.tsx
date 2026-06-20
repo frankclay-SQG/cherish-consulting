@@ -225,8 +225,8 @@ export default function App() {
       >
         <div className="max-w-6xl mx-auto px-6 flex items-center h-16 gap-10">
           <div className="flex items-center gap-4">
-            <a href="#" aria-label="Cherish Consulting home">
-              <img src="/cherish-logo.png" alt="Cherish Consulting" className="h-10 w-auto" />
+            <a href="#" aria-label="Cherich Consulting home">
+              <img src="/cherish-logo.png" alt="Cherich Consulting" className="h-10 w-auto" />
             </a>
             <VeteranOwnedBadge />
           </div>
@@ -822,7 +822,7 @@ export default function App() {
                 className="text-sm tracking-widest uppercase"
                 style={{ fontFamily: "'Lora', serif" }}
               >
-                Cherish Consulting
+                Cherich Consulting
               </span>
               <span className="text-[#8B8060] text-[0.5rem] tracking-widest">★ ★ ★</span>
             </div>

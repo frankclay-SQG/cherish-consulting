@@ -90,8 +90,8 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
       <div className="max-w-6xl mx-auto px-6 flex items-center h-16 gap-10">
         {/* Logo */}
         <div className="flex items-center gap-4">
-          <Link to="/" aria-label="Cherish Consulting home">
-            <img src="/cherish-logo.png" alt="Cherish Consulting" className="h-10 w-auto" />
+          <Link to="/" aria-label="Cherich Consulting home">
+            <img src="/cherish-logo.png" alt="Cherich Consulting" className="h-10 w-auto" />
           </Link>
           <VeteranOwnedBadge />
         </div>

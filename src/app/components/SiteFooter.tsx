@@ -12,7 +12,7 @@ export function SiteFooter() {
         <div>
           <div className="flex items-center gap-3 mb-0.5">
             <span className="text-sm tracking-widest uppercase" style={{ fontFamily: "'Lora', serif" }}>
-              Cherish Consulting
+              Cherich Consulting
             </span>
             <span className="text-[#8B8060] text-[0.5rem] tracking-widest">★ ★ ★</span>
           </div>
