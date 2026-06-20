@@ -223,7 +223,7 @@ export default function App() {
             : "bg-transparent"
         }`}
       >
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
+        <div className="max-w-6xl mx-auto px-6 flex items-center h-16 gap-10">
           <div className="flex items-center gap-4">
             <a href="#" className="flex flex-col leading-none">
               <span
@@ -239,7 +239,7 @@ export default function App() {
             <VeteranOwnedBadge />
           </div>
 
-          <div className="hidden md:flex items-center gap-8 ml-10">
+          <div className="hidden md:flex items-center gap-8 ml-auto">
             {["About", "Services", "Publications", "Contact"].map((link) => (
               <a
                 key={link}
