@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Lock, BarChart2, BookOpen, LogOut,
-  ExternalLink, Check, AlertCircle, Eye, EyeOff,
+  ExternalLink, Check, AlertCircle, Eye, EyeOff, Printer,
 } from "lucide-react";
 
 // ─────────────────────────────────────────────────────────
@@ -121,99 +121,174 @@ function AnalyticsTab() {
     setGaId("");
   }
 
+  const printedAt = new Date().toLocaleDateString("en-US", {
+    weekday: "long", year: "numeric", month: "long", day: "numeric",
+  });
+
   return (
-    <div className="space-y-6">
-      {/* Status + ID input */}
-      <div className="border border-[#2A3E4A]/14 bg-[#F2EDE4]/40 p-6">
-        <div className="flex items-start justify-between gap-4 mb-5">
-          <div>
-            <p className="text-sm font-semibold text-[#1E1A14] mb-0.5">Google Analytics 4</p>
-            <p className="text-[11px] text-[#6B5E4E] leading-relaxed">
-              Your Measurement ID is saved in the browser and loaded on every site visit.
-              Changing it here takes effect on the next page load.
-            </p>
-          </div>
-          <span className={`flex-shrink-0 flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-full ${
-            stored
-              ? "bg-emerald-100 text-emerald-700"
-              : "bg-[#2A3E4A]/8 text-[#6B5E4E]"
-          }`}>
-            {stored ? <><Check size={10} /> Active</> : <><AlertCircle size={10} /> Not set</>}
-          </span>
+    <>
+      {/* ── Print-only report — hidden on screen, rendered when printing ── */}
+      <div className="hidden print:block">
+        {/* Page setup */}
+        <style>{`@page { margin: 1.5cm 2cm; } @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }`}</style>
+
+        {/* Report header */}
+        <div style={{ borderBottom: "2px solid #2A3E4A", paddingBottom: "1.25rem", marginBottom: "2rem" }}>
+          <p style={{ fontSize: "9px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#7A5C3A", marginBottom: "0.5rem", fontFamily: "DM Sans, sans-serif" }}>
+            Analytics Configuration Report
+          </p>
+          <h1 style={{ fontFamily: "Lora, Georgia, serif", fontSize: "1.6rem", fontWeight: 500, color: "#1E1A14", margin: "0 0 0.25rem" }}>
+            Cherish Consulting
+          </h1>
+          <p style={{ fontSize: "11px", color: "#6B5E4E", margin: 0, fontFamily: "DM Sans, sans-serif" }}>
+            Printed {printedAt}
+          </p>
         </div>
 
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={gaId}
-            onChange={(e) => { setGaId(e.target.value); setSaved(false); }}
-            placeholder="G-XXXXXXXXXX"
-            className="flex-1 bg-white border border-[#2A3E4A]/14 text-[#1E1A14] text-sm px-3 py-2.5 outline-none focus:border-[#2A3E4A]/40 transition-colors placeholder:text-[#6B5E4E]/40 font-mono tracking-wide"
-          />
+        {/* Configuration table */}
+        <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: "2.5rem", fontFamily: "DM Sans, sans-serif" }}>
+          <tbody>
+            {(
+              [
+                ["Platform", "cherishconsulting.com"],
+                ["Analytics Service", "Google Analytics 4"],
+                ["Status", stored ? "● Active" : "○ Not configured"],
+                ["Measurement ID", stored || "—"],
+                ["Activation", "Dynamic — loads on each site visit when an ID is saved"],
+                ["Managed via", "cherishconsulting.com/admin · Analytics tab"],
+              ] as [string, string][]
+            ).map(([label, value]) => (
+              <tr key={label} style={{ borderBottom: "1px solid rgba(42,62,74,0.1)" }}>
+                <td style={{ padding: "0.65rem 0", fontSize: "10px", color: "#6B5E4E", width: "36%", textTransform: "uppercase", letterSpacing: "0.12em", verticalAlign: "top", paddingRight: "1rem" }}>
+                  {label}
+                </td>
+                <td style={{
+                  padding: "0.65rem 0",
+                  fontSize: "13px",
+                  color: label === "Status" && stored ? "#15803d" : "#1E1A14",
+                  fontFamily: label === "Measurement ID" ? "monospace" : "inherit",
+                  fontWeight: label === "Measurement ID" && stored ? 600 : 400,
+                }}>
+                  {value}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Footer note */}
+        <p style={{ fontSize: "10px", color: "#6B5E4E", borderTop: "1px solid rgba(42,62,74,0.1)", paddingTop: "1rem", fontFamily: "DM Sans, sans-serif" }}>
+          This report reflects the analytics configuration stored in this browser at the time of printing.
+          To view live traffic data, visit <strong>analytics.google.com</strong>.
+        </p>
+      </div>
+
+      {/* ── Screen UI — visible on screen, hidden when printing ── */}
+      <div className="print:hidden space-y-6">
+
+        {/* Print button — top-right */}
+        <div className="flex justify-end">
           <button
-            onClick={save}
-            disabled={!isValid}
-            className="px-4 py-2.5 bg-[#2A3E4A] text-[#F2EDE4] text-xs tracking-widest uppercase font-semibold hover:bg-[#1E2E38] transition-colors disabled:opacity-30"
+            onClick={() => window.print()}
+            className="flex items-center gap-1.5 px-4 py-2 border border-[#2A3E4A]/14 text-xs tracking-widest uppercase text-[#6B5E4E] hover:border-[#2A3E4A]/30 hover:text-[#1E1A14] hover:bg-white transition-colors font-medium"
           >
-            {saved ? "✓ Saved" : "Save"}
+            <Printer size={12} strokeWidth={1.5} /> Print
           </button>
-          {stored && (
+        </div>
+
+        {/* Status + ID input */}
+        <div className="border border-[#2A3E4A]/14 bg-[#F2EDE4]/40 p-6">
+          <div className="flex items-start justify-between gap-4 mb-5">
+            <div>
+              <p className="text-sm font-semibold text-[#1E1A14] mb-0.5">Google Analytics 4</p>
+              <p className="text-[11px] text-[#6B5E4E] leading-relaxed">
+                Your Measurement ID is saved in the browser and loaded on every site visit.
+                Changing it here takes effect on the next page load.
+              </p>
+            </div>
+            <span className={`flex-shrink-0 flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-full ${
+              stored
+                ? "bg-emerald-100 text-emerald-700"
+                : "bg-[#2A3E4A]/8 text-[#6B5E4E]"
+            }`}>
+              {stored ? <><Check size={10} /> Active</> : <><AlertCircle size={10} /> Not set</>}
+            </span>
+          </div>
+
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={gaId}
+              onChange={(e) => { setGaId(e.target.value); setSaved(false); }}
+              placeholder="G-XXXXXXXXXX"
+              className="flex-1 bg-white border border-[#2A3E4A]/14 text-[#1E1A14] text-sm px-3 py-2.5 outline-none focus:border-[#2A3E4A]/40 transition-colors placeholder:text-[#6B5E4E]/40 font-mono tracking-wide"
+            />
             <button
-              onClick={remove}
-              className="px-4 py-2.5 border border-[#2A3E4A]/14 text-[#6B5E4E] text-xs tracking-wide hover:border-[#2A3E4A]/30 hover:text-[#1E1A14] transition-colors"
+              onClick={save}
+              disabled={!isValid}
+              className="px-4 py-2.5 bg-[#2A3E4A] text-[#F2EDE4] text-xs tracking-widest uppercase font-semibold hover:bg-[#1E2E38] transition-colors disabled:opacity-30"
             >
-              Remove
+              {saved ? "✓ Saved" : "Save"}
             </button>
+            {stored && (
+              <button
+                onClick={remove}
+                className="px-4 py-2.5 border border-[#2A3E4A]/14 text-[#6B5E4E] text-xs tracking-wide hover:border-[#2A3E4A]/30 hover:text-[#1E1A14] transition-colors"
+              >
+                Remove
+              </button>
+            )}
+          </div>
+
+          {gaId && !isValid && (
+            <p className="text-[11px] text-red-500/70 mt-2 flex items-center gap-1">
+              <AlertCircle size={10} /> Must begin with G-
+            </p>
           )}
         </div>
 
-        {gaId && !isValid && (
-          <p className="text-[11px] text-red-500/70 mt-2 flex items-center gap-1">
-            <AlertCircle size={10} /> Must begin with G-
-          </p>
+        {/* Open GA dashboard */}
+        {stored && (
+          <a
+            href="https://analytics.google.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between p-5 border border-[#2A3E4A]/14 hover:border-[#2A3E4A]/30 transition-colors group bg-white"
+          >
+            <div>
+              <p className="text-sm font-semibold text-[#1E1A14] mb-0.5">Open Google Analytics</p>
+              <p className="text-[11px] text-[#6B5E4E]">
+                Real-time visitors · traffic sources · page events · conversions
+              </p>
+            </div>
+            <ExternalLink size={14} className="text-[#6B5E4E] group-hover:text-[#2A3E4A] transition-colors flex-shrink-0" />
+          </a>
         )}
-      </div>
 
-      {/* Open GA dashboard */}
-      {stored && (
-        <a
-          href="https://analytics.google.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-between p-5 border border-[#2A3E4A]/14 hover:border-[#2A3E4A]/30 transition-colors group bg-white"
-        >
-          <div>
-            <p className="text-sm font-semibold text-[#1E1A14] mb-0.5">Open Google Analytics</p>
-            <p className="text-[11px] text-[#6B5E4E]">
-              Real-time visitors · traffic sources · page events · conversions
+        {/* Setup guide (shown when no ID is configured) */}
+        {!stored && (
+          <div className="border border-[#2A3E4A]/14 p-6 bg-white">
+            <p className="text-[10px] tracking-[0.25em] uppercase text-[#7A5C3A] font-medium mb-4">
+              Setup guide
             </p>
+            <ol className="space-y-3">
+              {[
+                <>Go to <a href="https://analytics.google.com" target="_blank" rel="noopener noreferrer" className="text-[#2A3E4A] underline underline-offset-2">analytics.google.com</a> and sign in.</>,
+                <>Create a property for <strong>cherishconsulting.com</strong> if you haven't already.</>,
+                <>Copy your <strong>Measurement ID</strong> — it starts with G-.</>,
+                <>Paste it above and click <strong>Save</strong>. Tracking activates on the next page load.</>,
+              ].map((step, i) => (
+                <li key={i} className="flex items-start gap-3 text-xs text-[#6B5E4E] leading-relaxed">
+                  <span className="text-[#2A3E4A]/30 flex-shrink-0 w-4 font-mono">{i + 1}.</span>
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ol>
           </div>
-          <ExternalLink size={14} className="text-[#6B5E4E] group-hover:text-[#2A3E4A] transition-colors flex-shrink-0" />
-        </a>
-      )}
+        )}
 
-      {/* Setup guide (shown when no ID is configured) */}
-      {!stored && (
-        <div className="border border-[#2A3E4A]/14 p-6 bg-white">
-          <p className="text-[10px] tracking-[0.25em] uppercase text-[#7A5C3A] font-medium mb-4">
-            Setup guide
-          </p>
-          <ol className="space-y-3">
-            {[
-              <>Go to <a href="https://analytics.google.com" target="_blank" rel="noopener noreferrer" className="text-[#2A3E4A] underline underline-offset-2">analytics.google.com</a> and sign in.</>,
-              <>Create a property for <strong>cherishconsulting.com</strong> if you haven't already.</>,
-              <>Copy your <strong>Measurement ID</strong> — it starts with G-.</>,
-              <>Paste it above and click <strong>Save</strong>. Tracking activates on the next page load.</>,
-            ].map((step, i) => (
-              <li key={i} className="flex items-start gap-3 text-xs text-[#6B5E4E] leading-relaxed">
-                <span className="text-[#2A3E4A]/30 flex-shrink-0 w-4 font-mono">{i + 1}.</span>
-                <span>{step}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }
 
@@ -264,7 +339,7 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-[#F2EDE4]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
       {/* Top bar */}
-      <header className="bg-[#2A3E4A] border-b border-white/8">
+      <header className="print:hidden bg-[#2A3E4A] border-b border-white/8">
         <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-sm font-semibold tracking-widest uppercase text-white/90"
@@ -293,7 +368,7 @@ export default function AdminPage() {
       </header>
 
       {/* Tab bar */}
-      <div className="bg-[#2A3E4A] border-b border-white/8">
+      <div className="print:hidden bg-[#2A3E4A] border-b border-white/8">
         <div className="max-w-3xl mx-auto px-6 flex">
           {(
             [
