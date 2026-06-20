@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import {
-  Menu, X, Phone, Mail, ChevronRight, BookOpen, ExternalLink,
+import { Phone, Mail, ChevronRight, BookOpen,
   Heart, Shield, Users, Brain, Activity, ClipboardList,
   GraduationCap, MapPin,
 } from "lucide-react";
 import { CookieBanner } from "./components/CookieBanner";
+import { SiteNav } from "./components/SiteNav";
+import { SiteFooter } from "./components/SiteFooter";
 
 function StarDivider({ count = 3, className = "" }: { count?: number; className?: string }) {
   return (
@@ -18,138 +18,21 @@ function StarDivider({ count = 3, className = "" }: { count?: number; className?
   );
 }
 
-function VeteranOwnedBadge() {
-  return (
-    <div className="flex items-center gap-1.5 border border-accent/30 px-2.5 py-1">
-      <span className="text-accent" style={{ fontSize: "0.55rem" }}>★</span>
-      <span className="text-[8px] tracking-[0.2em] uppercase text-accent font-semibold">Veteran-Owned</span>
-      <span className="text-accent" style={{ fontSize: "0.55rem" }}>★</span>
-    </div>
-  );
-}
-
 const services = [
-  { icon: Heart, title: "Life Coaching & Wellness", desc: "Holistic health and wellness guidance tailored to your life circumstances and goals." },
-  { icon: Shield, title: "Veterans & Military Families", desc: "Specialized counseling for soldiers, veterans, and the families who stand beside them." },
-  { icon: Brain, title: "Mental Health Treatment", desc: "Evidence-based care for anxiety, depression, PTSD, and related conditions." },
-  { icon: Activity, title: "Stress & Anger Management", desc: "Practical, lasting tools for managing stress — the defining challenge of our era." },
-  { icon: Users, title: "Substance Abuse Treatment", desc: "Compassionate support for those navigating addiction and early recovery." },
-  { icon: Heart, title: "Cancer Survivor Support", desc: "Therapeutic presence through diagnosis, treatment, and life beyond cancer." },
-  { icon: ClipboardList, title: "DOT-SAP & DWI Evaluations", desc: "Certified evaluations for DOT Substance Abuse Program and DWI/DUI requirements." },
-  { icon: GraduationCap, title: "Clinical Supervision", desc: "Professional supervision and consultation for graduate counseling interns." },
-];
-
-// SOF-54: Selling Books — subtasks SOF-60 through SOF-64 are line items below
-const books = [
-  {
-    title: "Moving Beyond Stress",
-    type: "E-Book", year: "2018",
-    desc: "A practical learning tool for stress reduction with quizzes, breathing techniques, and strategies for identifying and managing life's stressors.",
-    url: "https://www.amazon.com/Moving-Beyond-Stress-Carol-Cherich-ebook/dp/B091DTLHXN/",
-  },
-  {
-    title: "Addicted Parents in Recovery & Treatment",
-    type: "E-Book", year: "2013",
-    desc: "A relapse-prevention curriculum covering stress management, parenting skills, childcare resources, and money management for families in recovery.",
-    url: "https://www.amazon.com/Addicted-parents-treatment-recovery-Cherich-ebook/dp/B0CTHSMV46/",
-  },
-  {
-    title: "Chair Yoga",
-    type: "E-Book", year: "2024",
-    desc: "Accessible yoga adapted for all ages and ability levels, written by a 200-hour certified instructor and licensed mental health clinician.",
-    url: "https://www.amazon.com/Chair-Yoga-Carol-Cherich-ebook/dp/B0D8B9JBDP/",
-  },
-  {
-    title: "Breast Cancer Support Curriculum",
-    type: "E-Book", year: "2024",
-    desc: "An inspirational self-help and teaching guide for patients, counselors, nurses, and caregivers navigating a breast cancer diagnosis.",
-    url: "https://www.amazon.com/Breast-cancer-support-curriculum-Cherich-ebook/dp/B0D89M759R/",
-  },
-  {
-    title: "Psychosocial Stress and Alcohol Abuse Among Hispanic Males",
-    type: "Research Paper", year: "2014",
-    desc: "Research examining psychosocial stressors, cultural factors, and their relationship to alcohol use among Hispanic male populations.",
-    url: "https://www.amazon.com/Psychosocial-stress-alcohol-abuse-Hispanic-ebook/dp/B0D8C2PMJ1/",
-  },
-];
-
-// SOF-59: Walking the Labyrinth — subtasks SOF-66 through SOF-69 are video line items below
-const labyrinthVideos = [
-  { title: "What is a Labyrinth", id: "Yy1GG91HqwU" },
-  { title: "Inside the Ancient Practice of Labyrinth Walking", id: "Nbss93ILx2A" },
-  { title: "A Story of Life and Labyrinths", id: "CC7tG6png1E" },
-  { title: "Labyrinth History & Walking", id: "o7u80ZLEh3M" },
+  { icon: Heart,        title: "Life Coaching & Wellness",        desc: "Holistic health and wellness guidance tailored to your life circumstances and goals." },
+  { icon: Shield,       title: "Veterans & Military Families",     desc: "Specialized counseling for soldiers, veterans, and the families who stand beside them." },
+  { icon: Brain,        title: "Mental Health Treatment",          desc: "Evidence-based care for anxiety, depression, PTSD, and related conditions." },
+  { icon: Activity,     title: "Stress & Anger Management",        desc: "Practical, lasting tools for managing stress — the defining challenge of our era." },
+  { icon: Users,        title: "Substance Abuse Treatment",        desc: "Compassionate support for those navigating addiction and early recovery." },
+  { icon: Heart,        title: "Cancer Survivor Support",          desc: "Therapeutic presence through diagnosis, treatment, and life beyond cancer." },
+  { icon: ClipboardList,title: "DOT-SAP & DWI Evaluations",       desc: "Certified evaluations for DOT Substance Abuse Program and DWI/DUI requirements." },
+  { icon: GraduationCap,title: "Clinical Supervision",            desc: "Professional supervision and consultation for graduate counseling interns." },
 ];
 
 export default function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 48);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
     <div className="min-h-screen bg-background text-foreground" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-      {/* NAV */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${ scrolled ? "bg-background/95 backdrop-blur-md border-b border-border shadow-sm" : "bg-transparent" }`}>
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
-          <div className="flex items-center gap-4">
-            <a href="#" className="flex flex-col leading-none">
-              <span className="text-base font-semibold tracking-widest uppercase text-primary" style={{ fontFamily: "'Lora', serif" }}>Cherish</span>
-              <span className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground font-medium">Consulting</span>
-            </a>
-            <VeteranOwnedBadge />
-          </div>
-          <div className="hidden md:flex items-center gap-6">
-            {[
-              { label: "About", href: "#about" },
-              { label: "Services", href: "#services" },
-              { label: "Books", href: "#books" },
-              { label: "ESA", href: "#esa" },
-              { label: "Labyrinths", href: "#labyrinths" },
-              { label: "Contact", href: "#contact" },
-            ].map(({ label, href }) => (
-              <a key={label} href={href} className="text-sm text-foreground/60 hover:text-foreground transition-colors tracking-wide">{label}</a>
-            ))}
-            {/* SOF-57: External Resources */}
-            {[
-              { label: "VA PTSD", href: "https://www.ptsd.va.gov/appvid/video/index.asp" },
-              { label: "Veterans Courses", href: "https://learn.psycharmor.org/collections" },
-            ].map(({ label, href }) => (
-              <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="text-sm text-foreground/60 hover:text-foreground transition-colors tracking-wide flex items-center gap-1">
-                {label}<ExternalLink size={10} className="opacity-60" />
-              </a>
-            ))}
-            <a href="#contact" className="px-5 py-2 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity">Schedule a Session</a>
-          </div>
-          <button className="md:hidden text-foreground p-1" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-        {menuOpen && (
-          <div className="md:hidden bg-background border-t border-border px-6 py-5 flex flex-col gap-5">
-            {[
-              { label: "About", href: "#about" },
-              { label: "Services", href: "#services" },
-              { label: "Books", href: "#books" },
-              { label: "ESA", href: "#esa" },
-              { label: "Labyrinths", href: "#labyrinths" },
-              { label: "Contact", href: "#contact" },
-              { label: "VA PTSD", href: "https://www.ptsd.va.gov/appvid/video/index.asp", external: true },
-              { label: "Veterans Courses", href: "https://learn.psycharmor.org/collections", external: true },
-            ].map(({ label, href, external }) => (
-              <a key={label} href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}
-                className="text-sm text-foreground/70 hover:text-foreground flex items-center gap-1.5" onClick={() => setMenuOpen(false)}>
-                {label}{external && <ExternalLink size={10} className="opacity-50" />}
-              </a>
-            ))}
-            <a href="#contact" className="px-5 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase text-center" onClick={() => setMenuOpen(false)}>Schedule a Session</a>
-          </div>
-        )}
-      </nav>
+      <SiteNav />
 
       {/* HERO */}
       <section className="min-h-screen grid md:grid-cols-[1fr_1fr]">
@@ -191,7 +74,7 @@ export default function App() {
           <div className="absolute bottom-8 left-8 right-8 md:right-auto md:max-w-xs bg-background/92 backdrop-blur-sm overflow-hidden">
             <div className="flex h-1"><div className="flex-1 bg-[#1C2B4A]" /><div className="flex-1 bg-background/60" /><div className="flex-1 bg-[#8B2020]" /></div>
             <div className="p-5 border-l-2 border-primary">
-              <p className="text-[0.8rem] text-foreground/70 italic leading-relaxed">“Stress is the disease of the twenty-first century — but it doesn’t have to define your life.”</p>
+              <p className="text-[0.8rem] text-foreground/70 italic leading-relaxed">"Stress is the disease of the twenty-first century — but it doesn't have to define your life."</p>
               <p className="text-[10px] text-primary mt-3 font-semibold tracking-wide uppercase">— Dr. Carol J. Cherich</p>
             </div>
           </div>
@@ -243,7 +126,7 @@ export default function App() {
         <div className="max-w-3xl mx-auto px-6 text-center">
           <div className="w-px h-14 bg-primary-foreground/25 mx-auto mb-10" />
           <blockquote className="text-2xl md:text-3xl lg:text-4xl leading-relaxed italic" style={{ fontFamily: "'Lora', serif", fontWeight: 400 }}>
-            “Stress is the disease of the twenty-first century. Left unmanaged, it touches every dimension of life — and met with courage, it becomes the gateway to resilience.”
+            "Stress is the disease of the twenty-first century. Left unmanaged, it touches every dimension of life — and met with courage, it becomes the gateway to resilience."
           </blockquote>
           <div className="w-px h-14 bg-primary-foreground/25 mx-auto mt-10 mb-8" />
           <p className="text-[10px] tracking-[0.25em] uppercase text-primary-foreground/50 font-medium">Dr. Carol J. Cherich, PhD — Core Philosophy</p>
@@ -260,7 +143,7 @@ export default function App() {
             <div className="text-center px-8 py-4">
               <StarDivider count={5} className="justify-center mb-4" />
               <p className="text-3xl md:text-4xl text-white mb-3" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>For Those Who Served</p>
-              <p className="text-sm text-white/60 leading-relaxed max-w-xs mx-auto">Dr. Cherich’s military background as an active-duty medic grounds her work with veterans in genuine understanding — not just clinical training.</p>
+              <p className="text-sm text-white/60 leading-relaxed max-w-xs mx-auto">Dr. Cherich's military background as an active-duty medic grounds her work with veterans in genuine understanding — not just clinical training.</p>
             </div>
             <div className="hidden md:block bg-white/10" />
             <div className="text-center px-8 py-4 mt-8 md:mt-0">
@@ -277,7 +160,7 @@ export default function App() {
             <div className="text-center px-8 py-4 mt-8 md:mt-0 flex flex-col items-center justify-center">
               <div className="border border-white/20 p-5 max-w-xs">
                 <StarDivider count={5} className="justify-center mb-3" />
-                <p className="text-sm text-white/70 italic leading-relaxed">“I know what it costs to serve. That experience is at the heart of every session I offer veterans and their families.”</p>
+                <p className="text-sm text-white/70 italic leading-relaxed">"I know what it costs to serve. That experience is at the heart of every session I offer veterans and their families."</p>
                 <p className="text-[9px] text-white/40 tracking-[0.2em] uppercase mt-3">— Dr. Carol J. Cherich</p>
               </div>
             </div>
@@ -300,131 +183,6 @@ export default function App() {
                 <div className="mb-5"><Icon size={16} className="text-primary group-hover:text-accent transition-colors" strokeWidth={1.5} /></div>
                 <h3 className="text-sm font-semibold text-foreground mb-2 leading-snug">{title}</h3>
                 <p className="text-xs text-foreground/50 leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* BOOKS — SOF-54 | Subtasks SOF-60 through SOF-64 are line items below */}
-      <section id="books" className="py-24 bg-secondary">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-center gap-3 mb-4"><StarDivider count={3} /><span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">Published Works</span></div>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
-            <h2 className="text-3xl md:text-4xl leading-tight text-foreground max-w-md" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>Books & E-Books</h2>
-            <p className="text-sm text-foreground/50 max-w-xs leading-relaxed">All titles available on Amazon. Click any book to purchase or preview.</p>
-          </div>
-          <div className="space-y-px">
-            {books.map(({ title, type, year, desc, url }, i) => (
-              <a key={title} href={url} target="_blank" rel="noopener noreferrer"
-                className="bg-secondary hover:bg-background transition-colors px-6 py-5 flex items-center justify-between gap-6 group border border-border/0 hover:border-border">
-                <div className="flex items-start gap-6 min-w-0 flex-1">
-                  <span className="text-2xl text-primary/20 w-9 flex-shrink-0 select-none pt-0.5" style={{ fontFamily: "'Lora', serif" }}>{String(i + 1).padStart(2, "0")}</span>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-semibold text-foreground mb-1">{title}</p>
-                    <p className="text-xs text-muted-foreground mb-2">{type} · {year}</p>
-                    <p className="text-xs text-foreground/50 leading-relaxed hidden sm:block">{desc}</p>
-                  </div>
-                </div>
-                <div className="flex-shrink-0 flex items-center gap-1.5 text-xs tracking-widest uppercase text-primary group-hover:text-accent transition-colors font-medium">
-                  Buy <ExternalLink size={11} />
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* EMOTIONAL SUPPORT ANIMALS — SOF-58 / SOF-65 */}
-      <section id="esa" className="py-24 bg-background">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-center gap-3 mb-4"><StarDivider count={3} /><span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">Emotional Support</span></div>
-          <div className="grid md:grid-cols-[3fr_2fr] gap-14 lg:gap-20 items-start">
-            <div>
-              <h2 className="text-3xl md:text-4xl leading-tight text-foreground mb-6" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>Emotional Support Animal Letters</h2>
-              <p className="text-[0.95rem] text-foreground/60 leading-relaxed mb-5">
-                An Emotional Support Animal is more than a pet — it is a companion prescribed by a licensed mental-health professional to help its handler manage a diagnosed psychological or emotional disability. Unlike a service dog trained to perform specific tasks, an ESA's value lies in its calming presence, predictable routine, and unconditional affection.
-              </p>
-              <p className="text-[0.95rem] text-foreground/60 leading-relaxed mb-8">
-                With valid ESA documentation, a handler gains federal housing protections that ordinary pets do not receive. No federal law limits ESA species or size — dogs, cats, rabbits, birds, and others are eligible, provided the animal is safe and well-behaved.
-              </p>
-              <div className="space-y-3">
-                {[
-                  "The handler has a diagnosed emotional, psychological, or cognitive condition recognized by DSM-5.",
-                  "A licensed healthcare professional writes a letter explaining how the animal supports the person's condition.",
-                  "Must be in established care with Dr. Cherich (minimum 3 sessions) before annual renewal.",
-                ].map((point, i) => (
-                  <div key={i} className="flex items-start gap-2.5">
-                    <span className="text-accent flex-shrink-0 mt-0.5 leading-none" style={{ fontSize: "0.55rem" }}>★</span>
-                    <span className="text-sm text-foreground/65 leading-snug">{point}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="bg-secondary border border-border p-7">
-              <div className="w-px h-10 bg-primary/30 mb-6" />
-              <p className="text-[10px] tracking-[0.2em] uppercase text-accent font-medium mb-6">ESA Evaluation Fees</p>
-              <div className="space-y-5 mb-7">
-                <div className="pb-5 border-b border-border flex justify-between items-baseline gap-4">
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Initial Evaluation & Letter</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">Virtual session + documentation</p>
-                  </div>
-                  <span className="text-2xl text-primary flex-shrink-0" style={{ fontFamily: "'Lora', serif" }}>$300</span>
-                </div>
-                <div className="flex justify-between items-baseline gap-4">
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Annual Renewal</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">Established clients only</p>
-                  </div>
-                  <span className="text-2xl text-primary flex-shrink-0" style={{ fontFamily: "'Lora', serif" }}>$75</span>
-                </div>
-              </div>
-              <a href="tel:3019563185" className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity">
-                <Phone size={12} /> Call 301-956-3185
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* WALKING THE LABYRINTH — SOF-59 | Subtasks SOF-66 through SOF-69 are video line items below */}
-      <section id="labyrinths" className="py-24 bg-secondary">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-center gap-3 mb-4"><StarDivider count={3} /><span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">Mindfulness Practice</span></div>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-            <h2 className="text-3xl md:text-4xl leading-tight text-foreground max-w-md" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>Walking the Labyrinth</h2>
-            <p className="text-sm text-foreground/50 max-w-sm leading-relaxed">An ancient archetypal symbol used for walking meditation, prayer, and personal reflection — traced by millions across cultures and centuries.</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border mb-14">
-            {[
-              { step: "Remember", desc: "At the threshold — offer gratitude, set a healing intention." },
-              { step: "Release", desc: "Entering — quiet the mind and let go of mental chatter." },
-              { step: "Receive", desc: "At the center — pause, open your heart, and listen inward." },
-              { step: "Return", desc: "Outward — integrate your experience, restore and renew." },
-            ].map(({ step, desc }) => (
-              <div key={step} className="bg-secondary p-6 text-center">
-                <p className="text-sm font-semibold text-primary mb-2" style={{ fontFamily: "'Lora', serif" }}>{step}</p>
-                <p className="text-xs text-foreground/50 leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-          {/* SOF-66 · SOF-67 · SOF-68 · SOF-69 — video line items */}
-          <div className="grid sm:grid-cols-2 gap-6">
-            {labyrinthVideos.map(({ title, id }) => (
-              <div key={id} className="bg-background border border-border overflow-hidden">
-                <div className="relative aspect-video">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${id}`}
-                    title={title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="absolute inset-0 w-full h-full"
-                  />
-                </div>
-                <div className="px-4 py-3 border-t border-border">
-                  <p className="text-xs font-medium text-foreground/70 tracking-wide">{title}</p>
-                </div>
               </div>
             ))}
           </div>
@@ -490,20 +248,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-foreground text-background">
-        <div className="flex h-0.5"><div className="flex-1 bg-[#1C2B4A]" /><div className="flex-1 bg-background/20" /><div className="flex-1 bg-[#8B2020]" /></div>
-        <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-3">
-          <div>
-            <div className="flex items-center gap-3 mb-0.5">
-              <span className="text-sm tracking-widest uppercase" style={{ fontFamily: "'Lora', serif" }}>Cherish Consulting</span>
-              <span className="text-[#8B8060] text-[0.5rem] tracking-widest">★ ★ ★</span>
-            </div>
-            <p className="text-[10px] text-background/35 tracking-wide">Veteran-Owned · Mental Health & Wellness · Tennessee & Virginia</p>
-          </div>
-          <p className="text-[10px] text-background/35 tracking-wide">© 2024 Dr. Carol J. Cherich, PhD · Honoring All Who Serve</p>
-        </div>
-      </footer>
+      <SiteFooter />
       <CookieBanner />
     </div>
   );

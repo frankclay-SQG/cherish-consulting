@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import App from './app/App'
 import AdminPage from './app/AdminPage'
+import BooksPage from './app/pages/BooksPage'
+import ESAPage from './app/pages/ESAPage'
+import LabyrinthsPage from './app/pages/LabyrinthsPage'
 import './styles/index.css'
 
-// SOF-56: Dynamically load Google Analytics if a Measurement ID has been
-// saved via the /admin dashboard. Falls back silently if not configured.
+// SOF-56: Dynamically load Google Analytics if configured via /admin
 const savedGaId = localStorage.getItem('cherish_ga_id')
 if (savedGaId?.startsWith('G-')) {
   const s = document.createElement('script')
@@ -24,8 +26,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/"           element={<App />} />
+        <Route path="/books"      element={<BooksPage />} />
+        <Route path="/esa"        element={<ESAPage />} />
+        <Route path="/labyrinths" element={<LabyrinthsPage />} />
+        <Route path="/admin"      element={<AdminPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
