@@ -250,6 +250,28 @@ export default function App() {
               </a>
             ))}
             <a
+              href="/labyrinths"
+              className="text-sm tracking-wide transition-colors text-foreground/55 hover:text-foreground"
+            >
+              Labyrinths
+            </a>
+            <a
+              href="https://www.ptsd.va.gov/appvid/video/index.asp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm tracking-wide transition-colors text-foreground/55 hover:text-foreground"
+            >
+              VA PTSD
+            </a>
+            <a
+              href="https://learn.psycharmor.org/collections"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm tracking-wide transition-colors text-foreground/55 hover:text-foreground"
+            >
+              Veterans Courses
+            </a>
+            <a
               href="#contact"
               className="px-5 py-2 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
             >
@@ -278,6 +300,31 @@ export default function App() {
                 {link}
               </a>
             ))}
+            <a
+              href="/labyrinths"
+              className="text-sm text-foreground/70 hover:text-foreground"
+              onClick={() => setMenuOpen(false)}
+            >
+              Labyrinths
+            </a>
+            <a
+              href="https://www.ptsd.va.gov/appvid/video/index.asp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-foreground/70 hover:text-foreground"
+              onClick={() => setMenuOpen(false)}
+            >
+              VA PTSD
+            </a>
+            <a
+              href="https://learn.psycharmor.org/collections"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-foreground/70 hover:text-foreground"
+              onClick={() => setMenuOpen(false)}
+            >
+              Veterans Courses
+            </a>
             <a
               href="#contact"
               className="px-5 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase text-center"
