@@ -240,7 +240,7 @@ export default function App() {
           </div>
 
           <div className="hidden md:flex items-center gap-8 ml-auto">
-            {["About", "Services", "Publications", "Contact"].map((link) => (
+            {["About", "Services"].map((link) => (
               <a
                 key={link}
                 href={`#${link.toLowerCase()}`}
@@ -249,6 +249,12 @@ export default function App() {
                 {link}
               </a>
             ))}
+            <a
+              href="/books"
+              className="text-sm tracking-wide transition-colors text-foreground/55 hover:text-foreground"
+            >
+              Publications
+            </a>
             <a
               href="/labyrinths"
               className="text-sm tracking-wide transition-colors text-foreground/55 hover:text-foreground"
@@ -273,6 +279,12 @@ export default function App() {
             </a>
             <a
               href="#contact"
+              className={`text-sm tracking-wide transition-colors ${activeSection === "contact" ? "text-foreground border-b border-primary pb-0.5" : "text-foreground/55 hover:text-foreground"}`}
+            >
+              Contact
+            </a>
+            <a
+              href="#contact"
               className="px-5 py-2 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
             >
               Schedule a Session
@@ -290,7 +302,7 @@ export default function App() {
 
         {menuOpen && (
           <div className="md:hidden bg-background border-t border-border px-6 py-5 flex flex-col gap-5">
-            {["About", "Services", "Publications", "Contact"].map((link) => (
+            {["About", "Services"].map((link) => (
               <a
                 key={link}
                 href={`#${link.toLowerCase()}`}
@@ -300,6 +312,13 @@ export default function App() {
                 {link}
               </a>
             ))}
+            <a
+              href="/books"
+              className="text-sm text-foreground/70 hover:text-foreground"
+              onClick={() => setMenuOpen(false)}
+            >
+              Publications
+            </a>
             <a
               href="/labyrinths"
               className="text-sm text-foreground/70 hover:text-foreground"
@@ -324,6 +343,13 @@ export default function App() {
               onClick={() => setMenuOpen(false)}
             >
               Veterans Courses
+            </a>
+            <a
+              href="#contact"
+              className="text-sm text-foreground/70 hover:text-foreground"
+              onClick={() => setMenuOpen(false)}
+            >
+              Contact
             </a>
             <a
               href="#contact"
