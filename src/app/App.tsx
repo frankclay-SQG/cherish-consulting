@@ -193,7 +193,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const ids = ["about", "services", "publications", "contact"];
+    const ids = ["about", "services", "contact"];
     const observers = ids.map((id) => {
       const el = document.getElementById(id);
       if (!el) return null;
@@ -464,7 +464,7 @@ export default function App() {
           <div className="relative">
             <div className="aspect-[3/4] bg-muted overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=800&fit=crop&auto=format"
+                src="/carol-portrait.png"
                 alt="Dr. Carol J. Cherich, PhD, licensed mental health clinician"
                 loading="lazy"
                 className="w-full h-full object-cover"
@@ -662,64 +662,6 @@ export default function App() {
                 <h3 className="text-sm font-semibold text-foreground mb-2 leading-snug">{title}</h3>
                 <p className="text-xs text-foreground/50 leading-relaxed mb-4">{desc}</p>
                 <ChevronRight size={12} className="text-primary/0 group-hover:text-primary/60 transition-colors mt-auto" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── PUBLICATIONS ── */}
-      <section id="publications" className="py-24 bg-secondary">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-center gap-3 mb-4">
-            <StarDivider count={3} />
-            <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">
-              Published Works
-            </span>
-          </div>
-          <h2
-            className="text-3xl md:text-4xl leading-tight text-foreground mb-14 max-w-md"
-            style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
-          >
-            Research, Practice, and Insight
-          </h2>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {publications.map(({ title, type, year, image, buyUrl, description }) => (
-              <div
-                key={title}
-                className="bg-background border border-border flex flex-col group"
-              >
-                <div className="aspect-[2/3] overflow-hidden bg-muted relative">
-                  <img
-                    src={image}
-                    alt={title}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                  />
-                </div>
-                <div className="p-6 flex flex-col flex-1">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-[9px] tracking-[0.2em] uppercase text-accent font-medium">{type}</span>
-                    <span className="text-muted-foreground/40">·</span>
-                    <span className="text-[9px] tracking-[0.15em] text-muted-foreground">{year}</span>
-                  </div>
-                  <h3
-                    className="text-sm font-semibold text-foreground leading-snug mb-3"
-                    style={{ fontFamily: "'Lora', serif" }}
-                  >
-                    {title}
-                  </h3>
-                  <p className="text-xs text-foreground/50 leading-relaxed mb-5 flex-1">{description}</p>
-                  <a
-                    href={buyUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 border border-primary text-primary text-[10px] tracking-widest uppercase py-2 px-4 hover:bg-primary hover:text-primary-foreground transition-colors self-start"
-                  >
-                    Buy Now <ChevronRight size={10} />
-                  </a>
-                </div>
               </div>
             ))}
           </div>
