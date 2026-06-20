@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {
-  Menu, X, Phone, Mail, ChevronRight, BookOpen,
+  Menu, X, Phone, Mail, ChevronRight, BookOpen, ExternalLink,
   Heart, Shield, Users, Brain, Activity, ClipboardList,
   GraduationCap, MapPin,
 } from "lucide-react";
@@ -39,11 +39,46 @@ const services = [
   { icon: GraduationCap, title: "Clinical Supervision", desc: "Professional supervision and consultation for graduate counseling interns." },
 ];
 
-const publications = [
-  { title: "Moving Beyond Stress", type: "E-Book", year: "2018" },
-  { title: "Psychosocial Stress and Alcohol Abuse Among Hispanic Males", type: "Research Paper", year: "2014" },
-  { title: "Treatment and Recovery of Addicted Parents", type: "Research Paper", year: "2013" },
-  { title: "Outline for Yoga Class", type: "Practitioner Guide", year: "2020" },
+// SOF-54: Selling Books — subtasks SOF-60 through SOF-64 are line items below
+const books = [
+  {
+    title: "Moving Beyond Stress",
+    type: "E-Book", year: "2018",
+    desc: "A practical learning tool for stress reduction with quizzes, breathing techniques, and strategies for identifying and managing life's stressors.",
+    url: "https://www.amazon.com/Moving-Beyond-Stress-Carol-Cherich-ebook/dp/B091DTLHXN/",
+  },
+  {
+    title: "Addicted Parents in Recovery & Treatment",
+    type: "E-Book", year: "2013",
+    desc: "A relapse-prevention curriculum covering stress management, parenting skills, childcare resources, and money management for families in recovery.",
+    url: "https://www.amazon.com/Addicted-parents-treatment-recovery-Cherich-ebook/dp/B0CTHSMV46/",
+  },
+  {
+    title: "Chair Yoga",
+    type: "E-Book", year: "2024",
+    desc: "Accessible yoga adapted for all ages and ability levels, written by a 200-hour certified instructor and licensed mental health clinician.",
+    url: "https://www.amazon.com/Chair-Yoga-Carol-Cherich-ebook/dp/B0D8B9JBDP/",
+  },
+  {
+    title: "Breast Cancer Support Curriculum",
+    type: "E-Book", year: "2024",
+    desc: "An inspirational self-help and teaching guide for patients, counselors, nurses, and caregivers navigating a breast cancer diagnosis.",
+    url: "https://www.amazon.com/Breast-cancer-support-curriculum-Cherich-ebook/dp/B0D89M759R/",
+  },
+  {
+    title: "Psychosocial Stress and Alcohol Abuse Among Hispanic Males",
+    type: "Research Paper", year: "2014",
+    desc: "Research examining psychosocial stressors, cultural factors, and their relationship to alcohol use among Hispanic male populations.",
+    url: "https://www.amazon.com/Psychosocial-stress-alcohol-abuse-Hispanic-ebook/dp/B0D8C2PMJ1/",
+  },
+];
+
+// SOF-59: Walking the Labyrinth — subtasks SOF-66 through SOF-69 are video line items below
+const labyrinthVideos = [
+  { title: "What is a Labyrinth", id: "Yy1GG91HqwU" },
+  { title: "Inside the Ancient Practice of Labyrinth Walking", id: "Nbss93ILx2A" },
+  { title: "A Story of Life and Labyrinths", id: "CC7tG6png1E" },
+  { title: "Labyrinth History & Walking", id: "o7u80ZLEh3M" },
 ];
 
 export default function App() {
@@ -68,9 +103,25 @@ export default function App() {
             </a>
             <VeteranOwnedBadge />
           </div>
-          <div className="hidden md:flex items-center gap-8">
-            {["About", "Services", "Publications", "Contact"].map((link) => (
-              <a key={link} href={`#${link.toLowerCase()}`} className="text-sm text-foreground/60 hover:text-foreground transition-colors tracking-wide">{link}</a>
+          <div className="hidden md:flex items-center gap-6">
+            {[
+              { label: "About", href: "#about" },
+              { label: "Services", href: "#services" },
+              { label: "Books", href: "#books" },
+              { label: "ESA", href: "#esa" },
+              { label: "Labyrinths", href: "#labyrinths" },
+              { label: "Contact", href: "#contact" },
+            ].map(({ label, href }) => (
+              <a key={label} href={href} className="text-sm text-foreground/60 hover:text-foreground transition-colors tracking-wide">{label}</a>
+            ))}
+            {/* SOF-57: External Resources */}
+            {[
+              { label: "VA PTSD", href: "https://www.ptsd.va.gov/appvid/video/index.asp" },
+              { label: "Veterans Courses", href: "https://learn.psycharmor.org/collections" },
+            ].map(({ label, href }) => (
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="text-sm text-foreground/60 hover:text-foreground transition-colors tracking-wide flex items-center gap-1">
+                {label}<ExternalLink size={10} className="opacity-60" />
+              </a>
             ))}
             <a href="#contact" className="px-5 py-2 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity">Schedule a Session</a>
           </div>
@@ -80,8 +131,20 @@ export default function App() {
         </div>
         {menuOpen && (
           <div className="md:hidden bg-background border-t border-border px-6 py-5 flex flex-col gap-5">
-            {["About", "Services", "Publications", "Contact"].map((link) => (
-              <a key={link} href={`#${link.toLowerCase()}`} className="text-sm text-foreground/70 hover:text-foreground" onClick={() => setMenuOpen(false)}>{link}</a>
+            {[
+              { label: "About", href: "#about" },
+              { label: "Services", href: "#services" },
+              { label: "Books", href: "#books" },
+              { label: "ESA", href: "#esa" },
+              { label: "Labyrinths", href: "#labyrinths" },
+              { label: "Contact", href: "#contact" },
+              { label: "VA PTSD", href: "https://www.ptsd.va.gov/appvid/video/index.asp", external: true },
+              { label: "Veterans Courses", href: "https://learn.psycharmor.org/collections", external: true },
+            ].map(({ label, href, external }) => (
+              <a key={label} href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}
+                className="text-sm text-foreground/70 hover:text-foreground flex items-center gap-1.5" onClick={() => setMenuOpen(false)}>
+                {label}{external && <ExternalLink size={10} className="opacity-50" />}
+              </a>
             ))}
             <a href="#contact" className="px-5 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase text-center" onClick={() => setMenuOpen(false)}>Schedule a Session</a>
           </div>
@@ -243,22 +306,125 @@ export default function App() {
         </div>
       </section>
 
-      {/* PUBLICATIONS */}
-      <section id="publications" className="py-24 bg-secondary">
+      {/* BOOKS — SOF-54 | Subtasks SOF-60 through SOF-64 are line items below */}
+      <section id="books" className="py-24 bg-secondary">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex items-center gap-3 mb-4"><StarDivider count={3} /><span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">Published Works</span></div>
-          <h2 className="text-3xl md:text-4xl leading-tight text-foreground mb-14 max-w-md" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>Research, Practice, and Insight</h2>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
+            <h2 className="text-3xl md:text-4xl leading-tight text-foreground max-w-md" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>Books & E-Books</h2>
+            <p className="text-sm text-foreground/50 max-w-xs leading-relaxed">All titles available on Amazon. Click any book to purchase or preview.</p>
+          </div>
           <div className="space-y-px">
-            {publications.map(({ title, type, year }, i) => (
-              <div key={title} className="bg-secondary hover:bg-background transition-colors px-6 py-5 flex items-center justify-between gap-4 group cursor-pointer border border-border/0 hover:border-border">
-                <div className="flex items-center gap-6 min-w-0">
-                  <span className="text-2xl text-primary/20 w-9 flex-shrink-0 select-none" style={{ fontFamily: "'Lora', serif" }}>{String(i + 1).padStart(2, "0")}</span>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-foreground truncate">{title}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{type} · {year}</p>
+            {books.map(({ title, type, year, desc, url }, i) => (
+              <a key={title} href={url} target="_blank" rel="noopener noreferrer"
+                className="bg-secondary hover:bg-background transition-colors px-6 py-5 flex items-center justify-between gap-6 group border border-border/0 hover:border-border">
+                <div className="flex items-start gap-6 min-w-0 flex-1">
+                  <span className="text-2xl text-primary/20 w-9 flex-shrink-0 select-none pt-0.5" style={{ fontFamily: "'Lora', serif" }}>{String(i + 1).padStart(2, "0")}</span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-semibold text-foreground mb-1">{title}</p>
+                    <p className="text-xs text-muted-foreground mb-2">{type} · {year}</p>
+                    <p className="text-xs text-foreground/50 leading-relaxed hidden sm:block">{desc}</p>
                   </div>
                 </div>
-                <BookOpen size={13} strokeWidth={1.5} className="text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
+                <div className="flex-shrink-0 flex items-center gap-1.5 text-xs tracking-widest uppercase text-primary group-hover:text-accent transition-colors font-medium">
+                  Buy <ExternalLink size={11} />
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* EMOTIONAL SUPPORT ANIMALS — SOF-58 / SOF-65 */}
+      <section id="esa" className="py-24 bg-background">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex items-center gap-3 mb-4"><StarDivider count={3} /><span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">Emotional Support</span></div>
+          <div className="grid md:grid-cols-[3fr_2fr] gap-14 lg:gap-20 items-start">
+            <div>
+              <h2 className="text-3xl md:text-4xl leading-tight text-foreground mb-6" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>Emotional Support Animal Letters</h2>
+              <p className="text-[0.95rem] text-foreground/60 leading-relaxed mb-5">
+                An Emotional Support Animal is more than a pet — it is a companion prescribed by a licensed mental-health professional to help its handler manage a diagnosed psychological or emotional disability. Unlike a service dog trained to perform specific tasks, an ESA's value lies in its calming presence, predictable routine, and unconditional affection.
+              </p>
+              <p className="text-[0.95rem] text-foreground/60 leading-relaxed mb-8">
+                With valid ESA documentation, a handler gains federal housing protections that ordinary pets do not receive. No federal law limits ESA species or size — dogs, cats, rabbits, birds, and others are eligible, provided the animal is safe and well-behaved.
+              </p>
+              <div className="space-y-3">
+                {[
+                  "The handler has a diagnosed emotional, psychological, or cognitive condition recognized by DSM-5.",
+                  "A licensed healthcare professional writes a letter explaining how the animal supports the person's condition.",
+                  "Must be in established care with Dr. Cherich (minimum 3 sessions) before annual renewal.",
+                ].map((point, i) => (
+                  <div key={i} className="flex items-start gap-2.5">
+                    <span className="text-accent flex-shrink-0 mt-0.5 leading-none" style={{ fontSize: "0.55rem" }}>★</span>
+                    <span className="text-sm text-foreground/65 leading-snug">{point}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="bg-secondary border border-border p-7">
+              <div className="w-px h-10 bg-primary/30 mb-6" />
+              <p className="text-[10px] tracking-[0.2em] uppercase text-accent font-medium mb-6">ESA Evaluation Fees</p>
+              <div className="space-y-5 mb-7">
+                <div className="pb-5 border-b border-border flex justify-between items-baseline gap-4">
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Initial Evaluation & Letter</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Virtual session + documentation</p>
+                  </div>
+                  <span className="text-2xl text-primary flex-shrink-0" style={{ fontFamily: "'Lora', serif" }}>$300</span>
+                </div>
+                <div className="flex justify-between items-baseline gap-4">
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Annual Renewal</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Established clients only</p>
+                  </div>
+                  <span className="text-2xl text-primary flex-shrink-0" style={{ fontFamily: "'Lora', serif" }}>$75</span>
+                </div>
+              </div>
+              <a href="tel:3019563185" className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity">
+                <Phone size={12} /> Call 301-956-3185
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WALKING THE LABYRINTH — SOF-59 | Subtasks SOF-66 through SOF-69 are video line items below */}
+      <section id="labyrinths" className="py-24 bg-secondary">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex items-center gap-3 mb-4"><StarDivider count={3} /><span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">Mindfulness Practice</span></div>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+            <h2 className="text-3xl md:text-4xl leading-tight text-foreground max-w-md" style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}>Walking the Labyrinth</h2>
+            <p className="text-sm text-foreground/50 max-w-sm leading-relaxed">An ancient archetypal symbol used for walking meditation, prayer, and personal reflection — traced by millions across cultures and centuries.</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border mb-14">
+            {[
+              { step: "Remember", desc: "At the threshold — offer gratitude, set a healing intention." },
+              { step: "Release", desc: "Entering — quiet the mind and let go of mental chatter." },
+              { step: "Receive", desc: "At the center — pause, open your heart, and listen inward." },
+              { step: "Return", desc: "Outward — integrate your experience, restore and renew." },
+            ].map(({ step, desc }) => (
+              <div key={step} className="bg-secondary p-6 text-center">
+                <p className="text-sm font-semibold text-primary mb-2" style={{ fontFamily: "'Lora', serif" }}>{step}</p>
+                <p className="text-xs text-foreground/50 leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+          {/* SOF-66 · SOF-67 · SOF-68 · SOF-69 — video line items */}
+          <div className="grid sm:grid-cols-2 gap-6">
+            {labyrinthVideos.map(({ title, id }) => (
+              <div key={id} className="bg-background border border-border overflow-hidden">
+                <div className="relative aspect-video">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${id}`}
+                    title={title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                  />
+                </div>
+                <div className="px-4 py-3 border-t border-border">
+                  <p className="text-xs font-medium text-foreground/70 tracking-wide">{title}</p>
+                </div>
               </div>
             ))}
           </div>
