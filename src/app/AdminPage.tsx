@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Lock, BarChart2, BookOpen, LogOut,
-  ExternalLink, Check, AlertCircle, Eye, EyeOff, Printer,
+  ExternalLink, Check, AlertCircle, Eye, EyeOff, Printer, Search,
 } from "lucide-react";
 
 // ─────────────────────────────────────────────────────────
@@ -14,8 +14,90 @@ import {
 const MASTER_KEY = import.meta.env.VITE_ADMIN_KEY as string | undefined;
 const SESSION_FLAG = "cherish_admin_session";
 const GA_STORAGE_KEY = "cherish_ga_id";
+const SEO_STORAGE_KEY = "cherish_seo_settings";
 
-type Tab = "analytics" | "blog";
+type Tab = "analytics" | "seo" | "blog";
+
+// ── SEO types ─────────────────────────────────────────────
+
+interface PageSEO {
+  title: string;
+  description: string;
+  keywords: string;
+}
+
+interface SEOSettings {
+  site: PageSEO;
+  pages: Record<string, PageSEO>;
+}
+
+const PAGE_ROUTES: { key: string; label: string; path: string }[] = [
+  { key: "home",       label: "Home",         path: "/" },
+  { key: "books",      label: "Publications",  path: "/books" },
+  { key: "labyrinths", label: "Labyrinths",    path: "/labyrinths" },
+  { key: "esa",        label: "ESA Letters",   path: "/esa" },
+  { key: "tos",        label: "Terms of Service", path: "/tos" },
+  { key: "privacy",    label: "Privacy Policy", path: "/privacy" },
+];
+
+const DEFAULT_SEO: SEOSettings = {
+  site: {
+    title: "Cherish Consulting — Dr. Carol J. Cherich, PhD",
+    description:
+      "Veteran-owned mental health and wellness practice serving Tennessee and Virginia. Life coaching, PTSD support, substance abuse treatment, and more.",
+    keywords:
+      "mental health counseling, veterans counseling, life coaching, PTSD, Tennessee therapist, Virginia therapist, Cherish Consulting, Carol Cherich",
+  },
+  pages: {
+    home: {
+      title: "Cherish Consulting — Healing Through Experience, Grounded in Service",
+      description:
+        "Dr. Carol J. Cherich, PhD offers compassionate mental health treatment, veterans counseling, life coaching, and wellness services in Tennessee and Virginia.",
+      keywords: "mental health, veterans support, life coaching, PTSD treatment, Tennessee, Virginia",
+    },
+    books: {
+      title: "Books & E-Books — Cherish Consulting",
+      description:
+        "Published works by Dr. Carol J. Cherich spanning stress management, addiction recovery, chair yoga, cancer support, and clinical research. Available on Amazon.",
+      keywords: "Carol Cherich books, stress management ebook, addiction recovery, chair yoga, cancer support",
+    },
+    labyrinths: {
+      title: "Labyrinths — Cherish Consulting",
+      description:
+        "Explore the use of labyrinths as a meditative and therapeutic tool. Resources for veterans, mental health clinicians, and individuals seeking mindful movement.",
+      keywords: "labyrinth meditation, therapeutic labyrinths, mindfulness, veterans wellness",
+    },
+    esa: {
+      title: "ESA Letters — Cherish Consulting",
+      description:
+        "Emotional Support Animal evaluations and letters from a licensed mental health clinician. Dr. Carol J. Cherich, PhD provides professional ESA documentation.",
+      keywords: "ESA letter, emotional support animal, ESA evaluation, licensed therapist",
+    },
+    tos: {
+      title: "Terms of Service — Cherish Consulting",
+      description: "Terms of Service for Cherish Consulting, a veteran-owned mental health practice.",
+      keywords: "",
+    },
+    privacy: {
+      title: "Privacy Policy — Cherish Consulting",
+      description:
+        "Privacy Policy for Cherish Consulting. We do not sell your personal information. All PII and PHI is held in strict confidence.",
+      keywords: "",
+    },
+  },
+};
+
+function loadSEO(): SEOSettings {
+  try {
+    const raw = localStorage.getItem(SEO_STORAGE_KEY);
+    if (raw) return { ...DEFAULT_SEO, ...JSON.parse(raw) };
+  } catch {}
+  return DEFAULT_SEO;
+}
+
+function saveSEO(settings: SEOSettings) {
+  localStorage.setItem(SEO_STORAGE_KEY, JSON.stringify(settings));
+}
 
 // ── helpers ──────────────────────────────────────────────
 
@@ -292,6 +374,236 @@ function AnalyticsTab() {
   );
 }
 
+// ── SEO tab ───────────────────────────────────────────────
+
+function SEOTab() {
+  const [settings, setSettings] = useState<SEOSettings>(loadSEO);
+  const [saved, setSaved] = useState(false);
+  const [activeKey, setActiveKey] = useState("home");
+
+  const activePage = settings.pages[activeKey] ?? { title: "", description: "", keywords: "" };
+
+  function updatePage(field: keyof PageSEO, value: string) {
+    setSettings(prev => ({
+      ...prev,
+      pages: { ...prev.pages, [activeKey]: { ...prev.pages[activeKey], [field]: value } },
+    }));
+  }
+
+  function updateSite(field: keyof PageSEO, value: string) {
+    setSettings(prev => ({ ...prev, site: { ...prev.site, [field]: value } }));
+  }
+
+  function handleSave() {
+    saveSEO(settings);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  }
+
+  function handleReset() {
+    setSettings(DEFAULT_SEO);
+    saveSEO(DEFAULT_SEO);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  }
+
+  const titleLen = activePage.title.length;
+  const descLen = activePage.description.length;
+
+  return (
+    <div className="space-y-8">
+
+      {/* Info banner */}
+      <div className="border border-[#2A3E4A]/14 bg-white px-5 py-4">
+        <div className="flex items-start gap-3">
+          <AlertCircle size={14} className="text-[#2A3E4A]/50 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+          <p className="text-[11px] text-[#6B5E4E] leading-relaxed">
+            SEO settings are saved to this browser and applied at runtime. For best results, also update
+            your <strong>Vercel project's</strong>{" "}
+            <a
+              href="https://vercel.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-[#2A3E4A]"
+            >
+              environment variables
+            </a>{" "}
+            or hardcode meta tags in <code className="text-[10px] bg-[#F2EDE4] px-1 py-0.5">index.html</code> for
+            crawlers that don't execute JavaScript.
+          </p>
+        </div>
+      </div>
+
+      {/* Global site defaults */}
+      <section>
+        <div className="flex items-center gap-2 mb-4">
+          <h2 className="text-[10px] tracking-[0.25em] uppercase text-[#6B5E4E] font-semibold">
+            Site-Wide Defaults
+          </h2>
+          <div className="flex-1 h-px bg-[#2A3E4A]/8" />
+        </div>
+        <div className="border border-[#2A3E4A]/14 bg-white p-5 space-y-4">
+          <div>
+            <label className="text-[9px] tracking-[0.2em] uppercase text-[#6B5E4E] block mb-1.5">
+              Default Title
+            </label>
+            <input
+              type="text"
+              value={settings.site.title}
+              onChange={e => updateSite("title", e.target.value)}
+              className="w-full border border-[#2A3E4A]/14 bg-[#F2EDE4] px-3 py-2 text-sm text-[#1E1A14] focus:outline-none focus:border-[#2A3E4A]/40"
+              placeholder="Site name and tagline"
+            />
+          </div>
+          <div>
+            <label className="text-[9px] tracking-[0.2em] uppercase text-[#6B5E4E] block mb-1.5">
+              Default Description
+            </label>
+            <textarea
+              value={settings.site.description}
+              onChange={e => updateSite("description", e.target.value)}
+              rows={2}
+              className="w-full border border-[#2A3E4A]/14 bg-[#F2EDE4] px-3 py-2 text-sm text-[#1E1A14] focus:outline-none focus:border-[#2A3E4A]/40 resize-none"
+              placeholder="Fallback description for all pages"
+            />
+          </div>
+          <div>
+            <label className="text-[9px] tracking-[0.2em] uppercase text-[#6B5E4E] block mb-1.5">
+              Keywords (comma-separated)
+            </label>
+            <input
+              type="text"
+              value={settings.site.keywords}
+              onChange={e => updateSite("keywords", e.target.value)}
+              className="w-full border border-[#2A3E4A]/14 bg-[#F2EDE4] px-3 py-2 text-sm text-[#1E1A14] focus:outline-none focus:border-[#2A3E4A]/40"
+              placeholder="mental health, veterans, Tennessee"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Per-page SEO */}
+      <section>
+        <div className="flex items-center gap-2 mb-4">
+          <h2 className="text-[10px] tracking-[0.25em] uppercase text-[#6B5E4E] font-semibold">
+            Per-Page SEO
+          </h2>
+          <div className="flex-1 h-px bg-[#2A3E4A]/8" />
+        </div>
+
+        {/* Page tabs */}
+        <div className="flex flex-wrap gap-1 mb-4">
+          {PAGE_ROUTES.map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => setActiveKey(key)}
+              className={`px-3 py-1.5 text-[10px] tracking-wide uppercase transition-colors ${
+                activeKey === key
+                  ? "bg-[#2A3E4A] text-white"
+                  : "border border-[#2A3E4A]/14 text-[#6B5E4E] hover:border-[#2A3E4A]/30 hover:text-[#1E1A14] bg-white"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div className="border border-[#2A3E4A]/14 bg-white p-5 space-y-4">
+          {/* Title */}
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-[9px] tracking-[0.2em] uppercase text-[#6B5E4E]">
+                Page Title
+              </label>
+              <span className={`text-[9px] tracking-wide ${titleLen > 60 ? "text-red-500" : "text-[#6B5E4E]/60"}`}>
+                {titleLen}/60
+              </span>
+            </div>
+            <input
+              type="text"
+              value={activePage.title}
+              onChange={e => updatePage("title", e.target.value)}
+              className="w-full border border-[#2A3E4A]/14 bg-[#F2EDE4] px-3 py-2 text-sm text-[#1E1A14] focus:outline-none focus:border-[#2A3E4A]/40"
+              placeholder="Page Title — Site Name"
+            />
+          </div>
+
+          {/* Description */}
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-[9px] tracking-[0.2em] uppercase text-[#6B5E4E]">
+                Meta Description
+              </label>
+              <span className={`text-[9px] tracking-wide ${descLen > 160 ? "text-red-500" : descLen < 120 ? "text-amber-500" : "text-green-600"}`}>
+                {descLen}/160
+              </span>
+            </div>
+            <textarea
+              value={activePage.description}
+              onChange={e => updatePage("description", e.target.value)}
+              rows={3}
+              className="w-full border border-[#2A3E4A]/14 bg-[#F2EDE4] px-3 py-2 text-sm text-[#1E1A14] focus:outline-none focus:border-[#2A3E4A]/40 resize-none"
+              placeholder="2–3 sentence description for search engine results (120–160 chars)"
+            />
+          </div>
+
+          {/* Keywords */}
+          <div>
+            <label className="text-[9px] tracking-[0.2em] uppercase text-[#6B5E4E] block mb-1.5">
+              Keywords
+            </label>
+            <input
+              type="text"
+              value={activePage.keywords}
+              onChange={e => updatePage("keywords", e.target.value)}
+              className="w-full border border-[#2A3E4A]/14 bg-[#F2EDE4] px-3 py-2 text-sm text-[#1E1A14] focus:outline-none focus:border-[#2A3E4A]/40"
+              placeholder="keyword1, keyword2, keyword3"
+            />
+          </div>
+
+          {/* SERP Preview */}
+          <div className="pt-4 border-t border-[#2A3E4A]/8">
+            <p className="text-[9px] tracking-[0.2em] uppercase text-[#6B5E4E] mb-3">
+              Search Result Preview
+            </p>
+            <div className="bg-white border border-[#2A3E4A]/10 p-4 rounded">
+              <p className="text-[11px] text-[#6B5E4E]/60 mb-0.5">
+                cherishconsulting.com{PAGE_ROUTES.find(r => r.key === activeKey)?.path}
+              </p>
+              <p className="text-[#1a0dab] text-[15px] leading-snug mb-1 font-normal hover:underline cursor-pointer">
+                {activePage.title || settings.site.title || "Page Title"}
+              </p>
+              <p className="text-[#4d5156] text-[12px] leading-relaxed">
+                {activePage.description
+                  ? activePage.description.slice(0, 160)
+                  : settings.site.description?.slice(0, 160) || "Page description will appear here."}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Action buttons */}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={handleSave}
+          className="flex items-center gap-2 px-6 py-2.5 bg-[#2A3E4A] text-white text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
+        >
+          {saved ? <Check size={12} /> : null}
+          {saved ? "Saved" : "Save SEO Settings"}
+        </button>
+        <button
+          onClick={handleReset}
+          className="px-4 py-2.5 border border-[#2A3E4A]/14 text-[#6B5E4E] text-xs tracking-widest uppercase hover:border-[#2A3E4A]/30 hover:text-[#1E1A14] transition-colors"
+        >
+          Reset to Defaults
+        </button>
+      </div>
+
+    </div>
+  );
+}
+
 // ── Blog tab ──────────────────────────────────────────────
 
 function BlogTab() {
@@ -325,7 +637,7 @@ export default function AdminPage() {
   const [authed, setAuthed] = useState(
     () => sessionStorage.getItem(SESSION_FLAG) === "1"
   );
-  const [tab, setTab] = useState<Tab>("analytics");
+  const [tab, setTab] = useState<Tab>("seo");
 
   if (!authed) {
     return <LockScreen onUnlock={() => setAuthed(true)} />;
@@ -372,8 +684,9 @@ export default function AdminPage() {
         <div className="max-w-3xl mx-auto px-6 flex">
           {(
             [
+              { id: "seo"       as Tab, label: "SEO",       Icon: Search    },
               { id: "analytics" as Tab, label: "Analytics", Icon: BarChart2 },
-              { id: "blog" as Tab, label: "Blog", Icon: BookOpen },
+              { id: "blog"      as Tab, label: "Blog",      Icon: BookOpen  },
             ] as const
           ).map(({ id, label, Icon }) => (
             <button
@@ -394,7 +707,7 @@ export default function AdminPage() {
 
       {/* Content */}
       <main className="max-w-3xl mx-auto px-6 py-10">
-        {tab === "analytics" ? <AnalyticsTab /> : <BlogTab />}
+        {tab === "seo" ? <SEOTab /> : tab === "analytics" ? <AnalyticsTab /> : <BlogTab />}
       </main>
     </div>
   );

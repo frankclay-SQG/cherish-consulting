@@ -57,9 +57,9 @@ function CookieBanner() {
             Decline
           </button>
         </div>
-        <button className="text-[10px] text-primary underline underline-offset-2 hover:opacity-80">
+        <a href="/privacy" className="text-[10px] text-primary underline underline-offset-2 hover:opacity-80">
           Privacy Policy
-        </button>
+        </a>
       </div>
     </div>
   );
@@ -225,16 +225,8 @@ export default function App() {
       >
         <div className="max-w-6xl mx-auto px-6 flex items-center h-16 gap-10">
           <div className="flex items-center gap-4">
-            <a href="#" className="flex flex-col leading-none">
-              <span
-                className="text-base font-semibold tracking-widest uppercase text-primary"
-                style={{ fontFamily: "'Lora', serif" }}
-              >
-                Cherish
-              </span>
-              <span className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground font-medium">
-                Consulting
-              </span>
+            <a href="#" aria-label="Cherish Consulting home">
+              <img src="/cherish-logo.png" alt="Cherish Consulting" className="h-10 w-auto" />
             </a>
             <VeteranOwnedBadge />
           </div>
@@ -823,7 +815,7 @@ export default function App() {
           <div className="flex-1 bg-background/20" />
           <div className="flex-1 bg-[#8B2020]" />
         </div>
-        <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-0.5">
               <span
@@ -838,9 +830,20 @@ export default function App() {
               Veteran-Owned · Mental Health & Wellness · Tennessee & Virginia
             </p>
           </div>
-          <p className="text-[10px] text-background/35 tracking-wide">
-            © 2024 Dr. Carol J. Cherich, PhD · Honoring All Who Serve
-          </p>
+          <div className="flex flex-col items-center md:items-end gap-2">
+            <p className="text-[10px] text-background/35 tracking-wide">
+              © {new Date().getFullYear()} Dr. Carol J. Cherich, PhD · Honoring All Who Serve
+            </p>
+            <div className="flex items-center gap-4">
+              <a href="/tos" className="text-[10px] text-background/40 hover:text-background/70 tracking-wide transition-colors">
+                Terms of Service
+              </a>
+              <span className="text-background/20 text-[10px]">·</span>
+              <a href="/privacy" className="text-[10px] text-background/40 hover:text-background/70 tracking-wide transition-colors">
+                Privacy Policy
+              </a>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

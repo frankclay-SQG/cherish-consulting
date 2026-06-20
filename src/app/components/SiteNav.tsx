@@ -90,13 +90,8 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
       <div className="max-w-6xl mx-auto px-6 flex items-center h-16 gap-10">
         {/* Logo */}
         <div className="flex items-center gap-4">
-          <Link to="/" className="flex flex-col leading-none">
-            <span className="text-base font-semibold tracking-widest uppercase text-primary" style={{ fontFamily: "'Lora', serif" }}>
-              Cherish
-            </span>
-            <span className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground font-medium">
-              Consulting
-            </span>
+          <Link to="/" aria-label="Cherish Consulting home">
+            <img src="/cherish-logo.png" alt="Cherish Consulting" className="h-10 w-auto" />
           </Link>
           <VeteranOwnedBadge />
         </div>
