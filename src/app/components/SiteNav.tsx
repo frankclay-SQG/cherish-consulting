@@ -91,7 +91,7 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
         {/* Logo */}
         <div className="flex items-center gap-4">
           <Link to="/" aria-label="Cherich Consulting home">
-            <img src="/cherish-logo.png" alt="Cherich Consulting" className="h-10 w-auto" />
+            <img src="/cherich-logo.png" alt="Cherich Consulting" className="h-10 w-auto" />
           </Link>
           <VeteranOwnedBadge />
         </div>

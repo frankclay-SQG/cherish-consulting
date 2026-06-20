@@ -11,7 +11,7 @@ import PrivacyPage from './app/pages/PrivacyPage'
 import './styles/index.css'
 
 // SOF-56: Dynamically load Google Analytics if configured via /admin
-const savedGaId = localStorage.getItem('cherish_ga_id')
+const savedGaId = localStorage.getItem('cherich_ga_id')
 if (savedGaId?.startsWith('G-')) {
   const s = document.createElement('script')
   s.async = true

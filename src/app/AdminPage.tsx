@@ -12,9 +12,9 @@ import {
 // auth, wire up Sanity's identity or a backend session.
 // ─────────────────────────────────────────────────────────
 const MASTER_KEY = import.meta.env.VITE_ADMIN_KEY as string | undefined;
-const SESSION_FLAG = "cherish_admin_session";
-const GA_STORAGE_KEY = "cherish_ga_id";
-const SEO_STORAGE_KEY = "cherish_seo_settings";
+const SESSION_FLAG = "cherich_admin_session";
+const GA_STORAGE_KEY = "cherich_ga_id";
+const SEO_STORAGE_KEY = "cherich_seo_settings";
 
 type Tab = "analytics" | "seo" | "blog";
 
@@ -232,12 +232,12 @@ function AnalyticsTab() {
           <tbody>
             {(
               [
-                ["Platform", "cherishconsulting.com"],
+                ["Platform", "cherichconsulting.com"],
                 ["Analytics Service", "Google Analytics 4"],
                 ["Status", stored ? "● Active" : "○ Not configured"],
                 ["Measurement ID", stored || "—"],
                 ["Activation", "Dynamic — loads on each site visit when an ID is saved"],
-                ["Managed via", "cherishconsulting.com/admin · Analytics tab"],
+                ["Managed via", "cherichconsulting.com/admin · Analytics tab"],
               ] as [string, string][]
             ).map(([label, value]) => (
               <tr key={label} style={{ borderBottom: "1px solid rgba(42,62,74,0.1)" }}>
@@ -356,7 +356,7 @@ function AnalyticsTab() {
             <ol className="space-y-3">
               {[
                 <>Go to <a href="https://analytics.google.com" target="_blank" rel="noopener noreferrer" className="text-[#2A3E4A] underline underline-offset-2">analytics.google.com</a> and sign in.</>,
-                <>Create a property for <strong>cherishconsulting.com</strong> if you haven't already.</>,
+                <>Create a property for <strong>cherichconsulting.com</strong> if you haven't already.</>,
                 <>Copy your <strong>Measurement ID</strong> — it starts with G-.</>,
                 <>Paste it above and click <strong>Save</strong>. Tracking activates on the next page load.</>,
               ].map((step, i) => (
@@ -568,7 +568,7 @@ function SEOTab() {
             </p>
             <div className="bg-white border border-[#2A3E4A]/10 p-4 rounded">
               <p className="text-[11px] text-[#6B5E4E]/60 mb-0.5">
-                cherishconsulting.com{PAGE_ROUTES.find(r => r.key === activeKey)?.path}
+                cherichconsulting.com{PAGE_ROUTES.find(r => r.key === activeKey)?.path}
               </p>
               <p className="text-[#1a0dab] text-[15px] leading-snug mb-1 font-normal hover:underline cursor-pointer">
                 {activePage.title || settings.site.title || "Page Title"}
@@ -656,7 +656,7 @@ export default function AdminPage() {
           <div className="flex items-center gap-3">
             <span className="text-sm font-semibold tracking-widest uppercase text-white/90"
               style={{ fontFamily: "'Lora', serif" }}>
-              Cherish
+              Cherich
             </span>
             <span className="text-[9px] tracking-[0.25em] uppercase text-white/30 border-l border-white/12 pl-3">
               Admin

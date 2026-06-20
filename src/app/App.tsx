@@ -5,7 +5,7 @@ import {
   GraduationCap, MapPin, Cookie,
 } from "lucide-react";
 
-const COOKIE_CONSENT_KEY = "cherish_cookie_consent";
+const COOKIE_CONSENT_KEY = "cherich_cookie_consent";
 
 type CookieChoice = "all" | "essential" | "declined";
 
@@ -226,7 +226,7 @@ export default function App() {
         <div className="max-w-6xl mx-auto px-6 flex items-center h-16 gap-10">
           <div className="flex items-center gap-4">
             <a href="#" aria-label="Cherich Consulting home">
-              <img src="/cherish-logo.png" alt="Cherich Consulting" className="h-10 w-auto" />
+              <img src="/cherich-logo.png" alt="Cherich Consulting" className="h-10 w-auto" />
             </a>
             <VeteranOwnedBadge />
           </div>
@@ -692,8 +692,8 @@ export default function App() {
                 {
                   icon: Mail,
                   label: "Email",
-                  value: "drcarol@cherishconsulting.com",
-                  href: "mailto:drcarol@cherishconsulting.com",
+                  value: "drcarol@cherichconsulting.com",
+                  href: "mailto:drcarol@cherichconsulting.com",
                 },
                 {
                   icon: MapPin,

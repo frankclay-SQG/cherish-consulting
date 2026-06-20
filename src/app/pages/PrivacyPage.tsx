@@ -60,7 +60,7 @@ export default function PrivacyPage() {
                 Cherich, PhD, serving clients in Tennessee and Virginia. This Privacy Policy describes how we
                 collect, use, and protect information gathered through our website at{" "}
                 <a href="https://cherishconsulting.com" className="text-primary hover:opacity-80 underline underline-offset-2">
-                  cherishconsulting.com
+                  cherichconsulting.com
                 </a>{" "}
                 (the "Site").
               </p>
@@ -213,10 +213,10 @@ export default function PrivacyPage() {
                 <p>
                   Email:{" "}
                   <a
-                    href="mailto:drcarol@cherishconsulting.com"
+                    href="mailto:drcarol@cherichconsulting.com"
                     className="text-primary hover:opacity-80 underline underline-offset-2"
                   >
-                    drcarol@cherishconsulting.com
+                    drcarol@cherichconsulting.com
                   </a>
                 </p>
                 <p>Serving Tennessee &amp; Virginia</p>
