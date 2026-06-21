@@ -8,6 +8,8 @@ import ESAPage from './app/pages/ESAPage'
 import LabyrinthsPage from './app/pages/LabyrinthsPage'
 import ToSPage from './app/pages/ToSPage'
 import PrivacyPage from './app/pages/PrivacyPage'
+import BlogPage from './app/pages/BlogPage'
+import BlogPostPage from './app/pages/BlogPostPage'
 import './styles/index.css'
 
 // SOF-56: Dynamically load Google Analytics if configured via /admin
@@ -35,6 +37,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/admin"      element={<AdminPage />} />
         <Route path="/tos"        element={<ToSPage />} />
         <Route path="/privacy"    element={<PrivacyPage />} />
+        <Route path="/blog"       element={<BlogPage />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

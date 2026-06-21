@@ -23,6 +23,7 @@ function isPageItem(item: NavItem): item is PageItem {
 const NAV_ITEMS: NavItem[] = [
   { label: "About",            href: "/#about" },
   { label: "Services",         href: "/#services" },
+  { label: "Blog",             to:   "/blog" },
   { label: "Publications",     to:   "/books" },
   { label: "Labyrinths",       to:   "/labyrinths" },
   { label: "VA PTSD",          href: "https://www.ptsd.va.gov/appvid/video/index.asp", external: true },
