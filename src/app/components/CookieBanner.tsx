@@ -12,14 +12,14 @@ export function CookieBanner({ onConsentChange }: CookieBannerProps) {
   const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
-    const consent = localStorage.getItem("cookieConsent") as CookieConsent;
+    const consent = localStorage.getItem("cherich_cookie_consent") as CookieConsent;
     if (!consent) {
       setIsVisible(true);
     }
   }, []);
 
   const handleConsent = (choice: CookieConsent) => {
-    localStorage.setItem("cookieConsent", choice as string);
+    localStorage.setItem("cherich_cookie_consent", choice as string);
     setIsVisible(false);
     onConsentChange?.(choice);
   };
