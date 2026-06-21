@@ -632,7 +632,7 @@ const ADMIN_QUERY = `*[_type == "post"] | order(coalesce(publishedAt, _updatedAt
   "categories": categories[]->{ title }
 }`;
 
-const STUDIO_URL = "http://localhost:3333";
+const STUDIO_URL = import.meta.env.VITE_STUDIO_URL ?? "http://localhost:3333";
 
 /** Extract plain text from the first text block of a body array (for auto-excerpt) */
 function autoExcerpt(body: unknown[] | undefined): string {
