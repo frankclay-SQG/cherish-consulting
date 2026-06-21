@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Lock, BarChart2, BookOpen, LogOut,
   ExternalLink, Check, AlertCircle, Eye, EyeOff, Printer, Search,
+  RefreshCw, PenSquare, Trash2,
 } from "lucide-react";
+import { sanityClient, sanityAdminClient } from "../lib/sanity";
 
 // ─────────────────────────────────────────────────────────
 // Master key — set VITE_ADMIN_KEY in Vercel:
@@ -606,23 +608,343 @@ function SEOTab() {
 
 // ── Blog tab ──────────────────────────────────────────────
 
+interface SanityPost {
+  _id: string;
+  _type: string;
+  title: string;
+  slug: { current: string } | null;
+  excerpt: string | null;
+  publishedAt: string | null;
+  mainImage?: { asset?: { url: string }; alt?: string };
+  author?: { name: string };
+  categories?: { title: string }[];
+}
+
+const ADMIN_QUERY = `*[_type == "post"] | order(coalesce(publishedAt, _updatedAt) desc) {
+  _id,
+  _type,
+  title,
+  slug,
+  excerpt,
+  publishedAt,
+  "mainImage": mainImage { "asset": asset->{ url }, alt },
+  "author": author->{ name },
+  "categories": categories[]->{ title }
+}`;
+
+const STUDIO_URL = "http://localhost:3333";
+
+/** Extract plain text from the first text block of a body array (for auto-excerpt) */
+function autoExcerpt(body: unknown[] | undefined): string {
+  if (!Array.isArray(body)) return "";
+  for (const block of body) {
+    if (
+      block &&
+      typeof block === "object" &&
+      (block as Record<string, unknown>)._type === "block"
+    ) {
+      const children = (block as Record<string, unknown[]>).children ?? [];
+      const text = children
+        .map((c) =>
+          c && typeof c === "object" ? ((c as Record<string, unknown>).text as string) ?? "" : ""
+        )
+        .join("")
+        .trim();
+      if (text.length > 20) return text.slice(0, 180) + (text.length > 180 ? "…" : "");
+    }
+  }
+  return "";
+}
+
+function postStatus(post: SanityPost): "draft" | "scheduled" | "published" {
+  if (!post.publishedAt) return "draft";
+  return new Date(post.publishedAt) > new Date() ? "scheduled" : "published";
+}
+
+const STATUS_STYLES = {
+  draft:     "bg-[#2A3E4A]/8 text-[#6B5E4E]",
+  scheduled: "bg-amber-100 text-amber-700",
+  published: "bg-emerald-100 text-emerald-700",
+};
+const STATUS_LABELS = { draft: "Draft", scheduled: "Scheduled", published: "Published" };
+
+function fmt(dateStr: string | null) {
+  if (!dateStr) return "—";
+  return new Date(dateStr).toLocaleDateString("en-US", {
+    year: "numeric", month: "short", day: "numeric",
+  });
+}
+
+type Filter = "all" | "published" | "scheduled" | "draft";
+
 function BlogTab() {
+  const [posts, setPosts] = useState<SanityPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState<Filter>("all");
+  const [confirmDelete, setConfirmDelete] = useState<SanityPost | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
+  async function fetchPosts() {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await sanityClient.fetch<SanityPost[]>(ADMIN_QUERY);
+      setPosts(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to fetch posts");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => { fetchPosts(); }, []);
+
+  async function handleDelete(post: SanityPost) {
+    setDeleting(true);
+    try {
+      const baseId = post._id.replace(/^drafts\./, "");
+      // Delete published + draft versions (safe if either doesn't exist)
+      await Promise.allSettled([
+        sanityAdminClient.delete(baseId),
+        sanityAdminClient.delete(`drafts.${baseId}`),
+      ]);
+      setPosts(prev => prev.filter(p => p._id !== post._id));
+    } catch (err) {
+      alert("Delete failed: " + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setDeleting(false);
+      setConfirmDelete(null);
+    }
+  }
+
+  const filtered = posts.filter(p => filter === "all" || postStatus(p) === filter);
+  const counts = {
+    all: posts.length,
+    published: posts.filter(p => postStatus(p) === "published").length,
+    scheduled: posts.filter(p => postStatus(p) === "scheduled").length,
+    draft:     posts.filter(p => postStatus(p) === "draft").length,
+  };
+
   return (
-    <div className="border border-[#2A3E4A]/14 bg-white p-12 text-center">
-      <div className="w-12 h-12 border border-[#2A3E4A]/14 flex items-center justify-center mx-auto mb-6">
-        <BookOpen size={16} className="text-[#2A3E4A]/40" strokeWidth={1.5} />
+    <div className="space-y-6">
+
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm font-semibold text-[#1E1A14]">Blog Posts</p>
+          <p className="text-[11px] text-[#6B5E4E] mt-0.5">
+            {posts.length} post{posts.length !== 1 ? "s" : ""} · Sanity dataset{" "}
+            <code className="bg-[#F2EDE4] px-1 text-[10px]">cherich</code>
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={fetchPosts}
+            disabled={loading}
+            className="flex items-center gap-1.5 px-3 py-2 border border-[#2A3E4A]/14 text-[11px] tracking-wide text-[#6B5E4E] hover:border-[#2A3E4A]/30 hover:text-[#1E1A14] transition-colors disabled:opacity-40"
+          >
+            <RefreshCw size={11} className={loading ? "animate-spin" : ""} />
+            Refresh
+          </button>
+          <a
+            href={`${STUDIO_URL}/structure/post`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-2 bg-[#2A3E4A] text-white text-[11px] tracking-wide hover:bg-[#1E2E38] transition-colors"
+          >
+            <PenSquare size={11} /> New Post
+          </a>
+        </div>
       </div>
-      <p className="text-sm font-semibold text-[#1E1A14] mb-2">Blog — Coming Soon</p>
-      <p className="text-[11px] text-[#6B5E4E] max-w-xs mx-auto leading-relaxed">
-        Sanity CMS integration is in progress. Once connected, you'll create and manage
-        posts, categories, and media directly from this panel.
-      </p>
-      <div className="mt-8 pt-8 border-t border-[#2A3E4A]/8">
+
+      {/* Filter tabs */}
+      {!loading && !error && (
+        <div className="flex gap-1">
+          {(["all", "published", "scheduled", "draft"] as Filter[]).map(f => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-[10px] tracking-wide uppercase transition-colors ${
+                filter === f
+                  ? "bg-[#2A3E4A] text-white"
+                  : "border border-[#2A3E4A]/14 text-[#6B5E4E] hover:border-[#2A3E4A]/30 hover:text-[#1E1A14] bg-white"
+              }`}
+            >
+              {f.charAt(0).toUpperCase() + f.slice(1)}
+              <span className={`text-[9px] px-1 py-0.5 rounded-sm ${filter === f ? "bg-white/20" : "bg-[#2A3E4A]/8"}`}>
+                {counts[f]}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Loading */}
+      {loading && (
+        <div className="border border-[#2A3E4A]/14 bg-white p-12 text-center">
+          <RefreshCw size={16} className="animate-spin text-[#2A3E4A]/30 mx-auto mb-3" />
+          <p className="text-[11px] text-[#6B5E4E]">Loading posts from Sanity…</p>
+        </div>
+      )}
+
+      {/* Error */}
+      {!loading && error && (
+        <div className="border border-red-200 bg-red-50 p-5">
+          <div className="flex items-start gap-3">
+            <AlertCircle size={14} className="text-red-400 mt-0.5 flex-shrink-0" />
+            <div>
+              <p className="text-xs font-semibold text-red-700 mb-1">Could not connect to Sanity</p>
+              <p className="text-[11px] text-red-600 font-mono break-all">{error}</p>
+              <p className="text-[11px] text-red-500 mt-2">
+                Make sure <code className="bg-red-100 px-1">VITE_SANITY_TOKEN</code> is in your{" "}
+                <code className="bg-red-100 px-1">.env</code> file and restart the dev server.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Empty state */}
+      {!loading && !error && filtered.length === 0 && (
+        <div className="border border-[#2A3E4A]/14 bg-white p-12 text-center">
+          <div className="w-12 h-12 border border-[#2A3E4A]/14 flex items-center justify-center mx-auto mb-5">
+            <BookOpen size={16} className="text-[#2A3E4A]/40" strokeWidth={1.5} />
+          </div>
+          <p className="text-sm font-semibold text-[#1E1A14] mb-1.5">
+            {posts.length === 0 ? "No posts yet" : `No ${filter} posts`}
+          </p>
+          {posts.length === 0 && (
+            <a
+              href={`${STUDIO_URL}/structure/post`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 mt-5 px-5 py-2.5 bg-[#2A3E4A] text-white text-xs tracking-widest uppercase hover:bg-[#1E2E38] transition-colors"
+            >
+              Create First Post <ExternalLink size={10} />
+            </a>
+          )}
+        </div>
+      )}
+
+      {/* Post list */}
+      {!loading && !error && filtered.length > 0 && (
+        <div className="border border-[#2A3E4A]/14 divide-y divide-[#2A3E4A]/8 bg-white">
+          {filtered.map(post => {
+            const status = postStatus(post);
+            const excerpt = post.excerpt || autoExcerpt((post as Record<string, unknown>).body as unknown[]);
+            return (
+              <div key={post._id} className="flex gap-4 px-5 py-4 hover:bg-[#F2EDE4]/30 transition-colors group">
+
+                {/* Thumbnail */}
+                <div className="flex-shrink-0 w-16 h-12 bg-[#2A3E4A]/6 border border-[#2A3E4A]/8 overflow-hidden">
+                  {post.mainImage?.asset?.url ? (
+                    <img
+                      src={`${post.mainImage.asset.url}?w=128&h=96&fit=crop&auto=format`}
+                      alt={post.mainImage.alt ?? post.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <BookOpen size={12} className="text-[#2A3E4A]/20" />
+                    </div>
+                  )}
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="text-sm font-medium text-[#1E1A14] leading-snug">{post.title}</p>
+                    <span className={`flex-shrink-0 text-[9px] tracking-wide uppercase px-1.5 py-0.5 ${STATUS_STYLES[status]}`}>
+                      {STATUS_LABELS[status]}
+                    </span>
+                  </div>
+
+                  {excerpt && (
+                    <p className="text-[11px] text-[#6B5E4E] leading-relaxed mt-0.5 line-clamp-2">{excerpt}</p>
+                  )}
+
+                  <div className="flex items-center gap-3 mt-1.5 flex-wrap">
+                    {post.publishedAt && (
+                      <span className="text-[10px] text-[#6B5E4E]">
+                        {status === "scheduled" ? "Scheduled for " : ""}{fmt(post.publishedAt)}
+                      </span>
+                    )}
+                    {post.author?.name && (
+                      <span className="text-[10px] text-[#6B5E4E]">· {post.author.name}</span>
+                    )}
+                    {post.categories?.map(c => (
+                      <span key={c.title} className="text-[9px] tracking-wide bg-[#2A3E4A]/6 text-[#2A3E4A]/50 px-1.5 py-0.5">
+                        {c.title}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex-shrink-0 flex items-start gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <a
+                    href={`${STUDIO_URL}/structure/post;${post._id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Edit in Studio"
+                    className="flex items-center gap-1 px-2.5 py-1.5 border border-[#2A3E4A]/14 text-[10px] text-[#6B5E4E] hover:border-[#2A3E4A]/30 hover:text-[#1E1A14] transition-colors"
+                  >
+                    <PenSquare size={10} /> Edit
+                  </a>
+                  <button
+                    onClick={() => setConfirmDelete(post)}
+                    title="Delete post"
+                    className="flex items-center gap-1 px-2.5 py-1.5 border border-red-200 text-[10px] text-red-400 hover:bg-red-50 hover:text-red-600 transition-colors"
+                  >
+                    <Trash2 size={10} /> Delete
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Delete confirmation modal */}
+      {confirmDelete && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6">
+          <div className="bg-white border border-[#2A3E4A]/14 p-8 max-w-sm w-full shadow-xl">
+            <div className="w-10 h-10 border border-red-200 flex items-center justify-center mx-auto mb-5">
+              <Trash2 size={14} className="text-red-400" />
+            </div>
+            <p className="text-sm font-semibold text-[#1E1A14] text-center mb-1.5">Delete post?</p>
+            <p className="text-[11px] text-[#6B5E4E] text-center leading-relaxed mb-6">
+              "{confirmDelete.title}" will be permanently deleted from Sanity,
+              including any draft version. This cannot be undone.
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setConfirmDelete(null)}
+                disabled={deleting}
+                className="flex-1 py-2.5 border border-[#2A3E4A]/14 text-xs text-[#6B5E4E] hover:border-[#2A3E4A]/30 hover:text-[#1E1A14] transition-colors disabled:opacity-40"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleDelete(confirmDelete)}
+                disabled={deleting}
+                className="flex-1 py-2.5 bg-red-600 text-white text-xs tracking-wide hover:bg-red-700 transition-colors disabled:opacity-50"
+              >
+                {deleting ? "Deleting…" : "Delete permanently"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Footer */}
+      <div className="flex justify-end pt-1">
         <a
           href="https://www.sanity.io/manage"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs text-[#6B5E4E] hover:text-[#2A3E4A] transition-colors"
+          className="inline-flex items-center gap-1.5 text-[11px] text-[#6B5E4E] hover:text-[#2A3E4A] transition-colors"
         >
           Sanity project dashboard <ExternalLink size={10} />
         </a>
