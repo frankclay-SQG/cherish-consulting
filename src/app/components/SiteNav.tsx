@@ -50,7 +50,7 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
   const renderItem = (item: NavItem, mobile = false) => {
     const base = mobile
       ? "text-sm text-foreground/70 hover:text-foreground flex items-center gap-1.5 transition-colors"
-      : "text-sm text-foreground/60 hover:text-foreground transition-colors tracking-wide flex items-center gap-1";
+      : "text-xs text-foreground/60 hover:text-foreground transition-colors tracking-wide flex items-center gap-1 whitespace-nowrap";
 
     if (isPageItem(item)) {
       const active = location.pathname === item.to;
@@ -98,11 +98,11 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
         </div>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-6 ml-auto">
+        <div className="hidden md:flex items-center gap-4 ml-auto">
           {NAV_ITEMS.map(item => renderItem(item))}
           <a
             href="/#contact"
-            className="px-5 py-2 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
+            className="flex-shrink-0 px-4 py-2 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
           >
             Schedule a Session
           </a>
