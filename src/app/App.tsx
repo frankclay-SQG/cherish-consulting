@@ -1,69 +1,11 @@
 import { useState, useEffect } from "react";
 import {
-  Menu, X, Phone, Mail, ChevronRight,
+  Phone, Mail, ChevronRight,
   Heart, Shield, Users, Brain, Activity, ClipboardList,
-  GraduationCap, MapPin, Cookie,
+  GraduationCap, MapPin,
 } from "lucide-react";
-
-const COOKIE_CONSENT_KEY = "cherich_cookie_consent";
-
-type CookieChoice = "all" | "essential" | "declined";
-
-function CookieBanner() {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(COOKIE_CONSENT_KEY);
-    if (!stored) setVisible(true);
-  }, []);
-
-  const choose = (choice: CookieChoice) => {
-    localStorage.setItem(COOKIE_CONSENT_KEY, choice);
-    setVisible(false);
-  };
-
-  if (!visible) return null;
-
-  return (
-    <div className="fixed bottom-6 left-6 z-[100] w-64 bg-background border border-border shadow-lg overflow-hidden">
-      <div className="p-4">
-        <div className="flex items-center gap-2 mb-2">
-          <Cookie size={14} className="text-muted-foreground flex-shrink-0" />
-          <p className="text-sm font-semibold text-foreground">Cookie Preferences</p>
-        </div>
-        <p className="text-xs text-foreground/60 leading-relaxed mb-1">
-          We use cookies to improve your experience. Choose your preference.
-        </p>
-        <button className="text-xs text-primary underline underline-offset-2 mb-3 hover:opacity-80">
-          Learn more
-        </button>
-        <button
-          onClick={() => choose("all")}
-          className="w-full bg-primary text-primary-foreground text-[10px] tracking-widest uppercase py-2 mb-2 hover:opacity-90 transition-opacity"
-        >
-          Accept All
-        </button>
-        <div className="grid grid-cols-2 gap-2 mb-3">
-          <button
-            onClick={() => choose("essential")}
-            className="border border-border text-[10px] tracking-widest uppercase py-1.5 text-foreground/70 hover:bg-secondary transition-colors"
-          >
-            Essential
-          </button>
-          <button
-            onClick={() => choose("declined")}
-            className="border border-border text-[10px] tracking-widest uppercase py-1.5 text-foreground/70 hover:bg-secondary transition-colors"
-          >
-            Decline
-          </button>
-        </div>
-        <a href="/privacy" className="text-[10px] text-primary underline underline-offset-2 hover:opacity-80">
-          Privacy Policy
-        </a>
-      </div>
-    </div>
-  );
-}
+import { SiteNav } from "./components/SiteNav";
+import { CookieBanner } from "./components/CookieBanner";
 
 function StarDivider({ count = 3, className = "" }: { count?: number; className?: string }) {
   return (
@@ -73,18 +15,6 @@ function StarDivider({ count = 3, className = "" }: { count?: number; className?
           ★
         </span>
       ))}
-    </div>
-  );
-}
-
-function VeteranOwnedBadge() {
-  return (
-    <div className="flex items-center gap-1.5 border border-accent/30 px-2.5 py-1">
-      <span className="text-accent" style={{ fontSize: "0.55rem" }}>★</span>
-      <span className="text-[8px] tracking-[0.2em] uppercase text-accent font-semibold">
-        Veteran-Owned
-      </span>
-      <span className="text-accent" style={{ fontSize: "0.55rem" }}>★</span>
     </div>
   );
 }
@@ -181,179 +111,16 @@ const publications = [
 ];
 
 export default function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
   const [formSent, setFormSent] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 48);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const ids = ["about", "services", "contact"];
-    const observers = ids.map((id) => {
-      const el = document.getElementById(id);
-      if (!el) return null;
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
-        { rootMargin: "-30% 0px -55% 0px" }
-      );
-      obs.observe(el);
-      return obs;
-    });
-    return () => observers.forEach((obs) => obs?.disconnect());
-  }, []);
 
   return (
     <div
       className="min-h-screen bg-background text-foreground"
       style={{ fontFamily: "'DM Sans', sans-serif" }}
     >
+      <SiteNav />
       <CookieBanner />
       <a href="#about" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:text-xs focus:tracking-widest focus:uppercase">Skip to content</a>
-      {/* ── NAV ── */}
-      <nav
-        aria-label="Main navigation"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-background/95 backdrop-blur-md border-b border-border shadow-sm"
-            : "bg-transparent"
-        }`}
-      >
-        <div className="max-w-6xl mx-auto px-6 flex items-center h-16 gap-10">
-          <div className="flex items-center gap-4">
-            <a href="#" aria-label="Cherich Consulting home">
-              <img src="/cherich-logo.png" alt="Cherich Consulting" className="h-10 w-auto" />
-            </a>
-            <VeteranOwnedBadge />
-          </div>
-
-          <div className="hidden md:flex items-center gap-8 ml-auto">
-            {["About", "Services"].map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className={`text-sm tracking-wide transition-colors ${activeSection === link.toLowerCase() ? "text-foreground border-b border-primary pb-0.5" : "text-foreground/55 hover:text-foreground"}`}
-              >
-                {link}
-              </a>
-            ))}
-            <a
-              href="/books"
-              className="text-sm tracking-wide transition-colors text-foreground/55 hover:text-foreground"
-            >
-              Publications
-            </a>
-            <a
-              href="/labyrinths"
-              className="text-sm tracking-wide transition-colors text-foreground/55 hover:text-foreground"
-            >
-              Labyrinths
-            </a>
-            <a
-              href="https://www.ptsd.va.gov/appvid/video/index.asp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm tracking-wide transition-colors text-foreground/55 hover:text-foreground"
-            >
-              VA PTSD
-            </a>
-            <a
-              href="https://learn.psycharmor.org/collections"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm tracking-wide transition-colors text-foreground/55 hover:text-foreground"
-            >
-              Veterans Courses
-            </a>
-            <a
-              href="#contact"
-              className={`text-sm tracking-wide transition-colors ${activeSection === "contact" ? "text-foreground border-b border-primary pb-0.5" : "text-foreground/55 hover:text-foreground"}`}
-            >
-              Contact
-            </a>
-            <a
-              href="#contact"
-              className="px-5 py-2 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
-            >
-              Schedule a Session
-            </a>
-          </div>
-
-          <button
-            className="md:hidden text-foreground p-1"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-
-        {menuOpen && (
-          <div className="md:hidden bg-background border-t border-border px-6 py-5 flex flex-col gap-5">
-            {["About", "Services"].map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className="text-sm text-foreground/70 hover:text-foreground"
-                onClick={() => setMenuOpen(false)}
-              >
-                {link}
-              </a>
-            ))}
-            <a
-              href="/books"
-              className="text-sm text-foreground/70 hover:text-foreground"
-              onClick={() => setMenuOpen(false)}
-            >
-              Publications
-            </a>
-            <a
-              href="/labyrinths"
-              className="text-sm text-foreground/70 hover:text-foreground"
-              onClick={() => setMenuOpen(false)}
-            >
-              Labyrinths
-            </a>
-            <a
-              href="https://www.ptsd.va.gov/appvid/video/index.asp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-foreground/70 hover:text-foreground"
-              onClick={() => setMenuOpen(false)}
-            >
-              VA PTSD
-            </a>
-            <a
-              href="https://learn.psycharmor.org/collections"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-foreground/70 hover:text-foreground"
-              onClick={() => setMenuOpen(false)}
-            >
-              Veterans Courses
-            </a>
-            <a
-              href="#contact"
-              className="text-sm text-foreground/70 hover:text-foreground"
-              onClick={() => setMenuOpen(false)}
-            >
-              Contact
-            </a>
-            <a
-              href="#contact"
-              className="px-5 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase text-center"
-              onClick={() => setMenuOpen(false)}
-            >
-              Schedule a Session
-            </a>
-          </div>
-        )}
-      </nav>
-
       {/* ── HERO ── */}
       <section className="min-h-screen grid md:grid-cols-2 items-stretch">
         {/* Text */}
