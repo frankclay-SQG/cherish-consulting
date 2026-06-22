@@ -23,9 +23,11 @@ function isPageItem(item: NavItem): item is PageItem {
 const NAV_ITEMS: NavItem[] = [
   { label: "About",            href: "/#about" },
   { label: "Services",         href: "/#services" },
+  { label: "DOT Evaluations",  to:   "/dot-evaluations" },
   { label: "Blog",             to:   "/blog" },
   { label: "Publications",     to:   "/books" },
   { label: "Labyrinths",       to:   "/labyrinths" },
+  { label: "Resources",        to:   "/resources" },
   { label: "VA PTSD",          href: "https://www.ptsd.va.gov/appvid/video/index.asp", external: true },
   { label: "Veterans Courses", href: "https://learn.psycharmor.org/collections", external: true },
   { label: "Contact",          href: "/#contact" },
