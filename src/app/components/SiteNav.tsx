@@ -34,7 +34,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: "Veterans Evaluations", to: "/veterans-evaluations" },
       { label: "Assessments",          to: "/assessments" },
       { label: "Clinical Supervision", to: "/clinical-supervision" },
-      { label: "Resources",            to: "/resources" },
+      // { label: "Resources", to: "/resources" }, // hidden pending Dr. Cherich validation
     ],
   },
   { label: "Blog",             to:   "/blog" },
