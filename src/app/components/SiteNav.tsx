@@ -80,7 +80,7 @@ function DesktopDropdown({ item }: { item: DropdownItem }) {
       </a>
 
       {open && (
-        <div className="absolute top-full left-0 mt-1 bg-background border border-border shadow-lg py-1 min-w-[200px] z-50">
+        <div className="absolute top-full left-0 bg-background border border-border shadow-lg pt-3 pb-1 min-w-[200px] z-50">
           {item.children.map(child => {
             if (isPageItem(child)) {
               const active = location.pathname === child.to;
