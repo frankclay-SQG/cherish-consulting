@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   Phone, Mail, ChevronRight,
   Heart, Shield, Users, Brain, Activity, ClipboardList,
@@ -24,41 +25,49 @@ const services = [
     icon: Heart,
     title: "Life Coaching & Wellness",
     desc: "Holistic health and wellness guidance tailored to your life circumstances and goals.",
+    to: null as string | null,
   },
   {
     icon: Shield,
     title: "Veterans & Military Families",
     desc: "Specialized counseling for soldiers, veterans, and the families who stand beside them.",
+    to: "/veterans-evaluations" as string | null,
   },
   {
     icon: Brain,
     title: "Mental Health Treatment",
     desc: "Evidence-based care for anxiety, depression, PTSD, and related conditions.",
+    to: null as string | null,
   },
   {
     icon: Activity,
     title: "Stress & Anger Management",
     desc: "Practical, lasting tools for managing stress — the defining challenge of our era.",
+    to: null as string | null,
   },
   {
     icon: Users,
     title: "Substance Abuse Treatment",
     desc: "Compassionate support for those navigating addiction and early recovery.",
+    to: "/assessments" as string | null,
   },
   {
     icon: Heart,
     title: "Cancer Survivor Support",
     desc: "Therapeutic presence through diagnosis, treatment, and life beyond cancer.",
+    to: null as string | null,
   },
   {
     icon: ClipboardList,
     title: "DOT-SAP & DWI Evaluations",
     desc: "Certified evaluations for DOT Substance Abuse Program and DWI/DUI requirements.",
+    to: "/dot-evaluations" as string | null,
   },
   {
     icon: GraduationCap,
     title: "Clinical Supervision",
     desc: "Professional supervision and consultation for graduate counseling interns.",
+    to: "/clinical-supervision" as string | null,
   },
 ];
 
@@ -406,23 +415,38 @@ export default function App() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border">
-            {services.map(({ icon: Icon, title, desc }) => (
-              <div
-                key={title}
-                className="bg-background p-7 hover:bg-secondary transition-colors group cursor-default"
-              >
-                <div className="mb-5">
-                  <Icon
-                    size={16}
-                    className="text-primary group-hover:text-accent transition-colors"
-                    strokeWidth={1.5}
-                  />
+            {services.map(({ icon: Icon, title, desc, to }) => {
+              const inner = (
+                <>
+                  <div className="mb-5">
+                    <Icon
+                      size={16}
+                      className="text-primary group-hover:text-accent transition-colors"
+                      strokeWidth={1.5}
+                    />
+                  </div>
+                  <h3 className="text-sm font-semibold text-foreground mb-2 leading-snug">{title}</h3>
+                  <p className="text-xs text-foreground/50 leading-relaxed mb-4">{desc}</p>
+                  <ChevronRight size={12} className="text-primary/0 group-hover:text-primary/60 transition-colors mt-auto" />
+                </>
+              );
+              return to ? (
+                <Link
+                  key={title}
+                  to={to}
+                  className="bg-background p-7 hover:bg-secondary transition-colors group block no-underline"
+                >
+                  {inner}
+                </Link>
+              ) : (
+                <div
+                  key={title}
+                  className="bg-background p-7 hover:bg-secondary transition-colors group cursor-default"
+                >
+                  {inner}
                 </div>
-                <h3 className="text-sm font-semibold text-foreground mb-2 leading-snug">{title}</h3>
-                <p className="text-xs text-foreground/50 leading-relaxed mb-4">{desc}</p>
-                <ChevronRight size={12} className="text-primary/0 group-hover:text-primary/60 transition-colors mt-auto" />
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

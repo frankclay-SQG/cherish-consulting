@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ExternalLink } from "lucide-react";
+import { Menu, X, ExternalLink, ChevronDown } from "lucide-react";
 
 function VeteranOwnedBadge() {
   return (
@@ -12,29 +12,113 @@ function VeteranOwnedBadge() {
   );
 }
 
-type AnchorItem = { label: string; href: string; external?: boolean };
-type PageItem   = { label: string; to: string };
-type NavItem    = AnchorItem | PageItem;
+type AnchorItem   = { label: string; href: string; external?: boolean };
+type PageItem     = { label: string; to: string };
+type DropdownItem = { label: string; href: string; children: (AnchorItem | PageItem)[] };
+type NavItem      = AnchorItem | PageItem | DropdownItem;
 
 function isPageItem(item: NavItem): item is PageItem {
   return "to" in item;
 }
+function isDropdownItem(item: NavItem): item is DropdownItem {
+  return "children" in item;
+}
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "About",            href: "/#about" },
-  { label: "Services",         href: "/#services" },
-  { label: "DOT Evaluations",  to:   "/dot-evaluations" },
+  { label: "About",       href: "/#about" },
+  {
+    label: "Services",
+    href: "/#services",
+    children: [
+      { label: "DOT Evaluations",      to: "/dot-evaluations" },
+      { label: "Veterans Evaluations", to: "/veterans-evaluations" },
+      { label: "Assessments",          to: "/assessments" },
+      { label: "Clinical Supervision", to: "/clinical-supervision" },
+      { label: "Resources",            to: "/resources" },
+    ],
+  },
   { label: "Blog",             to:   "/blog" },
   { label: "Publications",     to:   "/books" },
   { label: "Labyrinths",       to:   "/labyrinths" },
-  { label: "Resources",        to:   "/resources" },
   { label: "VA PTSD",          href: "https://www.ptsd.va.gov/appvid/video/index.asp", external: true },
   { label: "Veterans Courses", href: "https://learn.psycharmor.org/collections", external: true },
   { label: "Contact",          href: "/#contact" },
 ];
 
+function DesktopDropdown({ item }: { item: DropdownItem }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+
+  // close on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  // close on route change
+  useEffect(() => { setOpen(false); }, [location.pathname]);
+
+  const anyChildActive = item.children.some(
+    c => isPageItem(c) && location.pathname === c.to
+  );
+
+  return (
+    <div ref={ref} className="relative" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+      <a
+        href={item.href}
+        className={`text-xs tracking-wide flex items-center gap-1 whitespace-nowrap transition-colors ${
+          anyChildActive ? "text-foreground font-medium" : "text-foreground/60 hover:text-foreground"
+        }`}
+        onClick={e => { e.preventDefault(); setOpen(o => !o); }}
+      >
+        {item.label}
+        <ChevronDown size={11} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+      </a>
+
+      {open && (
+        <div className="absolute top-full left-0 mt-1 bg-background border border-border shadow-lg py-1 min-w-[200px] z-50">
+          {item.children.map(child => {
+            if (isPageItem(child)) {
+              const active = location.pathname === child.to;
+              return (
+                <Link
+                  key={child.label}
+                  to={child.to}
+                  className={`block px-4 py-2.5 text-xs tracking-wide transition-colors hover:bg-secondary ${
+                    active ? "text-foreground font-medium" : "text-foreground/60 hover:text-foreground"
+                  }`}
+                >
+                  {child.label}
+                </Link>
+              );
+            }
+            const c = child as AnchorItem;
+            return (
+              <a
+                key={c.label}
+                href={c.href}
+                target={c.external ? "_blank" : undefined}
+                rel={c.external ? "noopener noreferrer" : undefined}
+                className="block px-4 py-2.5 text-xs tracking-wide text-foreground/60 hover:text-foreground hover:bg-secondary transition-colors"
+              >
+                {c.label}
+                {c.external && <ExternalLink size={9} className="inline ml-1 opacity-55" />}
+              </a>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [servicesExpanded, setServicesExpanded] = useState(false);
   const [scrolled, setScrolled] = useState(alwaysSolid);
   const location = useLocation();
 
@@ -46,13 +130,61 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, [alwaysSolid]);
 
-  // Close mobile menu on route change
-  useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+  useEffect(() => { setMenuOpen(false); setServicesExpanded(false); }, [location.pathname]);
 
   const renderItem = (item: NavItem, mobile = false) => {
     const base = mobile
       ? "text-sm text-foreground/70 hover:text-foreground flex items-center gap-1.5 transition-colors"
       : "text-xs text-foreground/60 hover:text-foreground transition-colors tracking-wide flex items-center gap-1 whitespace-nowrap";
+
+    if (isDropdownItem(item)) {
+      if (!mobile) return <DesktopDropdown key={item.label} item={item} />;
+
+      // Mobile: accordion
+      return (
+        <div key={item.label}>
+          <button
+            className={`${base} w-full text-left`}
+            onClick={() => setServicesExpanded(o => !o)}
+          >
+            {item.label}
+            <ChevronDown size={13} className={`ml-auto transition-transform duration-200 ${servicesExpanded ? "rotate-180" : ""}`} />
+          </button>
+          {servicesExpanded && (
+            <div className="ml-4 mt-2 flex flex-col gap-3 border-l border-border pl-4">
+              {item.children.map(child => {
+                if (isPageItem(child)) {
+                  const active = location.pathname === child.to;
+                  return (
+                    <Link
+                      key={child.label}
+                      to={child.to}
+                      onClick={() => setMenuOpen(false)}
+                      className={`text-sm transition-colors ${active ? "text-foreground font-medium" : "text-foreground/60 hover:text-foreground"}`}
+                    >
+                      {child.label}
+                    </Link>
+                  );
+                }
+                const c = child as AnchorItem;
+                return (
+                  <a
+                    key={c.label}
+                    href={c.href}
+                    target={c.external ? "_blank" : undefined}
+                    rel={c.external ? "noopener noreferrer" : undefined}
+                    onClick={() => setMenuOpen(false)}
+                    className="text-sm text-foreground/60 hover:text-foreground transition-colors"
+                  >
+                    {c.label}
+                  </a>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      );
+    }
 
     if (isPageItem(item)) {
       const active = location.pathname === item.to;
@@ -112,7 +244,7 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden text-foreground p-1"
+          className="md:hidden text-foreground p-1 ml-auto"
           onClick={() => setMenuOpen(o => !o)}
           aria-label="Toggle menu"
         >
