@@ -1,6 +1,6 @@
 // SOF-86 — DOT Evaluations dedicated page
 import { useState } from "react";
-import { Phone, ChevronDown, ChevronUp, ChevronRight } from "lucide-react";
+import { Phone, ChevronDown, ChevronUp, ChevronRight, ExternalLink } from "lucide-react";
 import { SiteNav } from "../components/SiteNav";
 import { SiteFooter } from "../components/SiteFooter";
 import { CookieBanner } from "../components/CookieBanner";
@@ -46,6 +46,14 @@ const faqs: { q: string; a: string }[] = [
   {
     q: "Who needs a SAP evaluation?",
     a: "Any DOT-regulated employee (CDL drivers, aviation, transit, pipeline, railroad workers) who tests positive for drugs or alcohol, refuses a test, or otherwise violates DOT drug and alcohol regulations must complete the SAP process before returning to safety-sensitive duties.",
+  },
+  {
+    q: "What is the FMCSA Drug & Alcohol Clearinghouse?",
+    a: "The Clearinghouse is the FMCSA's secure online database of drug and alcohol program violations by CDL drivers. When a violation is recorded, the driver is placed in prohibited status and cannot operate a commercial motor vehicle. Completing the SAP process with a qualified SAP is what moves a driver out of prohibited status. Drivers must register at clearinghouse.fmcsa.dot.gov and designate their SAP so evaluation and return-to-duty milestones are reported correctly.",
+  },
+  {
+    q: "How does a CDL driver get their driving privilege back?",
+    a: "A CDL driver in prohibited status must complete the full SAP process: an initial evaluation, the recommended education or treatment, a follow-up evaluation, and a negative return-to-duty test administered by the employer. Dr. Cherich conducts the CDL evaluations and assessments required at each stage and reports the results to the Clearinghouse, so the driver can be restored to safety-sensitive duties.",
   },
   {
     q: "Is the SAP process the same as treatment?",
@@ -111,7 +119,8 @@ export default function DOTEvaluationsPage() {
           <p className="text-[0.95rem] text-foreground/60 max-w-xl leading-relaxed mb-6">
             Dr. Carol J. Cherich, PhD is a qualified DOT Substance Abuse Professional (SAP)
             providing evaluations and return-to-duty services for FMCSA-regulated employees
-            across Tennessee and Virginia.
+            across Tennessee and Virginia. She conducts the CDL evaluations and assessments
+            required for a driver to regain their driving privilege.
           </p>
           <div className="flex flex-wrap gap-3">
             <a
@@ -163,6 +172,75 @@ export default function DOTEvaluationsPage() {
                 <p className="text-xs text-foreground/50 leading-relaxed">{desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CDL drivers + FMCSA Clearinghouse */}
+      <section className="py-20 bg-primary/5 border-y border-border">
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-[3fr_2fr] gap-14 lg:gap-20 items-start">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <StarDivider count={3} />
+              <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">
+                For CDL Drivers
+              </span>
+            </div>
+            <h2
+              className="text-3xl md:text-4xl leading-tight text-foreground mb-6"
+              style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
+            >
+              Getting Your Driving<br />Privilege Back
+            </h2>
+            <p className="text-[0.95rem] text-foreground/60 leading-relaxed mb-5">
+              A drug or alcohol program violation places a CDL driver in prohibited status in
+              the FMCSA Drug &amp; Alcohol Clearinghouse — meaning they cannot operate a
+              commercial motor vehicle until the SAP process is complete.
+            </p>
+            <p className="text-[0.95rem] text-foreground/60 leading-relaxed mb-8">
+              Dr. Cherich conducts the CDL evaluations and assessments required at every stage
+              and reports each milestone to the Clearinghouse, so drivers can be restored to
+              safety-sensitive duties without avoidable delays.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {[
+                "Register with the FMCSA Clearinghouse",
+                "Designate Dr. Cherich as your SAP",
+                "Complete the initial SAP evaluation",
+                "Finish the recommended education or treatment",
+                "Complete the follow-up evaluation",
+                "Pass a return-to-duty test through your employer",
+              ].map((step) => (
+                <div key={step} className="flex items-start gap-2.5">
+                  <span className="text-accent flex-shrink-0 mt-0.5 leading-none" style={{ fontSize: "0.55rem" }}>★</span>
+                  <span className="text-sm text-foreground/65 leading-snug">{step}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-background border border-border p-7">
+            <div className="w-px h-10 bg-primary/30 mb-6" />
+            <p className="text-[10px] tracking-[0.2em] uppercase text-accent font-medium mb-3">
+              FMCSA Clearinghouse
+            </p>
+            <p className="text-sm text-foreground/60 leading-relaxed mb-7">
+              Drivers and employers can check status, register, and manage SAP designations
+              directly through the FMCSA's official Clearinghouse portal.
+            </p>
+            <a
+              href="https://clearinghouse.fmcsa.dot.gov/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
+            >
+              Visit the Clearinghouse <ExternalLink size={12} />
+            </a>
+            <p className="text-[10px] text-muted-foreground mt-5 leading-relaxed">
+              clearinghouse.fmcsa.dot.gov is an official U.S. Department of Transportation site.
+              Cherish Consulting is not affiliated with the FMCSA.
+            </p>
           </div>
         </div>
       </section>

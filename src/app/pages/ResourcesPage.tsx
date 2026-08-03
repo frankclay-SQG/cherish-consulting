@@ -196,9 +196,9 @@ export default function ResourcesPage() {
             Resources &amp;<br />Guides
           </h1>
           <p className="text-[0.95rem] text-foreground/60 max-w-xl leading-relaxed">
-            Practical eBooks and guides from Dr. Carol J. Cherich, PhD — for counselors
-            building private practices, veterans navigating VA claims, and anyone
-            looking to build stronger mental wellness habits.
+            Practical eBooks and guides from Dr. Carol J. Cherich, PhD — for veterans
+            navigating VA claims and anyone looking to build stronger mental wellness
+            habits.
           </p>
         </div>
       </div>
@@ -215,11 +215,11 @@ export default function ResourcesPage() {
                 className="text-lg text-foreground leading-snug mb-1"
                 style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
               >
-                Get a free excerpt from "How to Build Your Private Practice"
+                Get a free excerpt from "The Veterans VA Claims Guide"
               </p>
               <p className="text-sm text-foreground/55">
                 Enter your email and we'll send you the first chapter — including Dr. Cherich's
-                framework for choosing the right business structure.
+                plain-language breakdown of the VA disability rating system.
               </p>
             </div>
             <div>
@@ -271,11 +271,12 @@ export default function ResourcesPage() {
                 className="text-xl leading-snug text-foreground mb-4"
                 style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
               >
-                Build a Practice.<br />Fill a Caseload.
+                Sharpen Your<br />Clinical Practice.
               </h3>
               <p className="text-sm text-foreground/55 leading-relaxed mb-6">
-                Dr. Cherich built Cherish Consulting from the ground up and writes from direct
-                experience — what worked, what didn't, and what she wishes she had known.
+                Dr. Cherich writes from 15+ years of direct clinical experience — practical
+                guidance drawn from the work itself, for clinicians who want to strengthen
+                how they practice.
               </p>
               <a
                 href="https://cherishconsulting.gumroad.com"
