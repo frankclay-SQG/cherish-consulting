@@ -1,2 +1,17 @@
 node_modules
+
+# Secrets — glob form catches .env.local, .env.production, and stray
+# suffixed files like .envskvsOJ... that a bare ".env" line misses.
 .env
+.env*
+*.pem
+*.key
+.git-credentials
+
+# OS / editor cruft
+.DS_Store
+**/.DS_Store
+
+# Build output
+dist
+.vercel
