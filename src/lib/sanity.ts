@@ -1,13 +1,12 @@
 import { createClient } from '@sanity/client'
 
 const config = {
-  projectId: '38bty9n4',
-  dataset: 'cherich',
+  projectId: 'glm8iz92',
+  dataset: 'production',
   apiVersion: '2024-01-01',
-  token: import.meta.env.VITE_SANITY_TOKEN,
 }
 
-/** CDN-backed client for public reads (fast) */
+/** CDN-backed client for public reads (fast). The dataset is public, so no token is sent. */
 export const sanityClient = createClient({
   ...config,
   useCdn: true,
@@ -16,5 +15,6 @@ export const sanityClient = createClient({
 /** Write / admin client — bypasses CDN for real-time data and mutations */
 export const sanityAdminClient = createClient({
   ...config,
+  token: import.meta.env.VITE_SANITY_TOKEN,
   useCdn: false,
 })

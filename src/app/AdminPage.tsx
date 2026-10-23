@@ -735,7 +735,7 @@ function BlogTab() {
           <p className="text-sm font-semibold text-[#1E1A14]">Blog Posts</p>
           <p className="text-[11px] text-[#6B5E4E] mt-0.5">
             {posts.length} post{posts.length !== 1 ? "s" : ""} · Sanity dataset{" "}
-            <code className="bg-[#F2EDE4] px-1 text-[10px]">cherich</code>
+            <code className="bg-[#F2EDE4] px-1 text-[10px]">production</code>
           </p>
         </div>
         <div className="flex items-center gap-2">
