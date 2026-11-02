@@ -29,7 +29,7 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-background/10">
         <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-background/70">
-          <p>© {new Date().getFullYear()} Dr. Carol J. Cherich, PhD · Honoring All Who Serve</p>
+          <p>© {new Date().getFullYear()} Dr. Carol J. Cherich, PhD. All rights reserved. · Honoring All Who Serve</p>
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
             <Link to="/tos" className="hover:text-background transition-colors">Terms of Service</Link>
             <span aria-hidden="true">·</span>
