@@ -19,7 +19,7 @@ const sapSteps = [
   {
     step: "01",
     title: "Initial Evaluation",
-    desc: "A face-to-face (or telehealth) clinical interview with Dr. Cherich, a DOT-qualified Substance Abuse Professional. She assesses whether a substance use disorder is present and determines the appropriate level of care.",
+    desc: "An in-person or remote clinical interview (remote evaluations available in Tennessee and Virginia) with Dr. Cherich, a DOT-qualified Substance Abuse Professional. She assesses whether a substance use disorder is present and determines the appropriate level of care.",
   },
   {
     step: "02",
@@ -120,7 +120,7 @@ export default function DOTEvaluationsPage() {
             Dr. Carol J. Cherich, PhD is a qualified DOT Substance Abuse Professional (SAP)
             providing evaluations and return-to-duty services for FMCSA-regulated employees
             across Tennessee and Virginia. She conducts the CDL evaluations and assessments
-            required for a driver to regain their driving privilege.
+            required for a driver to regain their driving privilege. In-person and remote evaluations are available.
           </p>
           <div className="flex flex-wrap gap-3">
             <a
@@ -169,9 +169,20 @@ export default function DOTEvaluationsPage() {
                   {step}
                 </div>
                 <h3 className="text-sm font-semibold text-foreground mb-3 leading-snug">{title}</h3>
-                <p className="text-xs text-foreground/50 leading-relaxed">{desc}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-10 bg-[#F2EDE4] p-7 flex flex-col md:flex-row md:items-center gap-5 justify-between">
+            <div>
+              <p className="text-[11px] tracking-[0.2em] uppercase text-accent font-semibold mb-2">Free download</p>
+              <p className="text-lg text-foreground" style={{ fontFamily: "'Lora', serif", fontWeight: 600 }}>Your Return-to-Duty Roadmap</p>
+              <p className="text-sm text-muted-foreground mt-1">Every step from prohibited status back to the road, plus what to bring to your first appointment.</p>
+            </div>
+            <a href="/downloads/Cherich-CDL-Return-to-Duty-Roadmap.pdf" download className="self-start md:self-auto flex-shrink-0 inline-flex items-center gap-2 px-5 py-3.5 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90">
+              Download roadmap (PDF)
+            </a>
           </div>
         </div>
       </section>

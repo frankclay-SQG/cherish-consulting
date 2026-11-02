@@ -1,450 +1,302 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Phone, Mail, ChevronRight,
+  Phone, Mail, ChevronRight, Play,
   Heart, Shield, Users, Brain, Activity, ClipboardList,
   GraduationCap, MapPin,
 } from "lucide-react";
 import { SiteNav } from "./components/SiteNav";
+import { SiteFooter } from "./components/SiteFooter";
 import { CookieBanner } from "./components/CookieBanner";
 
-function StarDivider({ count = 3, className = "" }: { count?: number; className?: string }) {
+const serif = { fontFamily: "'Lora', serif", fontWeight: 500 } as const;
+
+function Eyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      {Array.from({ length: count }).map((_, i) => (
-        <span key={i} className="text-accent text-xs select-none" style={{ fontSize: "0.6rem" }}>
-          ★
-        </span>
-      ))}
+    <div className="flex items-center gap-3 mb-4">
+      <span className={`${light ? "text-muted" : "text-accent"} select-none`} style={{ fontSize: "0.6rem" }} aria-hidden="true">★ ★ ★</span>
+      <span className={`text-[11px] tracking-[0.25em] uppercase font-semibold ${light ? "text-muted" : "text-accent"}`}>
+        {children}
+      </span>
+    </div>
+  );
+}
+
+function Stripe() {
+  return (
+    <div className="flex h-1" aria-hidden="true">
+      <div className="flex-1 bg-[#1C2B4A]" />
+      <div className="flex-1 bg-secondary" />
+      <div className="flex-1 bg-[#8B2020]" />
     </div>
   );
 }
 
 const services = [
-  {
-    icon: Heart,
-    title: "Life Coaching & Wellness",
-    desc: "Holistic health and wellness guidance tailored to your life circumstances and goals.",
-    to: null as string | null,
-  },
-  {
-    icon: Shield,
-    title: "Veterans & Military Families",
-    desc: "Specialized counseling for soldiers, veterans, and the families who stand beside them.",
-    to: "/veterans-evaluations" as string | null,
-  },
-  {
-    icon: Brain,
-    title: "Mental Health Treatment",
-    desc: "Evidence-based care for anxiety, depression, PTSD, and related conditions.",
-    to: null as string | null,
-  },
-  {
-    icon: Activity,
-    title: "Stress & Anger Management",
-    desc: "Practical, lasting tools for managing stress — the defining challenge of our era.",
-    to: null as string | null,
-  },
-  {
-    icon: Users,
-    title: "Substance Abuse Treatment",
-    desc: "Compassionate support for those navigating addiction and early recovery.",
-    to: "/assessments" as string | null,
-  },
-  {
-    icon: Heart,
-    title: "Cancer Survivor Support",
-    desc: "Therapeutic presence through diagnosis, treatment, and life beyond cancer.",
-    to: null as string | null,
-  },
-  {
-    icon: ClipboardList,
-    title: "DOT-SAP & DWI Evaluations",
-    desc: "Certified evaluations for DOT Substance Abuse Program and DWI/DUI requirements.",
-    to: "/dot-evaluations" as string | null,
-  },
-  {
-    icon: GraduationCap,
-    title: "Clinical Supervision",
-    desc: "Professional supervision and consultation for graduate counseling interns.",
-    to: "/clinical-supervision" as string | null,
-  },
-];
+  { icon: Shield, title: "Veterans Claims Evaluations", desc: "Independent evaluations, DBQs, nexus letters and IMOs for VA disability claims.", to: "/veterans-evaluations" },
+  { icon: ClipboardList, title: "DOT-SAP & DWI Evaluations", desc: "Qualified SAP evaluations and return-to-duty services, plus DWI/DUI evaluations.", to: "/dot-evaluations" },
+  { icon: Brain, title: "Mental Health Treatment", desc: "Evidence-based care for anxiety, depression, PTSD, and related conditions.", to: null },
+  { icon: Activity, title: "Stress & Anger Management", desc: "Practical, lasting tools for managing stress — the defining challenge of our era.", to: null },
+  { icon: Users, title: "Substance Abuse Treatment", desc: "Compassionate support for those navigating addiction and early recovery.", to: "/assessments" },
+  { icon: Heart, title: "Cancer Survivor Support", desc: "Therapeutic presence through diagnosis, treatment, and life beyond cancer.", to: null },
+  { icon: Heart, title: "Life Coaching & Wellness", desc: "Holistic health and wellness guidance tailored to your life circumstances and goals.", to: null },
+  { icon: GraduationCap, title: "Clinical Supervision", desc: "Professional supervision and consultation for graduate counseling interns.", to: "/clinical-supervision" },
+] as { icon: typeof Heart; title: string; desc: string; to: string | null }[];
 
-const publications = [
-  {
-    title: "Moving Beyond Stress",
-    type: "E-Book",
-    year: "2018",
-    image: "https://images-na.ssl-images-amazon.com/images/P/B091DTLHXN.01._SY300_.jpg",
-    buyUrl: "https://www.amazon.com/Moving-Beyond-Stress-Carol-Cherich-ebook/dp/B091DTLHXN/",
-    description:
-      "A practical learning tool focused on stress reduction — with quizzes, breathing techniques, and strategies for identifying and decreasing stressors. A quick desk reference for navigating life's pressures.",
-  },
-  {
-    title: "Addicted Parents in Recovery & Treatment",
-    type: "E-Book",
-    year: "2013",
-    image: "https://images-na.ssl-images-amazon.com/images/P/B0CTHSMV46.01._SY300_.jpg",
-    buyUrl: "https://www.amazon.com/Addicted-parents-treatment-recovery-Cherich-ebook/dp/B0CTHSMV46/",
-    description:
-      "An evidence-based relapse prevention curriculum addressing substance-abusing parents — covering stress management, parenting skills, childcare resources, and money management.",
-  },
-  {
-    title: "Chair Yoga",
-    type: "E-Book",
-    year: "2020",
-    image: "https://images-na.ssl-images-amazon.com/images/P/B0D8B9JBDP.01._SY300_.jpg",
-    buyUrl: "https://www.amazon.com/Chair-Yoga-Carol-Cherich-ebook/dp/B0D8B9JBDP/",
-    description:
-      "An accessible yoga guide for all ages from a 200-hour certified instructor and licensed clinician, bringing the benefits of mindful movement to those who prefer seated practice.",
-  },
-  {
-    title: "Breast Cancer Support Curriculum",
-    type: "E-Book",
-    year: "2024",
-    image: "https://images-na.ssl-images-amazon.com/images/P/B0D89M759R.01._SY300_.jpg",
-    buyUrl: "https://www.amazon.com/Breast-cancer-support-curriculum-Cherich-ebook/dp/B0D89M759R/",
-    description:
-      "A self-help and facilitation guide for patients, caregivers, nurses, and counselors navigating the breast cancer journey — an inspirational tool built to support and educate.",
-  },
-  {
-    title: "Psychosocial Stress and Alcohol Abuse Among Hispanic Males",
-    type: "Research Paper",
-    year: "2014",
-    image: "https://images-na.ssl-images-amazon.com/images/P/B0D8C2PMJ1.01._SY300_.jpg",
-    buyUrl: "https://www.amazon.com/Psychosocial-stress-alcohol-abuse-Hispanic-ebook/dp/B0D8C2PMJ1/",
-    description:
-      "Research examining psychosocial stressors and alcohol abuse, with evidence-based intervention outcomes developed through work at Providence Hospital, Washington, D.C.",
-  },
-];
+const movements = ["Arrive", "Release", "Breathe", "Rest", "Receive", "Return", "Go forward"];
+
+const inputCls =
+  "w-full border border-primary/30 bg-white px-3 py-3 text-sm focus:outline-none focus:border-primary transition-colors";
+const labelCls = "text-xs font-medium text-foreground block mb-1.5";
 
 export default function App() {
   const [formSent, setFormSent] = useState(false);
 
   return (
-    <div
-      className="min-h-screen bg-background text-foreground"
-      style={{ fontFamily: "'DM Sans', sans-serif" }}
-    >
-      <SiteNav />
+    <div className="min-h-screen bg-background text-foreground" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      <SiteNav alwaysSolid />
       <CookieBanner />
-      <a href="#about" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:text-xs focus:tracking-widest focus:uppercase">Skip to content</a>
-      {/* ── HERO ── */}
-      <section className="min-h-screen grid md:grid-cols-2 items-stretch">
-        {/* Text */}
-        <div className="flex flex-col min-w-0 overflow-hidden px-8 md:px-14 lg:px-20 pt-28 pb-12 bg-background">
-          <div className="flex items-center gap-3 mb-6">
-            <StarDivider count={3} />
-            <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">
-              Dr. Carol J. Cherich, PhD
-            </span>
-          </div>
+      <a href="#paths" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:text-xs focus:tracking-widest focus:uppercase">Skip to content</a>
 
-          <h1
-            className="text-5xl md:text-[3.25rem] lg:text-[3.75rem] leading-[1.1] text-foreground mb-7"
-            style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
-          >
-            Healing Through
-            <br />
-            <span className="text-primary">Experience,</span>
-            <br />
-            Grounded in
-            <br />
-            <em className="not-italic text-accent">Service.</em>
-          </h1>
-
-          <p className="text-[0.95rem] text-foreground/60 leading-relaxed max-w-md mb-10">
-            A veteran-owned counseling and wellness practice serving soldiers, veterans, cancer
-            survivors, and families across Tennessee and Virginia — for over 15 years.
-          </p>
-
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
-            >
-              Get In Touch <ChevronRight size={12} />
-            </a>
-            <a
-              href="#services"
-              className="inline-flex items-center gap-2 px-6 py-3 border border-foreground/20 text-foreground/60 text-xs tracking-widest uppercase hover:bg-secondary transition-colors"
-            >
-              Our Services
-            </a>
-          </div>
-
-          <div className="mt-auto pt-8 border-t border-border grid grid-cols-3 gap-6">
-            {[
-              { val: "15+", label: "Years in Practice" },
-              { val: "PhD", label: "Capella University" },
-              { val: "TN & VA", label: "Licensed" },
-            ].map((stat) => (
-              <div key={stat.val}>
-                <div
-                  className="text-2xl text-primary mb-1"
-                  style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
-                >
-                  {stat.val}
-                </div>
-                <div className="text-[9px] text-muted-foreground tracking-widest uppercase">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+      {/* ── HERO: wide headshot, headline in the negative space ── */}
+      <section className="relative bg-[#c5a581] overflow-hidden pt-16">
+        <picture>
+          <source type="image/avif" sizes="100vw" srcSet="/images/cherich-wide-640.avif 640w, /images/cherich-wide-1024.avif 1024w, /images/cherich-wide-1536.avif 1536w" />
+          <source type="image/webp" sizes="100vw" srcSet="/images/cherich-wide-640.webp 640w, /images/cherich-wide-1024.webp 1024w, /images/cherich-wide-1536.webp 1536w" />
+          <img
+            src="/images/cherich-wide-1536.jpg"
+            alt="Dr. Carol J. Cherich, PhD"
+            width={1536}
+            height={1024}
+            fetchPriority="high"
+            className="block w-full h-auto aspect-[3/2] object-cover md:absolute md:inset-0 md:h-full md:aspect-auto"
+            style={{ objectPosition: "25% 30%" }}
+          />
+        </picture>
+        <div className="relative max-w-6xl mx-auto px-6 py-10 md:py-28 lg:py-36 flex md:justify-end">
+          <div className="md:max-w-[520px]">
+            <p className="text-[11px] tracking-[0.25em] uppercase font-semibold text-foreground mb-5">
+              <span aria-hidden="true">★★★ </span>Dr. Carol J. Cherich, PhD
+              <br />Former Active-Duty Military Medic
+            </p>
+            <h1 className="text-[2.5rem] md:text-5xl lg:text-[3.5rem] leading-[1.1] text-foreground mb-5" style={serif}>
+              Independent evaluations for <span className="text-primary">veterans</span> and <em>CDL drivers.</em>
+            </h1>
+            <p className="text-lg leading-relaxed text-foreground mb-8">
+              Clear, thorough clinical documentation from a licensed clinician who has served.
+              Telehealth across Tennessee and Virginia.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a href="#veterans" className="inline-flex items-center gap-2 px-6 py-4 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90">
+                I'm a veteran
+              </a>
+              <a href="#drivers" className="inline-flex items-center gap-2 px-6 py-4 bg-foreground text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90">
+                I'm a CDL driver
+              </a>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Image */}
-        <div className="relative min-h-[55vw] bg-secondary overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&h=1200&fit=crop&auto=format"
-            alt="Alpine mountain sunset panoramic view"
-            loading="eager"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-background/30" />
-          <div className="absolute inset-0 bg-primary/10" />
+      {/* ── TWO PATHS ── */}
+      <section id="paths" className="max-w-6xl mx-auto px-6 py-14">
+        <div className="grid md:grid-cols-2 gap-6">
+          <article id="veterans" className="bg-[#F2EDE4] flex flex-col scroll-mt-24">
+            <Stripe />
+            <div className="p-8 flex flex-col gap-4 flex-1">
+              <p className="text-[11px] tracking-[0.25em] uppercase font-semibold text-accent">For Veterans</p>
+              <h2 className="text-3xl leading-tight" style={serif}>VA Claim Evaluations</h2>
+              <ul className="list-disc pl-5 space-y-1.5 text-[15px] leading-relaxed">
+                <li>Mental health evaluations and DBQs</li>
+                <li>Nexus letters on service connection</li>
+                <li>Independent medical opinions (IMOs)</li>
+                <li>Written documentation in 5–10 business days</li>
+              </ul>
+              <div className="mt-auto pt-2 flex flex-wrap items-center gap-4">
+                <Link to="/veterans-evaluations" className="inline-flex items-center gap-2 px-6 py-4 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90">
+                  Veterans: start here <ChevronRight size={12} />
+                </Link>
+                <a href="/downloads/Cherich-VA-Evaluation-Prep-Checklist.pdf" className="text-sm text-primary underline underline-offset-4">
+                  Free prep checklist (PDF)
+                </a>
+              </div>
+            </div>
+          </article>
+          <article id="drivers" className="bg-[#F2EDE4] flex flex-col scroll-mt-24">
+            <Stripe />
+            <div className="p-8 flex flex-col gap-4 flex-1">
+              <p className="text-[11px] tracking-[0.25em] uppercase font-semibold text-accent">For CDL Drivers &amp; Employers</p>
+              <h2 className="text-3xl leading-tight" style={serif}>DOT SAP Evaluations</h2>
+              <ul className="list-disc pl-5 space-y-1.5 text-[15px] leading-relaxed">
+                <li>Initial and follow-up SAP evaluations</li>
+                <li>Remote evaluations available in TN &amp; VA</li>
+                <li>Clearinghouse reporting at every step</li>
+                <li>Clear return-to-duty guidance from day one</li>
+              </ul>
+              <div className="mt-auto pt-2 flex flex-wrap items-center gap-4">
+                <Link to="/dot-evaluations" className="inline-flex items-center gap-2 px-6 py-4 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90">
+                  Drivers: start here <ChevronRight size={12} />
+                </Link>
+                <a href="/downloads/Cherich-CDL-Return-to-Duty-Roadmap.pdf" className="text-sm text-primary underline underline-offset-4">
+                  Return-to-duty roadmap (PDF)
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
 
-          <div className="absolute bottom-8 left-8 right-8 md:right-auto md:max-w-sm bg-background/92 backdrop-blur-sm overflow-hidden">
-            {/* Tricolor stripe */}
-            <div className="flex h-1">
-              <div className="flex-1 bg-[#1C2B4A]" />
-              <div className="flex-1 bg-background/60" />
-              <div className="flex-1 bg-[#8B2020]" />
+      {/* ── CREDENTIALS ── */}
+      <section className="bg-secondary border-y border-border">
+        <div className="max-w-6xl mx-auto px-6 py-7 grid grid-cols-2 md:grid-cols-5 gap-5">
+          {[
+            { val: "15+ years", label: "in practice" },
+            { val: "PhD", label: "Capella University" },
+            { val: "TN & VA", label: "Licensed, telehealth" },
+            { val: "DOT SAP", label: "Qualified under 49 CFR Part 40" },
+            { val: "Veriditas", label: "Labyrinth facilitator member" },
+          ].map(({ val, label }) => (
+            <div key={val}>
+              <p className="text-2xl text-primary" style={serif}>{val}</p>
+              <p className="text-xs text-muted-foreground mt-1">{label}</p>
             </div>
-            <div className="p-7 border-l-2 border-primary">
-              <p className="text-[1rem] text-foreground/70 italic leading-relaxed">
-                "Stress is the disease of the twenty-first century — but it doesn't have to define
-                your life."
-              </p>
-              <p className="text-[11px] text-primary mt-4 font-semibold tracking-wide uppercase">
-                — Dr. Carol J. Cherich
+          ))}
+        </div>
+      </section>
+
+      {/* ── LABYRINTH FEATURE ── */}
+      <section id="labyrinth" className="bg-[#1C2B4A] text-[#F2EDE4]">
+        <div className="max-w-6xl mx-auto px-6 py-20 md:py-24 grid lg:grid-cols-2 gap-14 items-center">
+          <div>
+            <Eyebrow light>Dr. Cherich's signature practice</Eyebrow>
+            <h2 className="text-4xl md:text-5xl leading-tight mb-6" style={serif}>Walk the Labyrinth</h2>
+            <p className="text-[17px] leading-relaxed text-[#E8EDE5] mb-4">
+              An ancient walking meditation with one path in and one path out. No decisions, no wrong
+              turns — just steady steps, slow breathing, and room to set something down.
+            </p>
+            <p className="text-[17px] leading-relaxed text-[#E8EDE5] mb-8">
+              Free to watch and free to print. Walk along with the guided video at home, trace a
+              finger labyrinth at your desk, or join Dr. Cherich for a group walk.
+            </p>
+            <div className="flex flex-wrap gap-3 mb-8">
+              <Link to="/labyrinths" className="px-6 py-4 bg-[#F2EDE4] text-[#1C2B4A] text-xs tracking-widest uppercase font-semibold hover:opacity-90">
+                Take the guided walk
+              </Link>
+              <Link to="/labyrinths#downloads" className="px-6 py-4 border border-[#F2EDE4]/50 text-[#F2EDE4] text-xs tracking-widest uppercase hover:bg-[#F2EDE4]/10">
+                Free printable labyrinths
+              </Link>
+            </div>
+            <div className="flex items-center gap-4">
+              <img src="/images/via-member.png" alt="Veriditas International Association of Professional Labyrinth Facilitators — VIA Member" width={89} height={85} loading="lazy" className="w-[72px] h-auto bg-white" />
+              <p className="text-[13px] leading-snug text-muted">
+                Member, Veriditas International Association<br />of Professional Labyrinth Facilitators
               </p>
             </div>
+          </div>
+          <div>
+            <Link to="/labyrinths#walk" className="relative block aspect-[16/10] bg-primary overflow-hidden group" aria-label="Watch the guided labyrinth walk">
+              <svg viewBox="0 0 200 200" className="absolute inset-0 m-auto w-[70%] h-[70%]" aria-hidden="true">
+                <g fill="none" stroke="#F2EDE4" strokeOpacity="0.22" strokeWidth="5">
+                  <path d="M100 190 A90 90 0 1 1 112 189" /><path d="M112 189 L112 175" />
+                  <path d="M100 175 A75 75 0 1 1 88 174" /><path d="M100 160 A60 60 0 1 1 112 159" />
+                  <path d="M100 145 A45 45 0 1 1 88 144" /><path d="M100 130 A30 30 0 1 1 112 129" />
+                  <path d="M100 190 L100 130" />
+                </g>
+              </svg>
+              <span className="absolute inset-0 m-auto w-[88px] h-[88px] rounded-full bg-[#F2EDE4] text-[#1C2B4A] flex items-center justify-center group-hover:scale-105 transition-transform">
+                <Play size={30} fill="currentColor" />
+              </span>
+              <span className="absolute left-5 bottom-4 text-[13px] text-[#E8EDE5]">Guided walk · seven movements</span>
+            </Link>
+            <ol className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-px bg-[#F2EDE4]/20 mt-px">
+              {movements.map((m, i) => (
+                <li key={m} className="bg-[#1C2B4A] px-3 py-3 text-[13px] text-[#E8EDE5]">{i + 1} · {m}</li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHAT TO EXPECT ── */}
+      <section className="max-w-6xl mx-auto px-6 py-20 md:py-24">
+        <Eyebrow>What to expect</Eyebrow>
+        <h2 className="text-3xl md:text-4xl leading-tight mb-10" style={serif}>Straightforward, start to finish</h2>
+        <div className="grid md:grid-cols-2 gap-12">
+          <div>
+            <h3 className="text-xl text-primary mb-5" style={{ fontFamily: "'Lora', serif", fontWeight: 600 }}>Veterans claim evaluations</h3>
+            <ol className="list-decimal pl-5 space-y-3 text-[15px] leading-relaxed">
+              <li><strong>Call to talk through your claim.</strong> We confirm which documents you need: evaluation, DBQ, nexus letter or IMO.</li>
+              <li><strong>Your evaluation.</strong> A 60–90 minute clinical interview by telehealth, plus review of the records you provide.</li>
+              <li><strong>Your documentation.</strong> A written report in 5–10 business days, ready to submit with your claim.</li>
+            </ol>
+            <p className="mt-5 text-[13px] leading-relaxed text-muted-foreground">
+              Dr. Cherich provides independent clinical evaluations and documentation. She does not file or
+              represent VA claims; an accredited representative or veterans service organization can help
+              you file at no cost.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-xl text-primary mb-5" style={{ fontFamily: "'Lora', serif", fontWeight: 600 }}>CDL drivers: back to duty</h3>
+            <ol className="list-decimal pl-5 space-y-3 text-[15px] leading-relaxed">
+              <li><strong>Designate Dr. Cherich as your SAP</strong> in the FMCSA Clearinghouse, then call to book.</li>
+              <li><strong>Initial evaluation,</strong> in person or remote, with a written education or treatment recommendation.</li>
+              <li><strong>Follow-up evaluation</strong> once you complete the program; results are reported to the Clearinghouse.</li>
+              <li><strong>Return-to-duty test</strong> through your employer, and you are back on the road.</li>
+            </ol>
+            <p className="mt-5 text-[13px] leading-relaxed text-muted-foreground">
+              Employers: ask about SAP services for your DOT drug and alcohol program.
+            </p>
           </div>
         </div>
       </section>
 
       {/* ── ABOUT ── */}
-      <section id="about" className="py-24 bg-secondary">
+      <section id="about" className="py-20 md:py-24 bg-secondary scroll-mt-16">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-[2fr_3fr] gap-14 lg:gap-20 items-center">
-          <div className="relative">
-            <div className="aspect-[3/4] bg-muted overflow-hidden">
-              <img
-                src="/carol-portrait.png"
-                alt="Dr. Carol J. Cherich, PhD, licensed mental health clinician"
-                loading="lazy"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="absolute -bottom-5 -right-5 w-28 h-28 bg-primary flex flex-col items-center justify-center text-primary-foreground text-center p-3">
-              <span
-                className="text-2xl"
-                style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
-              >
-                15+
-              </span>
-              <span className="text-[8px] tracking-[0.15em] uppercase leading-tight mt-1 opacity-80">
-                Years Clinical Practice
-              </span>
-            </div>
-          </div>
-
+          <picture>
+            <source type="image/avif" srcSet="/images/cherich-portrait-400.avif 400w, /images/cherich-portrait-800.avif 800w" sizes="(min-width: 768px) 400px, 100vw" />
+            <source type="image/webp" srcSet="/images/cherich-portrait-400.webp 400w, /images/cherich-portrait-800.webp 800w" sizes="(min-width: 768px) 400px, 100vw" />
+            <img src="/images/cherich-portrait-800.jpg" alt="Dr. Carol J. Cherich, PhD" width={800} height={977} loading="lazy" className="w-full h-auto aspect-[3/4] object-cover" />
+          </picture>
           <div>
-            <div className="flex items-center gap-3 mb-5">
-              <StarDivider count={3} />
-              <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">
-                About Dr. Cherich
-              </span>
-            </div>
-            <h2
-              className="text-3xl md:text-4xl leading-tight mb-6 text-foreground"
-              style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
-            >
-              A Clinician Shaped by Service and Compassion
-            </h2>
-            <p className="text-[0.95rem] text-foreground/60 leading-relaxed mb-5">
+            <Eyebrow>About Dr. Cherich</Eyebrow>
+            <h2 className="text-3xl md:text-4xl leading-tight mb-6" style={serif}>She has served. She understands.</h2>
+            <p className="text-base text-muted-foreground leading-relaxed mb-5">
               Dr. Carol J. Cherich holds a PhD from Capella University and brings more than 15 years
               of experience as a licensed clinician in mental health and addictions. Her background as
-              an active-duty military medic gives her a rare, firsthand understanding of the challenges
-              faced by those who serve — and those who love them.
+              an active-duty military medic gives her a firsthand understanding of the challenges
+              faced by those who serve, and that understanding shows in her evaluations.
             </p>
-            <p className="text-[0.95rem] text-foreground/60 leading-relaxed mb-8">
-              A certified yoga instructor and experienced clinical supervisor, Dr. Cherich integrates
-              body, mind, and spirit into her practice — recognizing that true healing is never simply
-              clinical. She currently serves clients in Tennessee and Virginia through individual
-              sessions, group work, evaluations, and consultation.
+            <p className="text-base text-muted-foreground leading-relaxed mb-6">
+              She is a DOT-qualified Substance Abuse Professional, an experienced clinical supervisor,
+              a certified yoga instructor and a Veriditas labyrinth facilitator, integrating body, mind,
+              and spirit into her practice.
             </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {[
-                "Licensed Mental Health Clinician",
-                "Certified Yoga Instructor",
-                "Former Active-Duty Military Medic",
-                "Clinical Supervisor, Graduate Interns",
-              ].map((credential) => (
-                <div key={credential} className="flex items-start gap-2.5">
-                  <span className="text-accent flex-shrink-0 mt-0.5 leading-none" style={{ fontSize: "0.55rem" }}>★</span>
-                  <span className="text-sm text-foreground/65 leading-snug">{credential}</span>
-                </div>
-              ))}
-            </div>
+            <blockquote className="text-lg italic leading-relaxed text-foreground" style={{ fontFamily: "'Lora', serif" }}>
+              "Stress is the disease of the twenty-first century — but it doesn't have to define your life."
+            </blockquote>
           </div>
         </div>
       </section>
 
-      {/* ── PHILOSOPHY ── */}
-      <section className="py-24 bg-primary text-primary-foreground">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <div className="w-px h-14 bg-primary-foreground/25 mx-auto mb-10" />
-          <blockquote
-            className="text-2xl md:text-3xl lg:text-4xl leading-relaxed italic"
-            style={{ fontFamily: "'Lora', serif", fontWeight: 400 }}
-          >
-            "Stress is the disease of the twenty-first century. Left unmanaged, it touches every
-            dimension of life — and met with courage, it becomes the gateway to resilience."
-          </blockquote>
-          <div className="w-px h-14 bg-primary-foreground/25 mx-auto mt-10 mb-8" />
-          <p className="text-[10px] tracking-[0.25em] uppercase text-primary-foreground/50 font-medium">
-            Dr. Carol J. Cherich, PhD — Core Philosophy
-          </p>
-        </div>
-      </section>
-
-      {/* ── VETERAN BAND ── */}
-      <section className="relative overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1777058984349-0e176b203d7e?w=1400&h=600&fit=crop&auto=format"
-          alt="Military honor guard carefully folding the American flag"
-          loading="lazy"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-[#1C2B4A]/72" />
-        <div className="absolute top-0 left-0 right-0 flex h-1">
-          <div className="flex-1 bg-[#1C2B4A]" />
-          <div className="w-px bg-white/30" />
-          <div className="flex-1 bg-[#8B2020]" />
-        </div>
-
-        <div className="relative z-10 py-20 px-6">
-          <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_1px_1fr_1px_1fr] gap-0 items-stretch">
-            <div className="text-center px-8 py-4">
-              <StarDivider count={5} className="justify-center mb-4" />
-              <p
-                className="text-3xl md:text-4xl text-white mb-3"
-                style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
-              >
-                For Those Who Served
-              </p>
-              <p className="text-sm text-white/60 leading-relaxed max-w-xs mx-auto">
-                Dr. Cherich's military background as an active-duty medic grounds her work with
-                veterans in genuine understanding — not just clinical training.
-              </p>
-            </div>
-
-            <div className="hidden md:block bg-white/10" />
-
-            <div className="text-center px-8 py-4 mt-8 md:mt-0">
-              <div className="grid grid-cols-2 gap-6 max-w-xs mx-auto">
-                {[
-                  { val: "PTSD", label: "Treatment" },
-                  { val: "MST", label: "Support" },
-                  { val: "Transition", label: "Counseling" },
-                  { val: "Family", label: "Sessions" },
-                ].map(({ val, label }) => (
-                  <div key={val} className="text-center">
-                    <p
-                      className="text-xl text-white"
-                      style={{ fontFamily: "'Lora', serif" }}
-                    >
-                      {val}
-                    </p>
-                    <p className="text-[9px] tracking-[0.2em] uppercase text-white/45 mt-0.5">
-                      {label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="hidden md:block bg-white/10" />
-
-            <div className="text-center px-8 py-4 mt-8 md:mt-0 flex flex-col items-center justify-center">
-              <div className="border border-white/20 p-5 max-w-xs">
-                <StarDivider count={5} className="justify-center mb-3" />
-                <p className="text-sm text-white/70 italic leading-relaxed">
-                  "I know what it costs to serve. That experience is at the heart of every
-                  session I offer veterans and their families."
-                </p>
-                <p className="text-[9px] text-white/40 tracking-[0.2em] uppercase mt-3">
-                  — Dr. Carol J. Cherich
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="absolute bottom-0 left-0 right-0 flex h-1">
-          <div className="flex-1 bg-[#1C2B4A]" />
-          <div className="w-px bg-white/30" />
-          <div className="flex-1 bg-[#8B2020]" />
-        </div>
-      </section>
-
-      {/* ── SERVICES ── */}
-      <section id="services" className="py-24 bg-background">
+      {/* ── ALL SERVICES ── */}
+      <section id="services" className="py-20 md:py-24 bg-background scroll-mt-16">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-center gap-3 mb-4">
-            <StarDivider count={3} />
-            <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">
-              What We Offer
-            </span>
-          </div>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
-            <h2
-              className="text-3xl md:text-4xl leading-tight text-foreground max-w-md"
-              style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
-            >
-              Services Tailored to Where You Are
-            </h2>
-            <p className="text-sm text-foreground/50 max-w-xs leading-relaxed">
-              Every service is delivered with the same commitment to your long-term wellbeing —
-              clinical and compassionate.
-            </p>
-          </div>
-
+          <Eyebrow>Also offered</Eyebrow>
+          <h2 className="text-3xl md:text-4xl leading-tight mb-10" style={serif}>All services</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border">
             {services.map(({ icon: Icon, title, desc, to }) => {
               const inner = (
                 <>
-                  <div className="mb-5">
-                    <Icon
-                      size={16}
-                      className="text-primary group-hover:text-accent transition-colors"
-                      strokeWidth={1.5}
-                    />
-                  </div>
+                  <Icon size={16} className="text-primary mb-5" strokeWidth={1.5} />
                   <h3 className="text-sm font-semibold text-foreground mb-2 leading-snug">{title}</h3>
-                  <p className="text-xs text-foreground/50 leading-relaxed mb-4">{desc}</p>
-                  <ChevronRight size={12} className="text-primary/0 group-hover:text-primary/60 transition-colors mt-auto" />
+                  <p className="text-[13px] text-muted-foreground leading-relaxed">{desc}</p>
                 </>
               );
               return to ? (
-                <Link
-                  key={title}
-                  to={to}
-                  className="bg-background p-7 hover:bg-secondary transition-colors group block no-underline"
-                >
-                  {inner}
-                </Link>
+                <Link key={title} to={to} className="bg-background p-7 hover:bg-secondary transition-colors block">{inner}</Link>
               ) : (
-                <div
-                  key={title}
-                  className="bg-background p-7 hover:bg-secondary transition-colors group cursor-default"
-                >
-                  {inner}
-                </div>
+                <div key={title} className="bg-background p-7">{inner}</div>
               );
             })}
           </div>
@@ -452,191 +304,92 @@ export default function App() {
       </section>
 
       {/* ── CONTACT ── */}
-      <section id="contact" className="py-24 bg-background">
+      <section id="contact" className="py-20 md:py-24 bg-secondary scroll-mt-16">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-[5fr_7fr] gap-14 lg:gap-20">
           <div>
-            <div className="flex items-center gap-3 mb-5">
-              <StarDivider count={3} />
-              <span className="text-[10px] tracking-[0.25em] uppercase text-accent font-medium">
-                Get In Touch
-              </span>
-            </div>
-            <h2
-              className="text-3xl md:text-4xl leading-tight text-foreground mb-5"
-              style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
-            >
-              Begin Your Path to Wellness
-            </h2>
-            <p className="text-[0.95rem] text-foreground/55 leading-relaxed mb-10">
-              Whether you are seeking support for yourself, your family, or your team — we would
-              welcome the opportunity to connect. Reach out directly or send a message.
+            <Eyebrow>Get started</Eyebrow>
+            <h2 className="text-3xl md:text-4xl leading-tight mb-5" style={serif}>Tell us what you need</h2>
+            <p className="text-base text-muted-foreground leading-relaxed mb-8">
+              Prefer to talk? Call now — most people hear back within one business day.
             </p>
-
             <div className="space-y-5">
               {[
-                {
-                  icon: Phone,
-                  label: "Phone",
-                  value: "301-956-3185",
-                  href: "tel:3019563185",
-                },
-                {
-                  icon: Mail,
-                  label: "Email",
-                  value: "drcarol@cherishconsulting.com",
-                  href: "mailto:drcarol@cherishconsulting.com",
-                },
-                {
-                  icon: MapPin,
-                  label: "Serving",
-                  value: "Tennessee & Virginia",
-                  href: undefined,
-                },
+                { icon: Phone, label: "Phone", value: "301-956-3185", href: "tel:3019563185" },
+                { icon: Mail, label: "Email", value: "drcarol@cherishconsulting.com", href: "mailto:drcarol@cherishconsulting.com" },
+                { icon: MapPin, label: "Serving", value: "Tennessee & Virginia, by telehealth", href: undefined },
               ].map(({ icon: Icon, label, value, href }) => {
                 const inner = (
-                  <div className="flex items-center gap-4 group">
-                    <div className="w-10 h-10 border border-border flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:border-primary transition-colors">
-                      <Icon
-                        size={13}
-                        strokeWidth={1.5}
-                        className="text-foreground/50 group-hover:text-primary-foreground transition-colors"
-                      />
+                  <div className="flex items-center gap-4">
+                    <div className="w-11 h-11 border border-primary/30 flex items-center justify-center flex-shrink-0">
+                      <Icon size={15} strokeWidth={1.5} className="text-primary" />
                     </div>
                     <div>
-                      <p className="text-[9px] text-muted-foreground tracking-[0.2em] uppercase mb-0.5">
-                        {label}
-                      </p>
-                      <p className="text-sm text-foreground">{value}</p>
+                      <p className="text-[11px] text-muted-foreground tracking-[0.15em] uppercase mb-0.5">{label}</p>
+                      <p className="text-[15px] text-foreground">{value}</p>
                     </div>
                   </div>
                 );
-                return href ? (
-                  <a key={label} href={href}>
-                    {inner}
-                  </a>
-                ) : (
-                  <div key={label}>{inner}</div>
-                );
+                return href ? <a key={label} href={href}>{inner}</a> : <div key={label}>{inner}</div>;
               })}
             </div>
           </div>
 
           {formSent ? (
-            <div className="flex flex-col items-center justify-center h-full min-h-[320px] text-center gap-4">
-              <div className="w-12 h-12 border border-primary flex items-center justify-center">
-                <span className="text-primary text-lg">✓</span>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-foreground mb-1">Message Sent</p>
-                <p className="text-xs text-foreground/50">Thank you for reaching out. Dr. Cherich will be in touch shortly.</p>
-              </div>
-              <button onClick={() => setFormSent(false)} className="text-xs text-primary underline underline-offset-2 hover:opacity-70 mt-2">Send another message</button>
+            <div className="flex flex-col items-center justify-center min-h-[320px] text-center gap-4 bg-[#F2EDE4] p-8" role="status">
+              <p className="text-lg text-foreground" style={serif}>Thank you — your request is on its way.</p>
+              <p className="text-sm text-muted-foreground">Dr. Cherich will be in touch shortly.</p>
+              <button onClick={() => setFormSent(false)} className="text-sm text-primary underline underline-offset-2">Send another request</button>
             </div>
           ) : (
-          <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setFormSent(true); }}>
-            <div className="grid grid-cols-2 gap-4">
+            <form className="bg-[#F2EDE4] p-8 grid sm:grid-cols-2 gap-5" onSubmit={(e) => { e.preventDefault(); setFormSent(true); }}>
               <div>
-                <label className="text-[9px] text-muted-foreground tracking-[0.2em] uppercase block mb-1.5">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  className="w-full border border-border bg-secondary px-3 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors placeholder:text-foreground/30"
-                  placeholder="First"
-                />
+                <label htmlFor="c-name" className={labelCls}>Name</label>
+                <input id="c-name" type="text" autoComplete="name" className={inputCls} required />
               </div>
               <div>
-                <label className="text-[9px] text-muted-foreground tracking-[0.2em] uppercase block mb-1.5">
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  className="w-full border border-border bg-secondary px-3 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors placeholder:text-foreground/30"
-                  placeholder="Last"
-                />
+                <label htmlFor="c-phone" className={labelCls}>Phone</label>
+                <input id="c-phone" type="tel" autoComplete="tel" className={inputCls} />
               </div>
-            </div>
-            <div>
-              <label className="text-[9px] text-muted-foreground tracking-[0.2em] uppercase block mb-1.5">
-                Email
-              </label>
-              <input
-                type="email"
-                className="w-full border border-border bg-secondary px-3 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors placeholder:text-foreground/30"
-                placeholder="you@example.com"
-                required
-              />
-            </div>
-            <div>
-              <label className="text-[9px] text-muted-foreground tracking-[0.2em] uppercase block mb-1.5">
-                Area of Interest
-              </label>
-              <select className="w-full border border-border bg-secondary px-3 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors text-foreground/70">
-                <option value="">Select a service…</option>
-                {services.map((s) => (
-                  <option key={s.title}>{s.title}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="text-[9px] text-muted-foreground tracking-[0.2em] uppercase block mb-1.5">
-                Message
-              </label>
-              <textarea
-                rows={4}
-                className="w-full border border-border bg-secondary px-3 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors resize-none placeholder:text-foreground/30"
-                placeholder="Tell us how we can help…"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-primary text-primary-foreground py-3 text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
-            >
-              Send Message
-            </button>
-          </form>
+              <div className="sm:col-span-2">
+                <label htmlFor="c-email" className={labelCls}>Email</label>
+                <input id="c-email" type="email" autoComplete="email" className={inputCls} required />
+              </div>
+              <div>
+                <label htmlFor="c-topic" className={labelCls}>I'm reaching out about</label>
+                <select id="c-topic" className={inputCls} defaultValue="">
+                  <option value="" disabled>Choose one…</option>
+                  <option>VA claim evaluation</option>
+                  <option>DOT SAP evaluation (driver)</option>
+                  <option>SAP services for my company</option>
+                  <option>Labyrinth walk or workshop</option>
+                  <option>Counseling or other services</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="c-state" className={labelCls}>State</label>
+                <select id="c-state" className={inputCls} defaultValue="">
+                  <option value="" disabled>Choose one…</option>
+                  <option>Tennessee</option>
+                  <option>Virginia</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div className="sm:col-span-2">
+                <label htmlFor="c-msg" className={labelCls}>Anything we should know? (optional)</label>
+                <textarea id="c-msg" rows={3} className={`${inputCls} resize-none`} />
+              </div>
+              <p className="sm:col-span-2 text-xs text-muted-foreground">
+                Please don't include medical details here. We'll discuss those privately.
+              </p>
+              <button type="submit" className="sm:col-span-2 justify-self-start bg-primary text-primary-foreground px-7 py-4 text-xs tracking-widest uppercase hover:opacity-90">
+                Send request
+              </button>
+            </form>
           )}
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer className="bg-foreground text-background">
-        <div className="flex h-0.5">
-          <div className="flex-1 bg-[#1C2B4A]" />
-          <div className="flex-1 bg-background/20" />
-          <div className="flex-1 bg-[#8B2020]" />
-        </div>
-        <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-3 mb-0.5">
-              <span
-                className="text-sm tracking-widest uppercase"
-                style={{ fontFamily: "'Lora', serif" }}
-              >
-                Cherich Consulting
-              </span>
-              <span className="text-[#8B8060] text-[0.5rem] tracking-widest">★ ★ ★</span>
-            </div>
-            <p className="text-[10px] text-background/35 tracking-wide">
-              Veteran-Owned · Mental Health & Wellness · Tennessee & Virginia
-            </p>
-          </div>
-          <div className="flex flex-col items-center md:items-end gap-2">
-            <p className="text-[10px] text-background/35 tracking-wide">
-              © {new Date().getFullYear()} Dr. Carol J. Cherich, PhD · Honoring All Who Serve
-            </p>
-            <div className="flex items-center gap-4">
-              <a href="/tos" className="text-[10px] text-background/40 hover:text-background/70 tracking-wide transition-colors">
-                Terms of Service
-              </a>
-              <span className="text-background/20 text-[10px]">·</span>
-              <a href="/privacy" className="text-[10px] text-background/40 hover:text-background/70 tracking-wide transition-colors">
-                Privacy Policy
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

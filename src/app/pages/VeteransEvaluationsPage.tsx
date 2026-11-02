@@ -186,22 +186,33 @@ export default function VeteransEvaluationsPage() {
               documentation.
             </p>
 
-            {/* Anonymized case example */}
+            {/* Prep checklist (replaces the outcome-based case example) */}
             <div className="bg-secondary border border-border p-6">
-              <p className="text-[10px] tracking-[0.2em] uppercase text-accent font-medium mb-4">
-                Case Example (Anonymized)
+              <p className="text-[11px] tracking-[0.2em] uppercase text-accent font-semibold mb-3">
+                Free download
               </p>
-              <p className="text-sm text-foreground/65 italic leading-relaxed mb-4">
-                "A veteran in his late 40s had been denied a PTSD rating three times. After
-                an independent evaluation with Dr. Cherich — including a completed DBQ and nexus
-                letter documenting service connection — he submitted a supplemental claim and
-                received a 70% rating. The documentation clearly linked his combat exposures to
-                his current diagnosis and functional limitations."
+              <p className="text-base text-foreground mb-2" style={{ fontFamily: "'Lora', serif", fontWeight: 600 }}>
+                Preparing for Your VA Claim Evaluation
               </p>
-              <p className="text-[10px] text-muted-foreground tracking-wide">
-                Individual outcomes vary. This example is anonymized and shared for illustrative purposes only.
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                A one-page checklist of the records to gather and what to think about before your
+                evaluation.
               </p>
+              <a
+                href="/downloads/Cherich-VA-Evaluation-Prep-Checklist.pdf"
+                download
+                className="inline-flex items-center gap-2 px-5 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90"
+              >
+                Download checklist (PDF)
+              </a>
             </div>
+
+            <p className="text-[13px] text-muted-foreground leading-relaxed mt-6">
+              Dr. Cherich provides independent clinical evaluations and documentation. She does not
+              file or represent VA claims, and no evaluation can guarantee a particular rating. For
+              free help filing, contact an accredited veterans service organization, claims agent or
+              attorney.
+            </p>
           </div>
 
           {/* CTA card */}

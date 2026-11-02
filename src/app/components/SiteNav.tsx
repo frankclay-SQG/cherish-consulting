@@ -25,24 +25,25 @@ function isDropdownItem(item: NavItem): item is DropdownItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "About",       href: "/#about" },
+  // Redesign: the two evaluation services and the labyrinth lead; everything else lives under "More".
+  { label: "Veterans Evaluations", to: "/veterans-evaluations" },
+  { label: "DOT / SAP",            to: "/dot-evaluations" },
+  { label: "★ The Labyrinth",      to: "/labyrinths" },
   {
-    label: "Services",
+    label: "More",
     href: "/#services",
     children: [
-      { label: "DOT Evaluations",      to: "/dot-evaluations" },
-      { label: "Veterans Evaluations", to: "/veterans-evaluations" },
+      { label: "About Dr. Cherich",    href: "/#about" },
+      { label: "All Services",         href: "/#services" },
       { label: "Assessments",          to: "/assessments" },
       { label: "Clinical Supervision", to: "/clinical-supervision" },
+      { label: "Blog",                 to: "/blog" },
+      { label: "Publications",         to: "/books" },
       // { label: "Resources", to: "/resources" }, // hidden pending Dr. Cherich validation
+      { label: "VA PTSD",              href: "https://www.ptsd.va.gov/appvid/video/index.asp", external: true },
+      { label: "Veterans Courses",     href: "https://learn.psycharmor.org/collections", external: true },
     ],
   },
-  { label: "Blog",             to:   "/blog" },
-  { label: "Publications",     to:   "/books" },
-  { label: "Labyrinths",       to:   "/labyrinths" },
-  { label: "VA PTSD",          href: "https://www.ptsd.va.gov/appvid/video/index.asp", external: true },
-  { label: "Veterans Courses", href: "https://learn.psycharmor.org/collections", external: true },
-  { label: "Contact",          href: "/#contact" },
 ];
 
 function DesktopDropdown({ item }: { item: DropdownItem }) {
@@ -71,7 +72,7 @@ function DesktopDropdown({ item }: { item: DropdownItem }) {
       <a
         href={item.href}
         className={`text-xs tracking-wide flex items-center gap-1 whitespace-nowrap transition-colors ${
-          anyChildActive ? "text-foreground font-medium" : "text-foreground/60 hover:text-foreground"
+          anyChildActive ? "text-foreground font-medium" : "text-foreground/80 hover:text-foreground"
         }`}
         onClick={e => { e.preventDefault(); setOpen(o => !o); }}
       >
@@ -89,7 +90,7 @@ function DesktopDropdown({ item }: { item: DropdownItem }) {
                   key={child.label}
                   to={child.to}
                   className={`block px-4 py-2.5 text-xs tracking-wide transition-colors hover:bg-secondary ${
-                    active ? "text-foreground font-medium" : "text-foreground/60 hover:text-foreground"
+                    active ? "text-foreground font-medium" : "text-foreground/80 hover:text-foreground"
                   }`}
                 >
                   {child.label}
@@ -103,7 +104,7 @@ function DesktopDropdown({ item }: { item: DropdownItem }) {
                 href={c.href}
                 target={c.external ? "_blank" : undefined}
                 rel={c.external ? "noopener noreferrer" : undefined}
-                className="block px-4 py-2.5 text-xs tracking-wide text-foreground/60 hover:text-foreground hover:bg-secondary transition-colors"
+                className="block px-4 py-2.5 text-xs tracking-wide text-foreground/80 hover:text-foreground hover:bg-secondary transition-colors"
               >
                 {c.label}
                 {c.external && <ExternalLink size={9} className="inline ml-1 opacity-55" />}
@@ -134,8 +135,8 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
 
   const renderItem = (item: NavItem, mobile = false) => {
     const base = mobile
-      ? "text-sm text-foreground/70 hover:text-foreground flex items-center gap-1.5 transition-colors"
-      : "text-xs text-foreground/60 hover:text-foreground transition-colors tracking-wide flex items-center gap-1 whitespace-nowrap";
+      ? "text-sm text-foreground/80 hover:text-foreground flex items-center gap-1.5 transition-colors"
+      : "text-[13px] text-foreground/80 hover:text-foreground transition-colors tracking-wide flex items-center gap-1 whitespace-nowrap";
 
     if (isDropdownItem(item)) {
       if (!mobile) return <DesktopDropdown key={item.label} item={item} />;
@@ -160,7 +161,7 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
                       key={child.label}
                       to={child.to}
                       onClick={() => setMenuOpen(false)}
-                      className={`text-sm transition-colors ${active ? "text-foreground font-medium" : "text-foreground/60 hover:text-foreground"}`}
+                      className={`text-sm transition-colors ${active ? "text-foreground font-medium" : "text-foreground/80 hover:text-foreground"}`}
                     >
                       {child.label}
                     </Link>
@@ -193,7 +194,7 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
           key={item.label}
           to={item.to}
           onClick={mobile ? () => setMenuOpen(false) : undefined}
-          className={`${base} ${active ? "!text-foreground font-medium" : ""}`}
+          className={`${base} ${item.label.startsWith("★") ? "!text-accent font-semibold" : ""} ${active ? "!text-foreground font-medium" : ""}`}
         >
           {item.label}
         </Link>
@@ -222,7 +223,7 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
         ? "bg-background/95 backdrop-blur-md border-b border-border shadow-sm"
         : "bg-transparent"
     }`}>
-      <div className="max-w-6xl mx-auto px-6 flex items-center h-16 gap-10">
+      <div className="max-w-6xl mx-auto px-6 flex items-center h-16 gap-6">
         {/* Logo */}
         <div className="flex items-center gap-4">
           <Link to="/" aria-label="Cherich Consulting home">
@@ -232,19 +233,20 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
         </div>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-4 ml-auto">
+        <div className="hidden lg:flex items-center gap-5 ml-auto">
           {NAV_ITEMS.map(item => renderItem(item))}
+          <a href="tel:3019563185" className="hidden xl:inline text-[13px] font-semibold text-primary whitespace-nowrap">301-956-3185</a>
           <a
             href="/#contact"
-            className="flex-shrink-0 px-4 py-2 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
+            className="flex-shrink-0 px-4 py-2.5 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity whitespace-nowrap"
           >
-            Schedule a Session
+            Schedule an Evaluation
           </a>
         </div>
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden text-foreground p-1 ml-auto"
+          className="lg:hidden text-foreground p-1 ml-auto"
           onClick={() => setMenuOpen(o => !o)}
           aria-label="Toggle menu"
         >
@@ -254,14 +256,14 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
 
       {/* Mobile drawer */}
       {menuOpen && (
-        <div className="md:hidden bg-background border-t border-border px-6 py-5 flex flex-col gap-5">
+        <div className="lg:hidden bg-background border-t border-border px-6 py-5 flex flex-col gap-5">
           {NAV_ITEMS.map(item => renderItem(item, true))}
           <a
             href="/#contact"
             className="px-5 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase text-center"
             onClick={() => setMenuOpen(false)}
           >
-            Schedule a Session
+            Schedule an Evaluation
           </a>
         </div>
       )}
