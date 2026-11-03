@@ -57,7 +57,7 @@ export default function PrivacyPage() {
               </h2>
               <p>
                 Cherich Consulting is a veteran-owned mental health and wellness practice operated by Dr. Carol J.
-                Cherich, PhD, serving clients in Tennessee and Virginia. This Privacy Policy describes how we
+                Cherich, PhD, LPC, serving clients in Tennessee and Virginia. This Privacy Policy describes how we
                 collect, use, and protect information gathered through our website at{" "}
                 <a href="https://cherishconsulting.com" className="text-primary hover:opacity-80 underline underline-offset-2">
                   cherishconsulting.com
@@ -209,7 +209,7 @@ export default function PrivacyPage() {
               </p>
               <div className="mt-3 space-y-1 text-sm">
                 <p className="font-semibold text-foreground">Cherich Consulting</p>
-                <p>Dr. Carol J. Cherich, PhD</p>
+                <p>Dr. Carol J. Cherich, PhD, LPC</p>
                 <p>
                   Email:{" "}
                   <a

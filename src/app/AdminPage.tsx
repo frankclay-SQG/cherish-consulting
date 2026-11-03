@@ -44,7 +44,7 @@ const PAGE_ROUTES: { key: string; label: string; path: string }[] = [
 
 const DEFAULT_SEO: SEOSettings = {
   site: {
-    title: "Cherich Consulting — Dr. Carol J. Cherich, PhD",
+    title: "Cherich Consulting — Dr. Carol J. Cherich, PhD, LPC",
     description:
       "Veteran-owned mental health and wellness practice serving Tennessee and Virginia. Life coaching, PTSD support, substance abuse treatment, and more.",
     keywords:
@@ -54,7 +54,7 @@ const DEFAULT_SEO: SEOSettings = {
     home: {
       title: "Cherich Consulting — Healing Through Experience, Grounded in Service",
       description:
-        "Dr. Carol J. Cherich, PhD offers compassionate mental health treatment, veterans counseling, life coaching, and wellness services in Tennessee and Virginia.",
+        "Dr. Carol J. Cherich, PhD, LPC offers compassionate mental health treatment, veterans counseling, life coaching, and wellness services in Tennessee and Virginia.",
       keywords: "mental health, veterans support, life coaching, PTSD treatment, Tennessee, Virginia",
     },
     books: {
@@ -72,7 +72,7 @@ const DEFAULT_SEO: SEOSettings = {
     esa: {
       title: "ESA Letters — Cherich Consulting",
       description:
-        "Emotional Support Animal evaluations and letters from a licensed mental health clinician. Dr. Carol J. Cherich, PhD provides professional ESA documentation.",
+        "Emotional Support Animal evaluations and letters from a licensed mental health clinician. Dr. Carol J. Cherich, PhD, LPC provides professional ESA documentation.",
       keywords: "ESA letter, emotional support animal, ESA evaluation, licensed therapist",
     },
     tos: {

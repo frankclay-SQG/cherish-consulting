@@ -196,7 +196,7 @@ export default function ResourcesPage() {
             Resources &amp;<br />Guides
           </h1>
           <p className="text-[0.95rem] text-foreground/60 max-w-xl leading-relaxed">
-            Practical eBooks and guides from Dr. Carol J. Cherich, PhD — for veterans
+            Practical eBooks and guides from Dr. Carol J. Cherich, PhD, LPC — for veterans
             navigating VA claims and anyone looking to build stronger mental wellness
             habits.
           </p>

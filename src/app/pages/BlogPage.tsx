@@ -65,7 +65,7 @@ export default function BlogPage() {
             Insights &amp; Resources
           </h1>
           <p className="text-foreground/60 text-sm leading-relaxed max-w-xl mx-auto">
-            Articles on mental health, wellness, and healing — written by Carol Cherich, LCSW.
+            Articles on mental health, wellness, and healing — written by Dr. Carol J. Cherich, PhD, LPC.
           </p>
         </div>
       </section>

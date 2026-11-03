@@ -29,7 +29,7 @@ export default function ESAPage() {
             Emotional Support<br />Animal Letters
           </h1>
           <p className="text-[0.95rem] text-foreground/60 max-w-xl leading-relaxed">
-            Licensed evaluations and documentation provided by Dr. Carol J. Cherich, PhD —
+            Licensed evaluations and documentation provided by Dr. Carol J. Cherich, PhD, LPC —
             a licensed mental-health professional authorized to issue ESA letters.
           </p>
         </div>

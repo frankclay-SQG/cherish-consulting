@@ -60,7 +60,7 @@ export default function ToSPage() {
                 2. Services Described
               </h2>
               <p>
-                Cherich Consulting, operated by Dr. Carol J. Cherich, PhD, provides mental health and wellness
+                Cherich Consulting, operated by Dr. Carol J. Cherich, PhD, LPC, provides mental health and wellness
                 consulting services, including but not limited to life coaching, veterans and military family
                 counseling, mental health treatment, stress and anger management, substance abuse treatment
                 support, cancer survivor support, DOT-SAP and DWI evaluations, and clinical supervision.

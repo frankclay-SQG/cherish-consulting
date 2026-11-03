@@ -73,7 +73,7 @@ export default function LabyrinthsPage() {
           <div className="flex items-center gap-4 basis-[280px]">
             <img src="/images/via-member.png" alt="Veriditas International Association of Professional Labyrinth Facilitators — VIA Member" width={96} height={92} className="w-24 h-auto bg-white" />
             <p className="text-[13px] leading-snug text-muted">
-              Guided by Dr. Carol J. Cherich, PhD, member of the Veriditas International Association of
+              Guided by Dr. Carol J. Cherich, PhD, LPC, member of the Veriditas International Association of
               Professional Labyrinth Facilitators
             </p>
           </div>
@@ -229,7 +229,7 @@ export default function LabyrinthsPage() {
         <picture>
           <source type="image/avif" sizes="(min-width: 1152px) 1104px, 100vw" srcSet="/images/cherich-wide-1024.avif 1024w, /images/cherich-wide-1536.avif 1536w" />
           <source type="image/webp" sizes="(min-width: 1152px) 1104px, 100vw" srcSet="/images/cherich-wide-1024.webp 1024w, /images/cherich-wide-1536.webp 1536w" />
-          <img src="/images/cherich-wide-1536.jpg" alt="Dr. Carol J. Cherich, PhD" width={1536} height={1024} loading="lazy" className="w-full h-auto aspect-[2/1] object-cover mb-6" style={{ objectPosition: "50% 25%" }} />
+          <img src="/images/cherich-wide-1536.jpg" alt="Dr. Carol J. Cherich, PhD, LPC" width={1536} height={1024} loading="lazy" className="w-full h-auto aspect-[2/1] object-cover mb-6" style={{ objectPosition: "50% 25%" }} />
         </picture>
         <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-[#1C2B4A] text-[#F2EDE4] p-10 flex flex-col gap-4">

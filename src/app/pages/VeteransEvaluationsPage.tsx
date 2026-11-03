@@ -62,7 +62,7 @@ export default function VeteransEvaluationsPage() {
           </h1>
           <p className="text-[0.95rem] text-foreground/60 max-w-xl leading-relaxed mb-6">
             Independent mental health evaluations, nexus letters, and DBQ completion for veterans
-            pursuing VA disability claims — provided by Dr. Carol J. Cherich, PhD, a former
+            pursuing VA disability claims — provided by Dr. Carol J. Cherich, PhD, LPC, a former
             active-duty military medic and licensed clinician.
           </p>
           <div className="flex flex-wrap gap-3">

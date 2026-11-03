@@ -75,7 +75,7 @@ export default function AssessmentsPage() {
           </h1>
           <p className="text-[0.95rem] text-foreground/60 max-w-xl leading-relaxed mb-6">
             One-time clinical assessments for legal, employment, veterans, and mental health
-            purposes — provided by Dr. Carol J. Cherich, PhD, licensed in Tennessee and Virginia.
+            purposes — provided by Dr. Carol J. Cherich, PhD, LPC, licensed in Tennessee and Virginia.
           </p>
           <div className="flex flex-wrap gap-3">
             <a
@@ -131,7 +131,7 @@ export default function AssessmentsPage() {
                 enrollment required."
               </p>
               <p className="text-[10px] text-primary mt-3 tracking-wide uppercase font-semibold">
-                — Dr. Carol J. Cherich, PhD
+                — Dr. Carol J. Cherich, PhD, LPC
               </p>
             </div>
           </div>

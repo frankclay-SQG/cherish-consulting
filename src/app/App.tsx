@@ -66,7 +66,7 @@ export default function App() {
           <source type="image/webp" sizes="100vw" srcSet="/images/cherich-wide-640.webp 640w, /images/cherich-wide-1024.webp 1024w, /images/cherich-wide-1536.webp 1536w" />
           <img
             src="/images/cherich-wide-1536.jpg"
-            alt="Dr. Carol J. Cherich, PhD"
+            alt="Dr. Carol J. Cherich, PhD, LPC"
             width={1536}
             height={1024}
             fetchPriority="high"
@@ -77,7 +77,7 @@ export default function App() {
         <div className="relative max-w-6xl mx-auto px-6 py-10 md:py-28 lg:py-36 flex md:justify-end">
           <div className="md:max-w-[520px]">
             <p className="text-[11px] tracking-[0.25em] uppercase font-semibold text-foreground mb-5">
-              <span aria-hidden="true">★★★ </span>Dr. Carol J. Cherich, PhD
+              <span aria-hidden="true">★★★ </span>Dr. Carol J. Cherich, PhD, LPC
               <br />Former Active-Duty Military Medic
             </p>
             <h1 className="text-[2.5rem] md:text-5xl lg:text-[3.5rem] leading-[1.1] text-foreground mb-5" style={serif}>
@@ -257,14 +257,14 @@ export default function App() {
           <picture>
             <source type="image/avif" srcSet="/images/cherich-portrait-400.avif 400w, /images/cherich-portrait-800.avif 800w" sizes="(min-width: 768px) 400px, 100vw" />
             <source type="image/webp" srcSet="/images/cherich-portrait-400.webp 400w, /images/cherich-portrait-800.webp 800w" sizes="(min-width: 768px) 400px, 100vw" />
-            <img src="/images/cherich-portrait-800.jpg" alt="Dr. Carol J. Cherich, PhD" width={800} height={977} loading="lazy" className="w-full h-auto aspect-[3/4] object-cover" />
+            <img src="/images/cherich-portrait-800.jpg" alt="Dr. Carol J. Cherich, PhD, LPC" width={800} height={977} loading="lazy" className="w-full h-auto aspect-[3/4] object-cover" />
           </picture>
           <div>
             <Eyebrow>About Dr. Cherich</Eyebrow>
             <h2 className="text-3xl md:text-4xl leading-tight mb-6" style={serif}>She has served. She understands.</h2>
             <p className="text-base text-muted-foreground leading-relaxed mb-5">
               Dr. Carol J. Cherich holds a PhD from Capella University and brings more than 15 years
-              of experience as a licensed clinician in mental health and addictions. Her background as
+              of experience as a Licensed Professional Counselor (LPC) in mental health and addictions. Her background as
               an active-duty military medic gives her a firsthand understanding of the challenges
               faced by those who serve, and that understanding shows in her evaluations.
             </p>
