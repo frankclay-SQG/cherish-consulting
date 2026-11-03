@@ -1,3 +1,4 @@
+import { submitToHubSpot } from "./lib/hubspot";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -50,7 +51,7 @@ const inputCls =
 const labelCls = "text-xs font-medium text-foreground block mb-1.5";
 
 export default function App() {
-  const [formSent, setFormSent] = useState(false);
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent" | "fallback">("idle");
 
   return (
     <div className="min-h-screen bg-background text-foreground" style={{ fontFamily: "'DM Sans', sans-serif" }}>
@@ -334,29 +335,39 @@ export default function App() {
             </div>
           </div>
 
-          {formSent ? (
+          {formStatus === "sent" || formStatus === "fallback" ? (
             <div className="flex flex-col items-center justify-center min-h-[320px] text-center gap-4 bg-[#F2EDE4] p-8" role="status">
-              <p className="text-lg text-foreground" style={serif}>Almost done — press send in your email app.</p>
-              <p className="text-sm text-muted-foreground">Your request opened as a new email to Dr. Cherich. If nothing opened, email <a href="mailto:drcarol@cherishconsulting.com" className="underline">drcarol@cherishconsulting.com</a> or call <a href="tel:3019563185" className="underline">301-956-3185</a>.</p>
-              <button onClick={() => setFormSent(false)} className="text-sm text-primary underline underline-offset-2">Send another request</button>
+              {formStatus === "sent" ? (
+                <>
+                  <p className="text-lg text-foreground" style={serif}>Thank you. Your request is on its way.</p>
+                  <p className="text-sm text-muted-foreground">Dr. Cherich will be in touch shortly. Need her sooner? Call <a href="tel:3019563185" className="underline">301-956-3185</a>.</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-lg text-foreground" style={serif}>Almost done. Press send in your email app.</p>
+                  <p className="text-sm text-muted-foreground">Your request opened as a new email to Dr. Cherich. If nothing opened, email <a href="mailto:drcarol@cherishconsulting.com" className="underline">drcarol@cherishconsulting.com</a> or call <a href="tel:3019563185" className="underline">301-956-3185</a>.</p>
+                </>
+              )}
+              <button onClick={() => setFormStatus("idle")} className="text-sm text-primary underline underline-offset-2">Send another request</button>
             </div>
           ) : (
-            <form className="bg-[#F2EDE4] p-8 grid sm:grid-cols-2 gap-5" onSubmit={(e) => {
+            <form className="bg-[#F2EDE4] p-8 grid sm:grid-cols-2 gap-5" onSubmit={async (e) => {
               e.preventDefault();
               const f = e.currentTarget;
               const v = (id: string) => ((f.querySelector(`#${id}`) as HTMLInputElement | null)?.value || "").trim();
-              const topic = v("c-topic") || "General inquiry";
-              const body = [
-                `Name: ${v("c-name")}`,
-                `Phone: ${v("c-phone")}`,
-                `Email: ${v("c-email")}`,
-                `Reaching out about: ${topic}`,
-                `State: ${v("c-state")}`,
-                "",
-                v("c-msg"),
-              ].join("\n");
-              window.location.href = `mailto:drcarol@cherishconsulting.com?subject=${encodeURIComponent(`Website request: ${topic}`)}&body=${encodeURIComponent(body)}`;
-              setFormSent(true);
+              const data = { name: v("c-name"), phone: v("c-phone"), email: v("c-email"), topic: v("c-topic"), state: v("c-state"), message: v("c-msg") };
+              setFormStatus("sending");
+              try {
+                await submitToHubSpot(data);
+                setFormStatus("sent");
+              } catch (err) {
+                console.error(err);
+                // Fallback: open the visitor's email app so the request still reaches Dr. Cherich.
+                const topic = data.topic || "General inquiry";
+                const body = [`Name: ${data.name}`, `Phone: ${data.phone}`, `Email: ${data.email}`, `Reaching out about: ${topic}`, `State: ${data.state}`, "", data.message].join("\n");
+                window.location.href = `mailto:drcarol@cherishconsulting.com?subject=${encodeURIComponent(`Website request: ${topic}`)}&body=${encodeURIComponent(body)}`;
+                setFormStatus("fallback");
+              }
             }}>
               <div>
                 <label htmlFor="c-name" className={labelCls}>Name</label>
@@ -397,8 +408,8 @@ export default function App() {
               <p className="sm:col-span-2 text-xs text-muted-foreground">
                 Please don't include medical details here. We'll discuss those privately.
               </p>
-              <button type="submit" className="sm:col-span-2 justify-self-start bg-primary text-primary-foreground px-7 py-4 text-xs tracking-widest uppercase hover:opacity-90">
-                Send request
+              <button type="submit" disabled={formStatus === "sending"} className="sm:col-span-2 justify-self-start bg-primary text-primary-foreground px-7 py-4 text-xs tracking-widest uppercase hover:opacity-90 disabled:opacity-60">
+                {formStatus === "sending" ? "Sending…" : "Send request"}
               </button>
             </form>
           )}
