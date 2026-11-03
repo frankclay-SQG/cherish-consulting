@@ -25,10 +25,11 @@ function isDropdownItem(item: NavItem): item is DropdownItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  // Redesign: the two evaluation services and the labyrinth lead; everything else lives under "More".
+  // Redesign: the two evaluation services, the labyrinth and the blog lead; everything else lives under "More".
   { label: "Veterans Evaluations", to: "/veterans-evaluations" },
   { label: "DOT / SAP",            to: "/dot-evaluations" },
   { label: "★ The Labyrinth",      to: "/labyrinths" },
+  { label: "Blog",                 to: "/blog" },
   {
     label: "More",
     href: "/#services",
@@ -37,7 +38,6 @@ const NAV_ITEMS: NavItem[] = [
       { label: "All Services",         href: "/#services" },
       { label: "Assessments",          to: "/assessments" },
       { label: "Clinical Supervision", to: "/clinical-supervision" },
-      { label: "Blog",                 to: "/blog" },
       { label: "Publications",         to: "/books" },
       // { label: "Resources", to: "/resources" }, // hidden pending Dr. Cherich validation
       { label: "VA PTSD",              href: "https://www.ptsd.va.gov/appvid/video/index.asp", external: true },
@@ -188,7 +188,7 @@ export function SiteNav({ alwaysSolid = false }: { alwaysSolid?: boolean }) {
     }
 
     if (isPageItem(item)) {
-      const active = location.pathname === item.to;
+      const active = location.pathname === item.to || location.pathname.startsWith(item.to + "/");
       return (
         <Link
           key={item.label}
