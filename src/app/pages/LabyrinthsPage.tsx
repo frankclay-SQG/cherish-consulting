@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Download } from "lucide-react";
+import { Download, ExternalLink, Smartphone } from "lucide-react";
 import { SiteNav } from "../components/SiteNav";
 import { SiteFooter } from "../components/SiteFooter";
 import { CookieBanner } from "../components/CookieBanner";
@@ -155,7 +155,7 @@ export default function LabyrinthsPage() {
 
       {/* Downloads */}
       <section id="downloads" className="max-w-6xl mx-auto px-6 py-20 scroll-mt-16">
-        <Eyebrow>Free to print</Eyebrow>
+        <Eyebrow>Free resources</Eyebrow>
         <h2 className="text-3xl md:text-4xl leading-tight mb-3" style={serif}>No labyrinth nearby? Bring one home.</h2>
         <p className="text-base leading-relaxed text-muted-foreground max-w-2xl mb-10">
           Trace a printed labyrinth slowly with your fingertip while following the guide. It works at a
@@ -173,6 +173,30 @@ export default function LabyrinthsPage() {
             </article>
           ))}
         </div>
+
+        {/* Recommended app */}
+        <article className="mt-6 border border-border p-7 md:p-8 flex flex-wrap items-center gap-6">
+          <div className="p-3 bg-secondary border border-border" aria-hidden="true">
+            <Smartphone size={22} className="text-primary" />
+          </div>
+          <div className="flex-1 basis-[320px] min-w-0">
+            <p className="text-[11px] tracking-[0.2em] uppercase font-semibold text-accent mb-1">Free app · iPhone &amp; iPad</p>
+            <h3 className="text-xl mb-2" style={{ fontFamily: "'Lora', serif", fontWeight: 600 }}>Labyrinth Journey</h3>
+            <p className="text-sm leading-relaxed text-muted-foreground max-w-2xl">
+              Trace a Chartres-style labyrinth with your fingertip on your phone or tablet, with a gentle
+              soundscape that changes every journey. Follow along with the Finger Labyrinth Guide above
+              as you trace.
+            </p>
+          </div>
+          <a
+            href="https://apps.apple.com/us/app/labyrinth-journey/id1420284868"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-3.5 text-xs tracking-widest uppercase hover:opacity-90"
+          >
+            Get it on the App Store <ExternalLink size={13} />
+          </a>
+        </article>
       </section>
 
       {/* Video library */}
