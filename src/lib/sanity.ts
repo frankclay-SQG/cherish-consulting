@@ -11,10 +11,3 @@ export const sanityClient = createClient({
   ...config,
   useCdn: true,
 })
-
-/** Write / admin client — bypasses CDN for real-time data and mutations */
-export const sanityAdminClient = createClient({
-  ...config,
-  token: import.meta.env.VITE_SANITY_TOKEN,
-  useCdn: false,
-})
