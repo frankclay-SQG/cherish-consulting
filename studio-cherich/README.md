@@ -20,3 +20,12 @@ Until October 24, 2026, cherich.sanity.studio pointed at an old `cherich` datase
 Software Quality Guru Blog project (`38bty9n4`) — a June copy of this content left over from
 before the blog moved to its own project. That Studio app was retired; the old dataset was
 left in place untouched.
+
+## Simplified review Studio at /studio (CHER-17, Nov 2026)
+
+Carol reviews and approves posts at **https://www.cherishconsulting.com/studio** (footer "Admin" link).
+It is a Sanity Studio embedded in the website (`src/studio/`), lazy-loaded, signed in with
+her Sanity account. It opens to three lists: *Waiting for your approval* (drafts),
+*Approved — going live soon*, and *Live on the website*. "Publish" is labeled **Approve**.
+Authors and categories sit under *More*. If you change the schema here, mirror it in
+`src/studio/schemaTypes.ts`.

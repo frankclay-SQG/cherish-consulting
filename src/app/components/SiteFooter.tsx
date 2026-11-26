@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-// Hosted Sanity Studio (Google sign-in required). CHER-16.
-const STUDIO_URL = "https://www.sanity.io/@oU7qGAdWn/studio/yi2s3c4se9idxa3b4b0caahw";
+// Simplified blog review Studio, embedded at /studio (CHER-16/17).
+const STUDIO_URL = "/studio";
 
 export function SiteFooter() {
   return (
