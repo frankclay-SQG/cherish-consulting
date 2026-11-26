@@ -117,7 +117,7 @@ export default function DOTEvaluationsPage() {
             DOT Evaluations &amp;<br />FMCSA SAP Services
           </h1>
           <p className="text-[0.95rem] text-foreground/60 max-w-xl leading-relaxed mb-6">
-            Dr. Carol J. Cherich, PhD, LPC is a qualified DOT Substance Abuse Professional (SAP)
+            Dr. Carol J. Cherich, PhD, LPC-MHSP, LADAC is a qualified DOT Substance Abuse Professional (SAP)
             providing evaluations and return-to-duty services for FMCSA-regulated employees
             across Tennessee and Virginia. She conducts the CDL evaluations and assessments
             required for a driver to regain their driving privilege. In-person and remote evaluations are available.
@@ -275,8 +275,10 @@ export default function DOTEvaluationsPage() {
             <p className="text-[0.95rem] text-foreground/60 leading-relaxed mb-5">
               Dr. Cherich meets the qualification requirements for a DOT Substance Abuse
               Professional as defined by 49 CFR Part 40, Subpart O. She holds a PhD in
-              counseling, is a Licensed Professional Counselor (LPC) in Tennessee
-              and Virginia, and has specialized training in DOT drug and alcohol regulations.
+              counseling, is a Licensed Professional Counselor with Mental Health Service Provider
+              designation (LPC-MHSP) and a Licensed Alcohol and Drug Abuse Counselor (LADAC), is
+              licensed in Tennessee and Virginia, and has specialized training in DOT drug and
+              alcohol regulations.
             </p>
             <p className="text-[0.95rem] text-foreground/60 leading-relaxed mb-8">
               Her background as a former active-duty military medic provides additional context
@@ -289,7 +291,8 @@ export default function DOTEvaluationsPage() {
                 "DOT-Qualified Substance Abuse Professional (SAP)",
                 "49 CFR Part 40 Compliant",
                 "FMCSA SAP Registry Eligible",
-                "Licensed Professional Counselor (LPC)",
+                "Licensed Professional Counselor – Mental Health Service Provider (LPC-MHSP)",
+                "Licensed Alcohol and Drug Abuse Counselor (LADAC)",
                 "Licensed in Tennessee & Virginia",
                 "PhD — Mental Health & Addictions",
                 "15+ Years Clinical Experience",
