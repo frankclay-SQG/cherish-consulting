@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 
+// Hosted Sanity Studio (Google sign-in required). CHER-16.
+const STUDIO_URL = "https://www.sanity.io/@oU7qGAdWn/studio/yi2s3c4se9idxa3b4b0caahw";
+
 export function SiteFooter() {
   return (
     <footer className="bg-foreground text-background">
@@ -34,6 +37,15 @@ export function SiteFooter() {
             <Link to="/tos" className="hover:text-background transition-colors">Terms of Service</Link>
             <span aria-hidden="true">·</span>
             <Link to="/privacy" className="hover:text-background transition-colors">Privacy Policy</Link>
+            <span aria-hidden="true">·</span>
+            <a
+              href={STUDIO_URL}
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+              className="hover:text-background transition-colors"
+            >
+              Admin
+            </a>
             <span aria-hidden="true">·</span>
             <span>
               Website by{" "}
