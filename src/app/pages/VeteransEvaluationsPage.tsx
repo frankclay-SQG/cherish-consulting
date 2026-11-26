@@ -25,7 +25,7 @@ const evalTypes = [
   },
   {
     title: "DBQ Completion (Disability Benefits Questionnaire)",
-    desc: "Completion of VA-required DBQ forms for mental health conditions including PTSD, depression, anxiety, and adjustment disorders. Dr. Cherich completes DBQs as a licensed private clinician.",
+    desc: "Completion of the VA's publicly available mental health DBQs where the VA allows a private clinician to complete them, such as the PTSD Review DBQ for veterans already service-connected. The VA requires its own examiner for an initial PTSD diagnosis DBQ.",
   },
   {
     title: "Independent Medical Opinion (IMO)",
