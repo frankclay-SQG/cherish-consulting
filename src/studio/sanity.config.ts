@@ -20,7 +20,7 @@ const structure: StructureResolver = (S) =>
             .id('review-list')
             .title('Waiting for your approval')
             .apiVersion(API)
-            .filter('_type == "post" && _id in path("drafts.**")')
+            .filter('_type == "post" && _originalId in path("drafts.**")')
             .defaultOrdering([{field: 'publishedAt', direction: 'asc'}])
             .menuItems([]),
         ),
@@ -33,7 +33,7 @@ const structure: StructureResolver = (S) =>
             .id('scheduled-list')
             .title('Approved — going live soon')
             .apiVersion(API)
-            .filter('_type == "post" && !(_id in path("drafts.**")) && publishedAt > now()')
+            .filter('_type == "post" && !(_originalId in path("drafts.**")) && publishedAt > now()')
             .defaultOrdering([{field: 'publishedAt', direction: 'asc'}])
             .menuItems([]),
         ),
@@ -46,7 +46,7 @@ const structure: StructureResolver = (S) =>
             .id('live-list')
             .title('Live on the website')
             .apiVersion(API)
-            .filter('_type == "post" && !(_id in path("drafts.**")) && publishedAt <= now()')
+            .filter('_type == "post" && !(_originalId in path("drafts.**")) && publishedAt <= now()')
             .defaultOrdering([{field: 'publishedAt', direction: 'desc'}])
             .menuItems([]),
         ),
