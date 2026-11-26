@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import App from './app/App'
@@ -16,6 +16,8 @@ import ClinicalSupervisionPage from './app/pages/ClinicalSupervisionPage'
 import ResourcesPage from './app/pages/ResourcesPage'
 import './styles/index.css'
 
+const StudioPage = lazy(() => import('./studio/StudioPage'))
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
@@ -24,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/books"      element={<BooksPage />} />
         <Route path="/esa"        element={<ESAPage />} />
         <Route path="/labyrinths" element={<LabyrinthsPage />} />
+        <Route path="/studio/*"  element={<Suspense fallback={null}><StudioPage /></Suspense>} />
         <Route path="/tos"        element={<ToSPage />} />
         <Route path="/privacy"    element={<PrivacyPage />} />
         <Route path="/blog"                   element={<BlogPage />} />
