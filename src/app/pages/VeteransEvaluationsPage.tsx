@@ -24,10 +24,6 @@ const evalTypes = [
     desc: "A written medical opinion connecting your current condition to your military service — a critical document for establishing service connection with the VA.",
   },
   {
-    title: "DBQ Completion (Disability Benefits Questionnaire)",
-    desc: "Completion of the VA's publicly available mental health DBQs where the VA allows a private clinician to complete them, such as the PTSD Review DBQ for veterans already service-connected. The VA requires its own examiner for an initial PTSD diagnosis DBQ.",
-  },
-  {
     title: "Independent Medical Opinion (IMO)",
     desc: "An expert clinical opinion independent of VA examiners — often used when VA ratings are disputed or when additional evidence is needed for a higher-level review or Board of Veterans' Appeals.",
   },
@@ -40,7 +36,7 @@ const differentiators = [
   },
   {
     label: "Evaluation / Assessment",
-    desc: "A structured, time-limited evaluation producing written documentation — diagnosis, severity ratings, nexus opinions, or DBQs. Oriented toward supporting a VA claim or other legal/administrative process.",
+    desc: "A structured, time-limited evaluation producing written documentation — diagnosis, severity ratings, or nexus opinions. Oriented toward supporting a VA claim or other legal/administrative process.",
   },
 ];
 
@@ -61,7 +57,7 @@ export default function VeteransEvaluationsPage() {
             Veterans Claims<br />Evaluations
           </h1>
           <p className="text-[0.95rem] text-foreground/60 max-w-xl leading-relaxed mb-6">
-            Independent mental health evaluations, nexus letters, and DBQ completion for veterans
+            Independent mental health evaluations, nexus letters, and independent medical opinions for veterans
             pursuing VA disability claims — provided by Dr. Carol J. Cherich, PhD, LPC, a former
             active-duty military medic and licensed clinician.
           </p>
@@ -175,7 +171,7 @@ export default function VeteransEvaluationsPage() {
             </p>
             <p className="text-[0.95rem] text-foreground/60 leading-relaxed mb-5">
               Following the evaluation, Dr. Cherich prepares written documentation — a nexus
-              letter, completed DBQ, or comprehensive evaluation report — based on what your
+              letter, independent medical opinion, or comprehensive evaluation report — based on what your
               claim requires. Turnaround is typically 5–10 business days after the evaluation
               session.
             </p>

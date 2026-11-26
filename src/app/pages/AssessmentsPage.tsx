@@ -51,7 +51,7 @@ const assessmentTypes = [
       "VA disability claims mental health assessments",
       "PTSD assessment for service connection documentation",
       "Functional impairment evaluation for disability ratings",
-      "Assessment documentation for nexus letters and DBQs",
+      "Assessment documentation for nexus letters and independent medical opinions",
     ],
     note: "Specialized assessments for veterans pursuing VA disability compensation. See our Veterans Evaluations page for more detail.",
   },
