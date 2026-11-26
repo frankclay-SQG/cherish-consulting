@@ -34,7 +34,7 @@ function Stripe() {
 }
 
 const services = [
-  { icon: Shield, title: "Veterans Claims Evaluations", desc: "Independent evaluations, DBQs, nexus letters and IMOs for VA disability claims.", to: "/veterans-evaluations" },
+  { icon: Shield, title: "Veterans Claims Evaluations", desc: "Independent evaluations, nexus letters and IMOs for VA disability claims.", to: "/veterans-evaluations" },
   { icon: ClipboardList, title: "DOT-SAP & DWI Evaluations", desc: "Qualified SAP evaluations and return-to-duty services, plus DWI/DUI evaluations.", to: "/dot-evaluations" },
   { icon: Brain, title: "Mental Health Treatment", desc: "Evidence-based care for anxiety, depression, PTSD, and related conditions.", to: null },
   { icon: Activity, title: "Stress & Anger Management", desc: "Practical, lasting tools for managing stress — the defining challenge of our era.", to: null },
@@ -108,7 +108,7 @@ export default function App() {
               <p className="text-[11px] tracking-[0.25em] uppercase font-semibold text-accent">For Veterans</p>
               <h2 className="text-3xl leading-tight" style={serif}>VA Claim Evaluations</h2>
               <ul className="list-disc pl-5 space-y-1.5 text-[15px] leading-relaxed">
-                <li>Mental health evaluations and DBQs</li>
+                <li>Mental health evaluations and nexus letters</li>
                 <li>Nexus letters on service connection</li>
                 <li>Independent medical opinions (IMOs)</li>
                 <li>Written documentation in 5–10 business days</li>
@@ -226,7 +226,7 @@ export default function App() {
           <div>
             <h3 className="text-xl text-primary mb-5" style={{ fontFamily: "'Lora', serif", fontWeight: 600 }}>Veterans claim evaluations</h3>
             <ol className="list-decimal pl-5 space-y-3 text-[15px] leading-relaxed">
-              <li><strong>Call to talk through your claim.</strong> We confirm which documents you need: evaluation, DBQ, nexus letter or IMO.</li>
+              <li><strong>Call to talk through your claim.</strong> We confirm which documents you need: evaluation, nexus letter or IMO.</li>
               <li><strong>Your evaluation.</strong> A 60–90 minute clinical interview by telehealth, plus review of the records you provide.</li>
               <li><strong>Your documentation.</strong> A written report in 5–10 business days, ready to submit with your claim.</li>
             </ol>
