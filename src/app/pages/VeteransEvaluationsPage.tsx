@@ -58,7 +58,7 @@ export default function VeteransEvaluationsPage() {
           </h1>
           <p className="text-[0.95rem] text-foreground/60 max-w-xl leading-relaxed mb-6">
             Independent mental health evaluations, nexus letters, and independent medical opinions for veterans
-            pursuing VA disability claims — provided by Dr. Carol J. Cherich, PhD, LPC, a former
+            pursuing VA disability claims — provided by Dr. Carol J. Cherich, PhD, LPC-MHSP, LADAC, a former
             active-duty military medic and licensed clinician.
           </p>
           <div className="flex flex-wrap gap-3">

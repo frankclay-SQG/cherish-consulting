@@ -101,7 +101,7 @@ export default function ClinicalSupervisionPage() {
           <p className="text-[0.95rem] text-foreground/60 max-w-xl leading-relaxed mb-6">
             Clinical supervision for master's-level interns, practicum students, and post-graduate
             counselors accumulating supervised hours toward full licensure — provided by
-            Dr. Carol J. Cherich, PhD, LPC.
+            Dr. Carol J. Cherich, PhD, LPC-MHSP, LADAC.
           </p>
           <div className="flex flex-wrap gap-3">
             <a
@@ -185,12 +185,14 @@ export default function ClinicalSupervisionPage() {
               className="text-lg text-foreground mb-2"
               style={{ fontFamily: "'Lora', serif", fontWeight: 500 }}
             >
-              Dr. Carol J. Cherich, PhD, LPC
+              Dr. Carol J. Cherich, PhD, LPC-MHSP, LADAC
             </p>
             <div className="space-y-2 mb-6">
               {[
                 "PhD — Counseling",
-                "Licensed Professional Counselor (LPC)",
+                "Licensed Professional Counselor – Mental Health Service Provider (LPC-MHSP)",
+                "Licensed Alcohol and Drug Abuse Counselor (LADAC)",
+                "DOT Substance Abuse Professional (DOT-SAP)",
                 "Licensed in Tennessee & Virginia",
                 "15+ Years Clinical Experience",
                 "Specialties: Trauma, Veterans, Addictions",
